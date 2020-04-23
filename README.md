@@ -10,4 +10,4 @@ cnpm run dev
 
 lombok 插件
 
-com.heycm.utils 是我自己的工具包
+com.heycm.utils
