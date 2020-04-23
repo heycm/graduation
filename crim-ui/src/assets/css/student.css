@@ -1,0 +1,92 @@
+/* Info.vue */
+.stu_info_name {
+  letter-spacing: 5px;
+}
+
+.stu_info_card {
+  height: 100%;
+}
+
+/* Resume.vue */
+.stu_resume_zjz {
+  width: 115px;
+  height: 150px;
+}
+
+.stu_resume_zjz .image-slot span {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.stu_resume_jianli_list {
+  padding: 3px 0;
+  cursor: pointer;
+}
+
+.stu_resume_jianli_list p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stu_resume_jianli_list:hover {
+  background-color: #F2F5FA;
+}
+
+.handleIcon:hover {
+  color: #409EFF;
+}
+
+.stu_resume_jianli_main_color {
+  color: #61687C;
+}
+
+.stu_resume_vertical {
+  margin: 0 20px;
+}
+
+.stu_resume_practice_date {
+  font-weight: 100;
+  font-size: 14px;
+  margin-left: 30px;
+}
+
+.stu_resume_practice_content>h4 {
+  display: inline;
+}
+
+.stu_resume_tag {
+  margin-bottom: 4px;
+  margin-right: 4px;
+}
+
+.resume_hover_out {
+  position: relative;
+  transition: all 0.3s;
+}
+
+.resume_hover_out:hover {
+  background-color: #F2F5FA;
+}
+
+.resume_hover_in {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.resume_hover_out:hover .resume_hover_in {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Chat.vue */
+.stu-chat-left, .stu-chat-right{
+    height: calc(100vh - 84px);
+    display: flex;
+    flex-direction: column;
+}
+.stu-chat-panel{height: 100%;}

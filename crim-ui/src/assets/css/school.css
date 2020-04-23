@@ -1,0 +1,21 @@
+/* Info.vue */
+.info_jianjie_content {
+  font-size: 18px;
+  line-height: 30px;
+}
+/* AddSite.vue */
+.add_import_excel {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 30px;
+}
+/* AddActivity.vue */
+.add_act_preview {
+    border-top: 1px solid #dcdfe6;
+    border-bottom: 1px solid #dcdfe6;
+    padding: 15px 0;
+}
+.add_act_preview>h1 {
+    text-align: center;
+    margin: 10px 0 20px 0;
+}

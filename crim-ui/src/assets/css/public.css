@@ -1,0 +1,159 @@
+@import './elementUI.css';
+@import './layout.css';
+@import './school.css';
+@import './student.css';
+@import './company.css';
+@import './comm.css';
+
+body {
+  height: 100%;
+  color: #2c3e50;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+/* label {
+  font-weight: 700;
+} */
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+/* 因为wangEditor设置的z-index很大，所以会覆盖掉和他重合的区域，加入下面代码就行 */
+.w-e-menu {
+  z-index: 2 !important;
+}
+.w-e-text-container {
+  z-index: 1 !important;
+}
+
+/* 自定义样式 */
+* {
+  padding: 0;
+  margin: 0;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+a {
+  text-decoration: none;
+}
+
+.crim-flex {
+  display: flex;
+}
+
+.crim-flex-j-center {
+  justify-content: center;
+}
+
+.crim-flex-j-sb {
+  justify-content: space-between;
+}
+
+.crim-flex-a-center {
+  align-items: center;
+}
+
+.crim-flex-cc {
+  justify-content: center;
+  align-items: center;
+}
+
+.crim-flex-w-warp {
+  flex-wrap: wrap;
+}
+
+.crim-flex-1 {
+  flex: 1;
+}
+
+.crim-flex-col {
+  flex-direction: column;
+}
+
+.pageMain {
+  background: #FFFFFF;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.bgFFF {
+  background-color: #FFFFFF;
+}
+.padding-15{
+  padding: 15px;
+  box-sizing: border-box;
+}
+.paddingLR-15{
+  padding-left: 15px;
+  padding-right: 15px;
+  box-sizing: border-box;
+}
+.paddingT-5 {
+  padding-top: 5px;
+}
+.paddingL-15{
+  padding-left: 15px;
+}
+.paddingL-20{
+  padding-left: 20px;
+}
+.marginB-5{
+  margin-bottom: 5px;
+}
+.marginB-10{
+  margin-bottom: 10px;
+}
+.marginB-15{
+  margin-bottom: 15px;
+}
+.marginB-20{
+  margin-bottom: 20px;
+}
+.marginB-30{
+  margin-bottom: 30px;
+}
+.marginT-5{
+  margin-top: 5px;
+}
+.marginT-10{
+  margin-top: 10px;
+}
+.marginT-15{
+  margin-top: 15px;
+}
+.marginL-5{
+  margin-left: 5px;
+}
+.marginL-10{
+  margin-left: 10px;
+}
+.marginL-15{
+  margin-left: 15px;
+}
+.marginR-5{
+  margin-right: 5px;
+}
+.box-sizing {
+  box-sizing: border-box;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.float-right {
+  float: right;
+}
+.inline-block{
+  display: inline-block;
+}

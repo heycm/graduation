@@ -1,0 +1,45 @@
+/* Info.vue */
+.com_info_gs_title {
+  color: #909399;
+  font-size: 16px;
+}
+
+.com_info_position_card {
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.com_info_position_name {
+  color: #409EFF;
+  margin-bottom: 10px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.com_info_position_name>i {
+    float: right;
+}
+
+.com_info_position_pay {
+  font-size: 16px;
+  color: #FC7031;
+}
+
+.com_info_position_label {
+  font-size: 16px;
+  color: #909399;
+  font-weight: 500;
+}
+
+.com_info_position_desc {
+  font-size: 16px;
+  font-weight: 500;
+  color: #909399;
+}
+
+.com_info_position_desc_content {
+  font-size: 13px;
+  color: #909399;
+  
+}
