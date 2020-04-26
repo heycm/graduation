@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>单聊</title>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<div id="chat">
+    <div id="chatsContent">
+
+    </div>
+    <div>
+        fa：<input type="text" id="from"> <br>
+        请输入：<input type="text" id="content"> <br>
+        目标用户：<input type="text" id="to"> <br>
+        <button id="send" type="button">发送</button>
+    </div>
+</div>
+</body>
+<script>
+    var stompClient = null;
+    function  connect() {
+        var socket = new SockJS('/ws/stomp');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/user/queue/chat', function (chat) {
+                showGreeting(JSON.parse(chat.body));
+            });
+        });
+    }
+    function showGreeting(message) {
+        $("#chatsContent").append("<div>"+message.from+": "+message.content+"</div>")
+    }
+    function sendMsg() {
+        var chat = {
+            "from": $("#from").val(),
+            "content": $("#content").val(),
+            "to": $("#to").val()
+        }
+        stompClient.send("/app/chat", {}, JSON.stringify(chat))
+    }
+    $(function () {
+        connect();
+        $("#send").click(function () {
+            sendMsg();
+        });
+    })
+</script>
+</html>

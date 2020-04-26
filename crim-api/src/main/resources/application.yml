@@ -58,7 +58,7 @@ logging:
 # 自定义配置变量
 heycm:
   system:
-    openApi: /api/open/**
+    openApi: /api/*/open/**
   jwt:
     privateKey: com.heycm.crim # JWT签名私钥
     ttl: 1800 # JWT签名过期时间，秒

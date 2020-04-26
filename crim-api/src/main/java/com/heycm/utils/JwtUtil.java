@@ -28,7 +28,7 @@ public class JwtUtil {
      * 生成 JWT Token
      * 不要在token内存敏感信息！！
      */
-    public String generateJwtToken(String username, Map<String, Object> claims){
+    public String generateJwtToken(Integer userId, String username, Map<String, Object> claims){
         if (claims == null) {
             claims = new HashMap<>();
         }
@@ -42,7 +42,7 @@ public class JwtUtil {
                 // 荷载部分的非标准字段/附加字段，一般写在标准的字段之前。
                 .setClaims(claims)
                 // JWT ID（jti）：荷载部分的标准字段之一，JWT 的唯一性标识，虽不强求，但尽量确保其唯一性。
-                .setId(UUID.randomUUID().toString())
+                .setId(userId.toString())
                 // 签发人（iss）：荷载部分的标准字段之一，代表这个 JWT 的所有者。通常是 username、userid 这样具有用户代表性的内容。
                 .setSubject(username)
                 // 签发时间（iat）：荷载部分的标准字段之一，代表这个 JWT 的生成时间。
@@ -59,8 +59,8 @@ public class JwtUtil {
      * 生成 JWT Token
      * 不要在token内存敏感信息！！
      */
-    public String generateJwtToken(String username){
-        return generateJwtToken(username, null);
+    public String generateJwtToken(Integer userId, String username){
+        return generateJwtToken(userId, username, null);
     }
 
     /**
@@ -68,29 +68,6 @@ public class JwtUtil {
      */
     public Claims parseJwtToken(String token) throws ExpiredJwtException, UnsupportedJwtException,
             MalformedJwtException, SignatureException, IllegalArgumentException{
-        // Claims claims = null;
-        // try {
-        //     claims = Jwts.parser()
-        //             .setSigningKey(privateKey)
-        //             .parseClaimsJws(token)
-        //             .getBody();
-        // } catch (ExpiredJwtException e) {
-        //     System.out.println("jwt超时");
-        //     // e.printStackTrace();
-        // } catch (UnsupportedJwtException e) {
-        //     System.out.println("不支持该JWT");
-        //     // e.printStackTrace();
-        // } catch (MalformedJwtException e) {
-        //     System.out.println("JWT格式错误");
-        //     // e.printStackTrace();
-        // } catch (SignatureException e) {
-        //     System.out.println("签名异常");
-        //     // e.printStackTrace();
-        // } catch (IllegalArgumentException e) {
-        //     System.out.println("参数错误异常");
-        //     // e.printStackTrace();
-        // }
-        // return claims;
         return Jwts.parser().setSigningKey(privateKey).parseClaimsJws(token).getBody();
     }
 
@@ -99,13 +76,19 @@ public class JwtUtil {
      *   - 解析不抛异常即为合法
      */
     public boolean verify(String token){
-        boolean validity = false;
-
         if (parseJwtToken(token) != null) {
-            validity = true;
+            return true;
         }
+        return false;
+    }
 
-        return validity;
+    /**
+     * 获取jwt绑定的用户名
+     * @param token jwt
+     * @return 用户名
+     */
+    public Integer getUserId(String token) {
+        return Integer.valueOf(parseJwtToken(token).getId());
     }
 
     /**

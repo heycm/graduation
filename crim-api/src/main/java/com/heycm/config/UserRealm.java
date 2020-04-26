@@ -1,9 +1,6 @@
 package com.heycm.config;
 
-// import com.heycm.model.jwt.JwtToken;
-import com.heycm.model.jwt.JwtToken;
-import com.heycm.utils.JwtUtil;
-import io.jsonwebtoken.Claims;
+// import com.heycm.config.JwtToken;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

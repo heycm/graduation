@@ -1,7 +1,7 @@
 package com.heycm.server;
 
 import com.alibaba.fastjson.JSON;
-import com.heycm.model.ws.WsMessage;
+// import com.heycm.model.ws.WsMessage;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
 import org.slf4j.Logger;
@@ -126,10 +126,11 @@ public class WebSocketServer {
 
     /**
      * 群发消息
-     * @param message
+     * @param
      * @throws IOException
      */
-    public void sendAll(WsMessage message) throws IOException {
+    // public void sendAll(WsMessage message) throws IOException {
+    public void sendAll() throws IOException {
 
     }
 
@@ -137,20 +138,22 @@ public class WebSocketServer {
      * 指定Session发送消息
      * message进来前需要进行必要验证过滤
      *
-     * @param message 消息实体
+     * @param
      * @throws IOException
      */
-    public ResponseMessage sendOne(WsMessage message) throws IOException {
+    // public ResponseMessage sendOne(WsMessage message) throws IOException {
+    public ResponseMessage sendOne() throws IOException {
+
         // TODO message进来前需要进行必要信息验证过滤，userId，friendId，message非空，friendId是否存在数据库等
 
-        String friendId = message.getFriendId();
-        WebSocketServer friendServer = websocketMap.get(friendId);
-        if (friendServer != null) {
-            // 接收方在线
-            friendServer.sendMessage(message);
-            log.info("发送成功");
-            return Result.ok("发送成功");
-        }
+        // String friendId = message.getFriendId();
+        // WebSocketServer friendServer = websocketMap.get(friendId);
+        // if (friendServer != null) {
+        //     // 接收方在线
+        //     friendServer.sendMessage(message);
+        //     log.info("发送成功");
+        //     return Result.ok("发送成功");
+        // }
         // 接收方不在线
         // TODO 进行存盘操作，等接收方上线再发送
 

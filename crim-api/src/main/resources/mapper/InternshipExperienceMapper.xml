@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heycm.mapper.InternshipExperienceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heycm.model.InternshipExperience">
+        <id column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="modify_user" property="modifyUser" />
+    <result column="modify_time" property="modifyTime" />
+    <result column="is_deleted" property="isDeleted" />
+        <result column="resume_id" property="resumeId" />
+        <result column="company_name" property="companyName" />
+        <result column="company_trade" property="companyTrade" />
+        <result column="affiliated_dept" property="affiliatedDept" />
+        <result column="position_name" property="positionName" />
+        <result column="job_start" property="jobStart" />
+        <result column="job_end" property="jobEnd" />
+        <result column="work_content" property="workContent" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        create_user,
+        create_time,
+        modify_user,
+        modify_time,
+        is_deleted,
+        id, resume_id, company_name, company_trade, affiliated_dept, position_name, job_start, job_end, work_content, status
+    </sql>
+
+</mapper>

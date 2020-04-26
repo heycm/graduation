@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heycm.mapper.CompanyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heycm.model.Company">
+        <id column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="modify_user" property="modifyUser" />
+    <result column="modify_time" property="modifyTime" />
+    <result column="is_deleted" property="isDeleted" />
+        <result column="user_id" property="userId" />
+        <result column="company_name" property="companyName" />
+        <result column="logo_id" property="logoId" />
+        <result column="link_man" property="linkMan" />
+        <result column="link_phone" property="linkPhone" />
+        <result column="legal_man" property="legalMan" />
+        <result column="registered_capital" property="registeredCapital" />
+        <result column="registered_date" property="registeredDate" />
+        <result column="registered_place" property="registeredPlace" />
+        <result column="business_status" property="businessStatus" />
+        <result column="company_type" property="companyType" />
+        <result column="company_address" property="companyAddress" />
+        <result column="credit_code" property="creditCode" />
+        <result column="business_scope" property="businessScope" />
+        <result column="company_desc" property="companyDesc" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        create_user,
+        create_time,
+        modify_user,
+        modify_time,
+        is_deleted,
+        id, user_id, company_name, logo_id, link_man, link_phone, legal_man, registered_capital, registered_date, registered_place, business_status, company_type, company_address, credit_code, business_scope, company_desc, status
+    </sql>
+
+</mapper>

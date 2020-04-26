@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heycm.mapper.ExpectedPositionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heycm.model.ExpectedPosition">
+        <id column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="modify_user" property="modifyUser" />
+    <result column="modify_time" property="modifyTime" />
+    <result column="is_deleted" property="isDeleted" />
+        <result column="resume_id" property="resumeId" />
+        <result column="position_name" property="positionName" />
+        <result column="expected_pay" property="expectedPay" />
+        <result column="expected_trade" property="expectedTrade" />
+        <result column="expected_city" property="expectedCity" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        create_user,
+        create_time,
+        modify_user,
+        modify_time,
+        is_deleted,
+        id, resume_id, position_name, expected_pay, expected_trade, expected_city, status
+    </sql>
+
+</mapper>

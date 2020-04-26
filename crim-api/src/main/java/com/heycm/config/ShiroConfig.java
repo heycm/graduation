@@ -32,13 +32,6 @@ import java.util.LinkedHashMap;
 @Configuration
 public class ShiroConfig{
 
-    // // 记住我时长，单位：秒
-    // @Value("${heycm.shiro.rememberMeMaxAge}")
-    // private int rememberMeMaxAge;
-    // // rememberMe cookie加密的密钥
-    // @Value("${heycm.shiro.rememberMeCipherKey}")
-    // private String rememberMeCipherKey;
-
     // 3.配置 ShiroFilterFactoryBean
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
@@ -46,36 +39,7 @@ public class ShiroConfig{
         // 设置安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
-        // // 设置登录页
-        shiroFilterFactoryBean.setLoginUrl("/api/open/user/toLogin");
-        // // 设置登录成功页
-        // shiroFilterFactoryBean.setSuccessUrl("/index");
-        // // 设置无权限页
-        shiroFilterFactoryBean.setUnauthorizedUrl("/api/open/sys/403");
 
-        // 单shiro配置
-        // // 添加shiro的内置过滤器
-        // /*
-        //     anon： 无需认证，可以匿名访问
-        //     authc： 必须认证才可以访问
-        //     user： 必须有 记住我 功能才能用
-        //     perms[]： 必须拥有对某个资源的权限才能访问
-        //     roles[]： 必须拥有某个角色权限才能访问
-        //  */
-        // // 授权认证拦截规则，链式调用
-        // Map<String, String> filterMap = new LinkedHashMap<>();
-        // // filterMap.put("/demo/user/add", "anon");
-        // // filterMap.put("/demo/user/update", "authc");
-        // filterMap.put("/", "anon");
-        // filterMap.put("/index", "anon");
-        // filterMap.put("/index.html", "anon");
-        // filterMap.put("/demo/unAuth", "anon");
-        // filterMap.put("/demo/login", "anon");
-        // filterMap.put("/demo/open/**", "anon");
-        // filterMap.put("/demo/user/**", "roles[vip]");
-        // filterMap.put("/**", "authc");
-        // // filterMap.put("/**", "user");
-        // shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 
         // shiro整合jwt配置
         // 1.添加jwt过滤器到shiroFilterFactoryBean
@@ -83,15 +47,19 @@ public class ShiroConfig{
         map.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(map);
         // 2.设置拦截规则
-        LinkedHashMap<String, String> filterRoleMap = new LinkedHashMap<>();
-        // filterRoleMap.put("/api/open/**", "anon");
-        // filterRoleMap.put("/api/**", "jwt");
+        LinkedHashMap<String, String> filterMap = new LinkedHashMap<>();
+        // 放行静态资源
+        filterMap.put("/static/**", "anon");
+        filterMap.put("/doc.html","anon");
+        filterMap.put("/swagger/**","anon");
+        filterMap.put("/webjars/**", "anon");
+        filterMap.put("/v2/**", "anon");
+        filterMap.put("/swagger-resources/**","anon");
+        filterMap.put("/favicon.ico","anon");
+        filterMap.put("/**.js","anon");
         // 所有请求全部进jwtFilter，包括openApi，在jwtFilter统一支持跨域
-        filterRoleMap.put("/**", "jwt");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRoleMap);
-
-
-
+        filterMap.put("/**", "jwt");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
     }
 

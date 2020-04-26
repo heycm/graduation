@@ -57,9 +57,6 @@
         </el-table-column>
         <el-table-column prop="name" label="大小(KB)" width="120"></el-table-column>
         <el-table-column prop="name" label="上传时间" width="200"></el-table-column>
-        <el-table-column prop="name" label="审核状态" width="120"></el-table-column>
-        <el-table-column prop="name" label="审核时间" width="200"></el-table-column>
-        <el-table-column prop="name" label="审核意见" show-overflow-tooltip></el-table-column>
         <el-table-column label="操作" width="140">
           <template>
             <el-button type="text" size="mini">下载</el-button>

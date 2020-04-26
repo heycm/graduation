@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heycm.mapper.ChatMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heycm.model.Chat">
+        <id column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="modify_user" property="modifyUser" />
+    <result column="modify_time" property="modifyTime" />
+    <result column="is_deleted" property="isDeleted" />
+        <result column="type" property="type" />
+        <result column="from" property="from" />
+        <result column="to" property="to" />
+        <result column="content" property="content" />
+        <result column="err_code" property="errCode" />
+        <result column="err_msg" property="errMsg" />
+        <result column="send_time" property="sendTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        create_user,
+        create_time,
+        modify_user,
+        modify_time,
+        is_deleted,
+        id, type, from, to, content, err_code, err_msg, send_time, status
+    </sql>
+
+</mapper>

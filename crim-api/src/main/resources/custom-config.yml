@@ -1,0 +1,15 @@
+# 自定义配置变量
+heycm:
+  system:
+    openApi: /**/open/** # 应用开放接口
+  jwt:
+    privateKey: com.heycm.crim # JWT签名私钥
+    ttl: 1800 # JWT签名过期时间，秒
+  shiro:
+    rememberMeMaxAge: 86400 # 记住我时长（秒）
+    rememberMeCipherKey: 3AvVhmFLUs0KTA3Kprsdag==
+  zhenziSms: # 榛子云短信
+    apiUrl: https://sms_developer.zhenzikj.com
+    appId: 104324
+    appSecret: d7f83c86-4cb1-4ec0-8a2a-1eb0577a0abc
+    validTime: 10 # 有效时间，分钟

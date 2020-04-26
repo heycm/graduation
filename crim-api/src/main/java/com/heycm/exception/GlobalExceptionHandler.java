@@ -1,5 +1,6 @@
 package com.heycm.exception;
 
+import com.heycm.enums.CommEnum;
 import com.heycm.utils.JwtUtil;
 import com.heycm.utils.date.DateUtil;
 import com.heycm.utils.response.ResponseMessage;
@@ -9,11 +10,10 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import javax.servlet.http.HttpServletRequest;
-
 /**
  * @Description 全局异常处理
  * @Author heycm@qq.com
@@ -30,23 +30,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseMessage error(Exception e, HttpServletRequest request) {
         log.error("[异常][时间:{}][接口:{}][结束]", DateUtil.getStringYMDHMS(), request.getRequestURI(), e);
-        return Result.error("500", "系统出现未知异常！");    // 通用异常结果
+        return Result.error("500", "系统繁忙，请稍后再试！");    // 通用异常结果
     }
 
     /**-------- 指定异常处理方法 --------**/
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseMessage error(NullPointerException e, HttpServletRequest request) {
-        // e.printStackTrace();
-        log.error("[异常][时间:{}][接口:{}][结束]", DateUtil.getStringYMDHMS(), request.getRequestURI(), e);
-        return Result.error("500", "系统出现空指针异常！");
-    }
-
-    @ExceptionHandler(ArithmeticException.class)
-    public ResponseMessage error(ArithmeticException e, HttpServletRequest request) {
-        log.error("[异常][时间:{}][接口:{}][结束]", DateUtil.getStringYMDHMS(), request.getRequestURI(), e);
-        return Result.error("500", "系统出现算术异常！");
-    }
-
+    /**
+     * token 认证
+     */
     @ExceptionHandler(AuthenticationException.class)
     public ResponseMessage error(AuthenticationException e, HttpServletRequest request) {
         // 认证失败都不知道是谁认证失败，写日志也是没用
@@ -54,6 +44,9 @@ public class GlobalExceptionHandler {
         return Result.error("401", e.getMessage());
     }
 
+    /**
+     * 权限认证
+     */
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseMessage error(UnauthorizedException e, HttpServletRequest request) {
 
@@ -62,4 +55,14 @@ public class GlobalExceptionHandler {
         log.info("[权限认证][失败][用户:{},接口:{}][原因:{}][时间:{}][结束]", username, request.getRequestURI(), e.getMessage(), DateUtil.getStringYMDHMS());
         return Result.error("403", e.getMessage());
     }
+
+    /**
+     * Redis连接异常
+     */
+    @ExceptionHandler(RedisConnectionFailureException.class)
+    public ResponseMessage error(RedisConnectionFailureException e, HttpServletRequest request) {
+        log.error("[异常][时间:{}][接口:{}][异常信息:{}][结束]", DateUtil.getStringYMDHMS(), request.getRequestURI(), CommEnum.SYS_REDIS_CONNECT_ERROR.getMsg(), e);
+        return Result.error(CommEnum.SYS_REDIS_CONNECT_ERROR);
+    }
+
 }

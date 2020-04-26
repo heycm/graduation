@@ -1,7 +1,5 @@
 package com.heycm.config;
 
-import com.alibaba.fastjson.JSON;
-import com.heycm.model.jwt.JwtToken;
 import com.heycm.utils.JwtUtil;
 import io.jsonwebtoken.*;
 import org.apache.commons.lang3.StringUtils;
@@ -65,7 +63,7 @@ public class JwtRealm extends AuthorizingRealm {
         String token = (String) jwtToken.getPrincipal();
 
         if (StringUtils.isEmpty(token)) {
-            throw new NullPointerException("token is null");
+            throw new AuthenticationException("JWT为空");
         }
 
         Claims claims = null;
@@ -82,7 +80,6 @@ public class JwtRealm extends AuthorizingRealm {
         } catch (IllegalArgumentException e) {
             throw new AuthenticationException("JWT参数错误");
         }
-        // System.out.println(JSON.toJSONString(claims));
         if (claims == null) {
             throw new AuthenticationException("JWT无效");
         }

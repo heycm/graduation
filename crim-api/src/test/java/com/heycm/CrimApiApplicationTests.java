@@ -3,11 +3,11 @@ package com.heycm;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CrimApiApplicationTests {
 
     @Test
-    void contextLoads() {
-    }
+    public void m1() {}
 
 }

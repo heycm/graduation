@@ -16,11 +16,11 @@ export default new Router({
     {
       path: '/home',
       component: Layout,
-      redirect: '/home/home',
+      redirect: '/home/demo',
       children: [{
-        path: 'home',
+        path: 'demo',
         name: 'Home',
-        component: () => import('@/views/Home'),
+        component: () => import('@/views/Home')
       }]
     },
     {

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heycm.mapper.EducationExperienceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.heycm.model.EducationExperience">
+        <id column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="modify_user" property="modifyUser" />
+    <result column="modify_time" property="modifyTime" />
+    <result column="is_deleted" property="isDeleted" />
+        <result column="remuse_id" property="remuseId" />
+        <result column="school_name" property="schoolName" />
+        <result column="certificate" property="certificate" />
+        <result column="major" property="major" />
+        <result column="study_start" property="studyStart" />
+        <result column="study_end" property="studyEnd" />
+        <result column="school_experience" property="schoolExperience" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        create_user,
+        create_time,
+        modify_user,
+        modify_time,
+        is_deleted,
+        id, remuse_id, school_name, certificate, major, study_start, study_end, school_experience, status
+    </sql>
+
+</mapper>

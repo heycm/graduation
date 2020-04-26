@@ -1,17 +1,19 @@
 package com.heycm.filter;
 
-import com.heycm.model.jwt.JwtToken;
+import com.heycm.config.CustomConfig;
+import com.heycm.config.JwtToken;
 import com.heycm.utils.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -52,7 +54,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * 是否允许访问
-     * 规则：开放API(/api/v?/open/**)允许匿名访问，其他不可以
+     * 规则：开放API允许匿名访问，其他不可以
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
@@ -61,8 +63,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         String uri = req.getRequestURI();
+        System.out.println("---->请求接口： "+uri);
         PathMatcher pathMatcher = new AntPathMatcher();
-        return pathMatcher.match("/api/*/open/**", uri);
+        return pathMatcher.match("/**/open/**", uri);
     }
 
     /**
@@ -120,7 +123,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         try {
             req.getRequestDispatcher("/api/v1/sys/401").forward(request, response);
         } catch (ServletException | IOException e) {
-            log.error("[异常][JWT过滤器处理未登录/认证的请求][时间:{}][结束]", DateUtil.getStringYMDHMS(), e);
+            log.error("[异常][时间:{}][JWT过滤器处理未登录/认证的请求][结束]", DateUtil.getStringYMDHMS(), e);
         }
     }
 
