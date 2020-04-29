@@ -58,6 +58,7 @@ export default {
       this.isCollapse = !this.isCollapse;
       this.$emit("menuSwitch", this.isCollapse);
     },
+    // 用户登出
     logout() {
       this.$get("/user/open/logout");
       this.$message({

@@ -28,4 +28,23 @@
         id, user_id, school_name, school_address, school_postal_code, school_desc, status
     </sql>
 
+    <!--  查学校代码  -->
+    <select id="getCode" resultType="com.heycm.dto.SchoolCodeDTO">
+        SELECT dep.id dept_id, dep.department_name dept_name, tab.pro_id, tab.pro_name, tab.year_id, tab.year_name, tab.class_id, tab.grade_class_name class_name
+        FROM crim_department dep
+        LEFT JOIN (
+            SELECT tab.*, gc.id class_id, gc.grade_class_name
+            FROM
+            (
+                SELECT pro.department_id, pro.id pro_id, pro.profession_name pro_name, ct.id year_id, ct.type_name year_name
+                FROM crim_profession pro
+                LEFT JOIN crim_type ct ON ct.pid = 5
+                WHERE pro.is_deleted = 0 AND ct.is_deleted = 0
+            ) tab
+            LEFT JOIN crim_grade_class gc ON tab.pro_id = gc.profession_id AND tab.year_id = gc.year_level_id AND gc.is_deleted = 0
+        ) tab ON dep.id = tab.department_id
+        WHERE dep.is_deleted = 0
+        ORDER BY tab.year_name DESC, dep.id, tab.pro_id, tab.class_id
+    </select>
+
 </mapper>

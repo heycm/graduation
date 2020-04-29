@@ -33,4 +33,19 @@ public class SubjectUtil {
         String token = SecurityUtils.getSubject().getPrincipal().toString();
         return jwtUtil.getUserType(token);
     }
+
+    /**
+     * 获取当前用户token，接口必须需要角色或权限才可以使用，开放接口不可用，否则空指针
+     * @return 当前用户令牌
+     */
+    public String getCurrentUserToken() {
+        return SecurityUtils.getSubject().getPrincipal().toString();
+    }
+
+    /**
+     * shiro登出
+     */
+    public void logout() {
+        SecurityUtils.getSubject().logout();
+    }
 }

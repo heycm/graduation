@@ -180,7 +180,6 @@ export default {
             this.setUserInfo(res.data.data);
             this.$router.push({ path: this.$route.query.redirect || "/" });
           } else {
-            this.$message.error(res.data.msg);
             this.login.smsCode = "";
           }
         })

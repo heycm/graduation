@@ -222,7 +222,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 2.查询用户的角色权限对应关系
         UserRolePermissionDTO userRoleAndPermission = getUserRoleAndPermission(user);
         // 3.以token为键，将用户角色权限关系存入Redis，并设置与jwt相同过期时间
-        redisUtil.set(token, userRoleAndPermission, (customConfig.getJwtTtl() / 30));
+        redisUtil.set(token, userRoleAndPermission, (customConfig.getJwtTtl() / 60));
         List<Role> roles = userRoleAndPermission.getRoles();
         ArrayList<String> list = new ArrayList<>();
         for (Role role : roles) {

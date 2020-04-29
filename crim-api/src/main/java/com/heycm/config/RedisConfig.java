@@ -22,7 +22,6 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     @SuppressWarnings("all")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory){
-        System.out.println("---------redisTemplate 相关配置-----------------------------------");
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         // 配置连接工厂
         redisTemplate.setConnectionFactory(factory);

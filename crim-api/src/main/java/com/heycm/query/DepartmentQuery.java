@@ -1,7 +1,15 @@
 package com.heycm.query;
 
+import lombok.Data;
+
 /**
  * @author heycm@qq.com
  * @since 2020-04-26
  */
-public class DepartmentQuery {  }
+@Data
+public class DepartmentQuery {
+
+    private Integer campusId;
+    private String addNodeName;
+
+}

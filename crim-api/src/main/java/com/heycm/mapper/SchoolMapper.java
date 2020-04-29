@@ -1,7 +1,10 @@
 package com.heycm.mapper;
 
+import com.heycm.dto.SchoolCodeDTO;
 import com.heycm.model.School;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SchoolMapper extends BaseMapper<School> {
 
+    List<SchoolCodeDTO> getCode();
 }
