@@ -11,34 +11,6 @@ spring:
       max-request-size: 100MB # 单次上传最大100m
   thymeleaf:
     cache: false
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/crim?characterEncoding=utf8&useUnicode=true&serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull
-    username: root
-    password: root
-    druid:
-      initial-size: 5
-      min-idle: 5
-      max-active: 20
-      min-evictable-idle-time-millis: 600000
-      validation-query: SELECT 1
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      keep-alive: true
-      filter: stat,wall,slf4j
-  redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
-    password: acbc1688
-    jedis:
-      pool:
-        max-active: 100
-        max-wait: -1
-        max-idle: 10
-    timeout: 1000
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
@@ -54,11 +26,10 @@ logging:
   level:
     com.heycm.mapper: DEBUG
 
-
 # 自定义配置变量
 heycm:
   system:
-    openApi: /api/*/open/**
+    openApi: /**/open/** # 应用开放接口
   jwt:
     privateKey: com.heycm.crim # JWT签名私钥
     ttl: 1800 # JWT签名过期时间，秒
@@ -70,3 +41,13 @@ heycm:
     appId: 104324
     appSecret: d7f83c86-4cb1-4ec0-8a2a-1eb0577a0abc
     validTime: 10 # 有效时间，分钟
+  aliyun:
+    oss:
+      endPoint: oss-cn-beijing.aliyuncs.com
+      accessKeyID: LTAI4Fhi546AL87pHNV48eG7
+      accessKeySecret: dmPCtdvKX7w01mN8iMCXND6p1zUnmZ
+      imgBucketName: crim-img
+      imgHost: https://crim-img.oss-cn-beijing.aliyuncs.com
+      imgDir: images
+      fileBucketName: crim-file
+      fileDir: files

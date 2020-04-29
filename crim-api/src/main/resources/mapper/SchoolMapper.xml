@@ -5,11 +5,12 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.heycm.model.School">
         <id column="id" property="id" />
-    <result column="create_user" property="createUser" />
-    <result column="create_time" property="createTime" />
-    <result column="modify_user" property="modifyUser" />
-    <result column="modify_time" property="modifyTime" />
-    <result column="is_deleted" property="isDeleted" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_user" property="modifyUser" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="user_id" property="userId" />
         <result column="school_name" property="schoolName" />
         <result column="school_address" property="schoolAddress" />
         <result column="school_postal_code" property="schoolPostalCode" />
@@ -24,7 +25,7 @@
         modify_user,
         modify_time,
         is_deleted,
-        id, school_name, school_address, school_postal_code, school_desc, status
+        id, user_id, school_name, school_address, school_postal_code, school_desc, status
     </sql>
 
 </mapper>

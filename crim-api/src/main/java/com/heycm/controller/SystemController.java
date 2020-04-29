@@ -1,9 +1,10 @@
-package com.heycm.controller.demo;
+package com.heycm.controller;
 
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,25 +18,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/api/v1/sys")
+@Api(tags = "0 - 系统控制器 System")
 public class SystemController {
-
-    /**
-     * 未登录/认证失败跳转接口
-     * @return ResponseMessage
-     */
-    @RequestMapping(value = "/401", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-    public ResponseMessage unAuthorized() {
-        return Result.error("401","尚未登录，请先登录！");
-    }
-
-    /**
-     * 无权限跳转接口
-     * @return ResponseMessage
-     */
-    @RequestMapping(value = "/403", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-    public ResponseMessage accessDenied() {
-        return Result.error("403","您无此权限！");
-    }
 
     /**
      * 过滤器异常抛出接口

@@ -37,7 +37,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
 
-        System.out.println("JwtFilter preHandle");
+        System.out.println("====>跨域处理...");
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
@@ -58,12 +58,10 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-
-        System.out.println("JwtFilter isAccessAllowed");
-
+        System.out.println("====>接口过滤...");
         HttpServletRequest req = (HttpServletRequest) request;
         String uri = req.getRequestURI();
-        System.out.println("---->请求接口： "+uri);
+        System.out.println("====>是否允许访问接口：" + uri);
         PathMatcher pathMatcher = new AntPathMatcher();
         return pathMatcher.match("/**/open/**", uri);
     }
@@ -74,16 +72,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
-
-        System.out.println("JwtFilter isLoginAttempt");
-
-        HttpServletRequest req = (HttpServletRequest) request;
-        // 此 authorization 为请求头中携带的 token
-        String authorization = req.getHeader("Authorization");
-        if (StringUtils.isEmpty(authorization)) {
-            to401(request, response);
-            return false;
-        }
+        System.out.println("====>不允许");
+        System.out.println("====>是否尝试认证？");
         return true;
     }
 
@@ -92,7 +82,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
 
-        System.out.println("JwtFilter executeLogin");
+        System.out.println("====>认证中...");
 
         HttpServletRequest req = (HttpServletRequest) request;
         // 此 authorization 为请求头中携带的 token
@@ -113,18 +103,4 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             return false;
         }
     }
-
-    /**
-     * 处理未登录/认证的请求
-     */
-    private void to401(ServletRequest request, ServletResponse response) {
-        System.out.println("JwtFilter to401");
-        HttpServletRequest req = (HttpServletRequest) request;
-        try {
-            req.getRequestDispatcher("/api/v1/sys/401").forward(request, response);
-        } catch (ServletException | IOException e) {
-            log.error("[异常][时间:{}][JWT过滤器处理未登录/认证的请求][结束]", DateUtil.getStringYMDHMS(), e);
-        }
-    }
-
 }

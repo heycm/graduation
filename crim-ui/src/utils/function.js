@@ -89,6 +89,25 @@ export default {
          */
         Vue.prototype.parseTextarea = (str) => {
             return str.replace(RegExp("<br>", "g"), "\n").replace(/&nbsp;/ig, " ");
+        },
+        /**
+         * 设置当前登录用户信息
+         * @param {Object} obj 当前登录用户信息
+         */
+        Vue.prototype.setUserInfo = (obj) => {
+            localStorage.setItem("crim_current_user_info", JSON.stringify(obj))
+        },
+        /**
+         * 获取当前登录用户信息
+         */
+        Vue.prototype.getUserInfo = () => {
+            return JSON.parse(localStorage.getItem("crim_current_user_info"))
+        },
+        /**
+         * 移除当前登录用户信息
+         */
+        Vue.prototype.removeUserInfo = () => {
+            localStorage.removeItem("crim_current_user_info")
         }
     }
 }

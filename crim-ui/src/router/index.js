@@ -329,7 +329,7 @@ export default new Router({
         },
         {
           path: 'apply',
-          name: 'comStudentList',
+          name: 'comApply',
           component: () => import('@/views/company/activity/Apply'),
           meta: { title: '申请入会', role: 'company', index: '15-4' }
         }
@@ -354,6 +354,11 @@ export default new Router({
           component: () => import('@/views/company/Accessory'),
           meta: { title: '附件', role: 'company', index: '17' }
       }]
+    },
+    {
+      path: '*',
+      name: 404,
+      component: () => import('@/components/404')
     }
   ]
 })

@@ -11,6 +11,9 @@ import org.apache.shiro.util.ByteSource;
  */
 public class PasswordUtils {
 
+    private static final String HASH_ALGORITHM_NAME = "MD5";
+    private static final int HASH_ITERATIONS = 1024;
+
     /**
      * 生成盐值
      * @return salt
@@ -26,10 +29,6 @@ public class PasswordUtils {
      * @return 密码密文
      */
     public static String encrypt(String credentials, String salt) {
-        String hashAlgorithmName = "MD5";
-        int hashIterations = 1024;
-        ByteSource credentialsSalt = ByteSource.Util.bytes(salt);
-        Object obj = new SimpleHash(hashAlgorithmName, credentials, credentialsSalt, hashIterations);
-        return obj.toString();
+        return new SimpleHash(HASH_ALGORITHM_NAME, credentials, ByteSource.Util.bytes(salt), HASH_ITERATIONS).toString();
     }
 }

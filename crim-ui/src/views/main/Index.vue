@@ -1,26 +1,16 @@
 <template>
   <div class="index">
-    <!-- <div class="header">
-      <el-row type="flex" class="logo" justify="space-between" align="middle">
-        <el-col>
-          <a href="http://www.hevttc.edu.cn/" target="_blank">
-            <img src="../../assets/img/logo.png" />
-          </a>
-        </el-col>
-        <el-col>
-          <el-button
-            size="small"
-            style="float:right;"
-            @click="$router.push({ path: '/login' })"
-          >Sign in</el-button>
-        </el-col>
-      </el-row>
-    </div> -->
-    <Header/>
+    <Header />
     <div class="body">
       <el-row :gutter="20" style="width: 1000px;margin: 0 auto;padding:50px 0;">
         <!-- -------------------------------------- 招聘会列表 ------------------------------------------------ -->
-        <el-col :xs="24" :sm="24" :md="14" :lg="14" :xl="14">
+        <el-col
+          :xs="24"
+          :sm="24"
+          :md="isUserLogin?24:14"
+          :lg="isUserLogin?24:14"
+          :xl="isUserLogin?24:14"
+        >
           <div class="grid-content" v-if="dataList && dataList.length>0">
             <el-card shadow="hover">
               <div class="clearfix">
@@ -48,18 +38,30 @@
           </div>
         </el-col>
         <!-- -------------------------------------- 企业注册 ------------------------------------------------ -->
-        <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
+        <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10" v-if="!isUserLogin">
           <el-card shadow="hover" class="grid-content register">
             <h2>企业注册</h2>
             <div style="margin-top: 15px;">
-              <el-input placeholder="请输入常用手机号" v-model="registerPhone" />
+              <el-input placeholder="请输入常用手机号" v-model="login.phone" />
             </div>
             <div style="margin-top: 15px;">
-              <el-input placeholder="请输入手机验证码" v-model="registerCoded">
-                <el-button slot="append" :loading="false">获取验证码</el-button>
+              <el-input placeholder="请设置密码" show-password v-model="login.password" />
+            </div>
+            <div style="margin-top: 15px;">
+              <el-input placeholder="请输入手机验证码" v-model="login.smsCode">
+                <el-button
+                  slot="append"
+                  :loading="isLoading"
+                  @click="getSmsCode"
+                >{{isLoading?'发送中...':showSec?+sec+' s':'获取验证码'}}</el-button>
               </el-input>
             </div>
-            <el-button type="primary" plain style="margin-top: 15px;width:100%">立即注册</el-button>
+            <el-button
+              type="primary"
+              plain
+              style="margin-top: 15px;width:100%"
+              @click="register"
+            >立即注册</el-button>
             <p style="margin-top: 15px;color: #909399;">
               注册即代表您已同意
               <router-link to="/" style="color: rgb(64, 158, 255)">XXX协议</router-link>
@@ -111,8 +113,17 @@ export default {
   },
   data() {
     return {
-      registerPhone: "",
-      registerCoded: "",
+      userInfo: "",
+      isUserLogin: false,
+      login: {
+        password: "",
+        phone: "",
+        smsCode: ""
+      },
+      isLoading: false,
+      showSec: false,
+      timer: null,
+      sec: 60,
       dataList: [
         {
           id: 1,
@@ -219,9 +230,90 @@ export default {
     };
   },
   computed: {},
-  watch: {},
-  created() {},
-  methods: {}
+  watch: {
+    "login.phone": function() {
+      this.isLoading = false;
+      this.stopCountDown();
+    }
+  },
+  created() {
+    this.init();
+  },
+  beforeDestroy() {
+    this.stopCountDown();
+  },
+  methods: {
+    init() {
+      this.userInfo = this.getUserInfo();
+      if (this.userInfo) {
+        this.isUserLogin = true;
+      }
+    },
+    getSmsCode() {
+      this.login.smsCode = "";
+      if (this.sec !== 60) {
+        this.$message("验证码已发送，注意查收");
+        return;
+      }
+      this.isLoading = true;
+      this.$post(
+        "/authCode/open/getSmsCode",
+        this.$qs.stringify({ phone: this.login.phone })
+      )
+        .then(res => {
+          this.isLoading = false;
+          if (res.data.ok) {
+            this.$message({
+              message: "短信已发送",
+              type: "success"
+            });
+            this.countDown();
+          } else {
+            this.$message.error(res.data.msg);
+            this.stopCountDown();
+          }
+        })
+        .catch(e => {
+          this.isLoading = false;
+          this.stopCountDown();
+        });
+    },
+    countDown() {
+      this.showSec = true;
+      this.timer = setInterval(() => {
+        this.sec--;
+        if (this.sec === 0) {
+          clearInterval(this.timer);
+          this.timer == null;
+          this.sec = 60;
+          this.showSec = false;
+        }
+      }, 1000);
+    },
+    stopCountDown() {
+      this.showSec = false;
+      this.sec = 60;
+      if (this.timer !== null) {
+        clearInterval(this.timer);
+        this.timer == null;
+      }
+    },
+    register() {
+      this.$post("/user/open/register", this.login)
+        .then(res => {
+          if (res.data.ok) {
+            this.$message({
+              message: "注册成功",
+              type: "success"
+            });
+            this.$router.push({path: "/login"})
+          }else{
+            this.$message.error(res.data.msg)
+          }
+        })
+        .catch(e => {});
+    }
+  }
 };
 </script>
 <style scoped>

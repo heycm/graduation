@@ -1,7 +1,14 @@
 package com.heycm.config;
 
+import com.heycm.dto.UserRolePermissionDTO;
+import com.heycm.enums.CommEnum;
+import com.heycm.model.Permission;
+import com.heycm.model.Role;
 import com.heycm.utils.JwtUtil;
+import com.heycm.utils.RedisUtil;
+import com.heycm.utils.date.DateUtil;
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -10,15 +17,22 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Description 专门用于验证 jwtToken 的 realm
  * @Author heycm@qq.com
  * @Date 2020-03-27 15:56
  */
+@Slf4j
 public class JwtRealm extends AuthorizingRealm {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
 
     /**
@@ -43,13 +57,25 @@ public class JwtRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
-        System.out.println("JwtRealm === 授权...");
+        log.info("[授权][时间:{}][结束]", DateUtil.getStringYMDHMS());
 
+        // 1.获取token（从认证传过来的）
+        String token = principalCollection.toString();
+        // 2.去Redis拿来用户的角色权限信息
+        UserRolePermissionDTO userRolePermissionDTO = (UserRolePermissionDTO) redisUtil.get(token);
+        List<Role> roles = userRolePermissionDTO.getRoles();
+        Map<Integer, List<Permission>> permissionMap = userRolePermissionDTO.getPermissionMap();
+        // 3.授权，如下示例
+        // roles:["roleName1", "roleName2", "roleName3"]
+        // perms:["roleName1:permName", "roleName2:permName", "roleName3:permName"]
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-
-
-        info.addRole("vip");
-
+        for (Role role : roles) {
+            info.addRole(role.getRoleName());
+            List<Permission> permissionList = permissionMap.get(role.getId());
+            for (Permission permission : permissionList) {
+                info.addStringPermission(role.getRoleName() + ":" + permission.getPermName());
+            }
+        }
         return info;
     }
 
@@ -57,15 +83,14 @@ public class JwtRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-        System.out.println("JwtRealm === 认证...");
+        log.info("[认证][时间:{}][结束]", DateUtil.getStringYMDHMS());
 
         JwtToken jwtToken = (JwtToken) authenticationToken;
         String token = (String) jwtToken.getPrincipal();
 
         if (StringUtils.isEmpty(token)) {
-            throw new AuthenticationException("JWT为空");
+            throw new AuthenticationException(CommEnum.AUTH_401_NOT.getMsg());
         }
-
         Claims claims = null;
         try {
             claims = jwtUtil.parseJwtToken(token);
@@ -87,9 +112,8 @@ public class JwtRealm extends AuthorizingRealm {
         if (StringUtils.isEmpty(username)) {
             throw new AuthenticationException("JWT无效");
         }
-        // TODO 去数据库查此用户，最好是登录时把登录信息和对应token存到redis，减小mysql压力
-        String userInfo = "此用户信息";
-        if (userInfo == null){
+        UserRolePermissionDTO userRolePermissionDTO = (UserRolePermissionDTO) redisUtil.get(token);
+        if (userRolePermissionDTO == null){
             throw new AuthenticationException("用户不存在");
         }
         return new SimpleAuthenticationInfo(token, token, getName());

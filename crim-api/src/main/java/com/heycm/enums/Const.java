@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public enum Const {
     PREFIX_REDIS_SMS_CODE("sms_code_", "Redis中手机验证码key的前缀"),
-    PREFIX_REDIS_V_CODE("v_code_", "Redis中图片验证码key的前缀"),
+    PREFIX_REDIS_V_CODE("v_code_", "Redis中随机验证码的key的前缀"),
     ;
     private String value;
     private String desc;

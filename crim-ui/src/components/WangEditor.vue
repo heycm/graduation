@@ -51,7 +51,7 @@ export default {
       "redo" // 重复
     ];
     this.editor.create(); // 创建富文本实例
-    this.editor.txt.html('<p>'+this.placeholder ? this.placeholder : ''+'</p>')
+    this.editor.txt.html(this.placeholder ? this.placeholder : '')
   },
   methods: {
     clear() {

@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author heycm@qq.com
- * @since 2020-04-26
+ * @since 2020-04-28
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -27,11 +27,14 @@ import lombok.experimental.Accessors;
 @ApiModel(value="School对象", description="")
 public class School extends BaseModel<School> {
 
-private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "学校id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    @ApiModelProperty(value = "用户id")
+    private Integer userId;
 
     @ApiModelProperty(value = "学校名称")
     private String schoolName;

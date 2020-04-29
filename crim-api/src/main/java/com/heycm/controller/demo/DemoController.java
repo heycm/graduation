@@ -1,6 +1,5 @@
 package com.heycm.controller.demo;
 
-import com.google.code.kaptcha.Producer;
 import com.heycm.server.WebSocketServer;
 import com.heycm.utils.JwtUtil;
 import com.heycm.utils.response.ResponseMessage;
@@ -19,15 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -44,8 +35,6 @@ public class DemoController {
 
     @Autowired
     private JwtUtil jwtUtil;
-    @Resource(name = "captchaProducer")
-    private Producer captchaProducer;
     @Autowired
     private WebSocketServer webSocketServer;
 
@@ -110,100 +99,6 @@ public class DemoController {
             System.out.println("系统异常");
             return "login";
         }
-    }
-
-    @RequestMapping("/unAuth")
-    public String unAuthorized(){
-        return "403";
-    }
-
-    @RequestMapping("/api/v1/open/getToken")
-    @ResponseBody
-    public String getJwtToken(String username, String password){
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("username", username);
-        map.put("password", password);
-        String token = jwtUtil.generateJwtToken(1, username, map);
-        return token;
-    }
-
-    @RequestMapping("/open/parseToken")
-    @ResponseBody
-    public Object parseJwtToken(String token){
-        Claims claims = jwtUtil.parseJwtToken(token);
-        String id = claims.getId();
-        String issuer = claims.getSubject();
-        Object password = claims.get("password");
-        return id+" -- "+issuer+" -- "+password;
-    }
-
-
-
-    @ApiOperation(value = "获取图片验证码", notes = "获取图片验证码")
-    @GetMapping("/open/captchaImage")
-    public Object getCaptchaImage(HttpServletRequest request, HttpServletResponse response){
-        ServletOutputStream outputStream = null;
-        try {
-            outputStream = response.getOutputStream();
-            HttpSession session = request.getSession();
-            response.setDateHeader("Expires", 0);
-            // Set standard HTTP/1.1 no-cache headers.
-            response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-            // Set IE extended HTTP/1.1 no-cache headers (use addHeader).
-            response.addHeader("Cache-Control", "post-check=0, pre-check=0");
-            // Set standard HTTP/1.0 no-cache header.
-            response.setHeader("Pragma", "no-cache");
-            // return a jpeg
-            response.setContentType("image/jpeg");
-            // create the text for the image
-            String capText = captchaProducer.createText();
-            //将验证码存到session
-            // 也可以存到redis灵活设置过期时间
-            session.setAttribute("KAPTCHA_SESSION_KEY", capText);
-            logger.info(capText);
-            // 创建一张文本图片
-            BufferedImage bi = captchaProducer.createImage(capText);
-            // 写入数据
-            ImageIO.write(bi, "jpg", outputStream);
-
-            outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (outputStream != null){
-                    outputStream.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    @ApiOperation(value = "校验图片验证码", notes = "校验图片验证码")
-    @GetMapping("/open/verifyCaptcha")
-    @ResponseBody
-    public String verifyCaptcha(HttpServletRequest request,
-        @ApiParam(name = "code", value = "验证码值", required = true)String code){
-
-        String captchaCode = (String) request.getSession().getAttribute("KAPTCHA_SESSION_KEY");
-        if (StringUtils.isEmpty(captchaCode)){
-            return "验证码失效";
-        }
-        if (StringUtils.isEmpty(code)){
-            return "验证码无效";
-        }
-
-        // 全都转为小写或大写
-        captchaCode = captchaCode.toLowerCase();
-        code = code.toLowerCase();
-
-        if (captchaCode.equals(code)){
-            return "验证通过";
-        }
-
-        return "验证失败";
     }
 
 

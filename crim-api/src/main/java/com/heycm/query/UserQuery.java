@@ -22,7 +22,7 @@ public class UserQuery {
     private String password;
 
     @ApiModelProperty("图片验证码")
-    private String vCode;
+    private String vcode;
 
     @ApiModelProperty("短信验证码")
     private String smsCode;

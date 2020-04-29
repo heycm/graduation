@@ -2,10 +2,10 @@ package com.heycm.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-
 import com.heycm.model.base.BaseModel;
+import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author heycm@qq.com
- * @since 2020-04-26
+ * @since 2020-04-29
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -27,7 +27,7 @@ import lombok.experimental.Accessors;
 @ApiModel(value="File对象", description="")
 public class File extends BaseModel<File> {
 
-private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "文件id")
     @TableId(value = "id", type = IdType.AUTO)
@@ -38,6 +38,9 @@ private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "文件名")
     private String fileName;
+
+    @ApiModelProperty(value = "文件UUID")
+    private String fileUuid;
 
     @ApiModelProperty(value = "文件后缀")
     private String fileSuffix;
@@ -53,6 +56,7 @@ private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "状态：0 挂载 1 空闲")
     private Integer status;
+
 
     @Override
     protected Serializable pkVal() {

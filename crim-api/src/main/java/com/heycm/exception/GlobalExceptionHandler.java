@@ -5,15 +5,20 @@ import com.heycm.utils.JwtUtil;
 import com.heycm.utils.date.DateUtil;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
+import io.lettuce.core.RedisCommandTimeoutException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.QueryTimeoutException;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Description 全局异常处理
  * @Author heycm@qq.com
@@ -26,9 +31,12 @@ public class GlobalExceptionHandler {
     @Autowired
     private JwtUtil jwtUtil;
 
-    /**-------- 通用异常处理方法 --------**/
+    /**
+     * -------- 通用异常处理方法 --------
+     **/
     @ExceptionHandler(Exception.class)
-    public ResponseMessage error(Exception e, HttpServletRequest request) {
+    public ResponseMessage error(Exception e, HttpServletRequest request, HttpServletResponse response) {
+        response.setStatus(500);
         log.error("[异常][时间:{}][接口:{}][结束]", DateUtil.getStringYMDHMS(), request.getRequestURI(), e);
         return Result.error("500", "系统繁忙，请稍后再试！");    // 通用异常结果
     }
@@ -36,33 +44,51 @@ public class GlobalExceptionHandler {
     /**-------- 指定异常处理方法 --------**/
     /**
      * token 认证
+     * 未登录：无token
+     * 登录过期：token过期/错误/异常/无效
      */
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseMessage error(AuthenticationException e, HttpServletRequest request) {
-        // 认证失败都不知道是谁认证失败，写日志也是没用
-        // log.info("[身份认证][失败][接口:{}][原因:{}][时间:{}][结束]",  request.getAttribute("jetFilter.executeLogin.uri"), e.getMessage(), DateUtil.getStringYMDHMS());
-        return Result.error("401", e.getMessage());
+    public ResponseMessage error(AuthenticationException e, HttpServletResponse response) {
+        response.setStatus(401);
+        if (CommEnum.AUTH_401_NOT.getMsg().equals(e.getMessage())){
+            return Result.error(CommEnum.AUTH_401_NOT);
+        }
+        return Result.error(CommEnum.AUTH_401_EXPIRED);
     }
 
     /**
      * 权限认证
      */
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseMessage error(UnauthorizedException e, HttpServletRequest request) {
-
-        String username = jwtUtil.getUsername((String) SecurityUtils.getSubject().getPrincipal());
-
-        log.info("[权限认证][失败][用户:{},接口:{}][原因:{}][时间:{}][结束]", username, request.getRequestURI(), e.getMessage(), DateUtil.getStringYMDHMS());
-        return Result.error("403", e.getMessage());
+    public ResponseMessage error(UnauthorizedException e, HttpServletRequest request, HttpServletResponse response) {
+        response.setStatus(403);
+        Integer userId = jwtUtil.getUserId(SecurityUtils.getSubject().getPrincipal().toString());
+        log.info("[权限认证][时间:{}][失败][用户ID:{},接口:{}][原因:{}][结束]", DateUtil.getStringYMDHMS(), userId, request.getRequestURI(), e.getMessage());
+        return Result.error(CommEnum.AUTH_403);
     }
 
     /**
-     * Redis连接异常
+     * Redis异常
      */
     @ExceptionHandler(RedisConnectionFailureException.class)
-    public ResponseMessage error(RedisConnectionFailureException e, HttpServletRequest request) {
+    public ResponseMessage error(RedisConnectionFailureException e, HttpServletRequest request, HttpServletResponse response) {
+        response.setStatus(500);
         log.error("[异常][时间:{}][接口:{}][异常信息:{}][结束]", DateUtil.getStringYMDHMS(), request.getRequestURI(), CommEnum.SYS_REDIS_CONNECT_ERROR.getMsg(), e);
         return Result.error(CommEnum.SYS_REDIS_CONNECT_ERROR);
+    }
+
+    @ExceptionHandler(RedisCommandTimeoutException.class)
+    public ResponseMessage error(RedisCommandTimeoutException e, HttpServletRequest request, HttpServletResponse response) {
+        response.setStatus(500);
+        log.error("[异常][时间:{}][接口:{}][异常信息:{}][结束]", DateUtil.getStringYMDHMS(), request.getRequestURI(), CommEnum.SYS_REDIS_CONNECT_ERROR.getMsg(), e);
+        return Result.error(CommEnum.REDIS_COMMAND_TIMEOUT_ERROR);
+    }
+
+    @ExceptionHandler(QueryTimeoutException.class)
+    public ResponseMessage error(QueryTimeoutException e, HttpServletRequest request, HttpServletResponse response) {
+        response.setStatus(500);
+        log.error("[异常][时间:{}][接口:{}][异常信息:{}][结束]", DateUtil.getStringYMDHMS(), request.getRequestURI(), CommEnum.SYS_REDIS_CONNECT_ERROR.getMsg(), e);
+        return Result.error(CommEnum.REDIS_QUERY_TIMEOUT_ERROR);
     }
 
 }

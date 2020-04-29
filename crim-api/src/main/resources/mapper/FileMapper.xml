@@ -12,6 +12,7 @@
     <result column="is_deleted" property="isDeleted" />
         <result column="user_id" property="userId" />
         <result column="file_name" property="fileName" />
+        <result column="file_uuid" property="fileUuid" />
         <result column="file_suffix" property="fileSuffix" />
         <result column="file_size" property="fileSize" />
         <result column="file_type" property="fileType" />
@@ -26,7 +27,7 @@
         modify_user,
         modify_time,
         is_deleted,
-        id, user_id, file_name, file_suffix, file_size, file_type, file_url, status
+        id, user_id, file_name, file_uuid, file_suffix, file_size, file_type, file_url, status
     </sql>
 
 </mapper>
