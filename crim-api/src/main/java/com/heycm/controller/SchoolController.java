@@ -1,8 +1,10 @@
 package com.heycm.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.heycm.dto.SchoolCodeDTO;
 import com.heycm.dto.SchoolInfoDTO;
 import com.heycm.dto.SchoolUserDTO;
 import com.heycm.dto.TreeDTO;
@@ -18,6 +20,7 @@ import com.heycm.utils.response.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
@@ -35,6 +38,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author heycm@qq.com
  * @since 2020-04-28
  */
+@Slf4j
 @Api(tags = "3 - 学校控制器 School")
 @Transactional
 @RestController
@@ -155,7 +159,7 @@ public class SchoolController {
             dto.setId(user.getId());
             dto.setUsername(user.getUsername());
             dto.setMain(false);
-            if (user.getId().equals(currentUserId)){
+            if (user.getId().equals(currentUserId)) {
                 dto.setMain(true);
             }
             schoolUserDTOS.add(dto);
@@ -231,10 +235,44 @@ public class SchoolController {
         return schoolService.getCode();
     }
 
-
-
-
-
+    @ApiOperation(value = "8 - 按条件获取学院代码", notes = "按条件获取学院代码，分页")
+    @ApiOperationSupport(order = 8)
+    @RequiresRoles("school")
+    @PostMapping("/code")
+    public ResponseMessage code(@RequestBody Param<SchoolCodeDTO> param) {
+        long l = System.currentTimeMillis();
+        log.info("[按条件获取学院代码][入参:{}][结束]", JSON.toJSONString(param));
+        if (param == null) {
+            param = new Param<SchoolCodeDTO>();
+        }
+        // 1.设置默认当前页是第 1 页
+        if (param.getPage() == null) {
+            param.setPage(1);
+        }
+        // 2.设置默认每页 5 条数据
+        if (param.getRows() == null) {
+            param.setRows(5);
+        }
+        // 3.条件构造器构造查询条件
+        QueryWrapper<SchoolCodeDTO> qw = new QueryWrapper<SchoolCodeDTO>();
+        if (param.getData() != null) {
+            SchoolCodeDTO paramData = param.getData();
+            // 3-1.如果部门ID不是空，构造条件 dept_id = 部门ID
+            qw.eq(paramData.getDeptId() != null, "tab.dept_id", paramData.getDeptId())
+                    // 3-2.如果专业ID不是空，构造条件 AND pro_id = 专业ID
+                    .eq(paramData.getProId() != null, "tab.pro_id", paramData.getProId())
+                    // 3-3.如歌年级ID不是空，构造条件 AND year_id = 年级ID
+                    .eq(paramData.getYearId() != null, "tab.year_id", paramData.getYearId())
+                    // 3-4.如果班级名称不是空或空字符串，构造条件 AND class_name like '%班级名称%'
+                    .like(StringUtils.isNotEmpty(paramData.getClassName()), "tab.class_name", paramData.getClassName());
+        }
+        // 4.分页构造器，传入当前页和每页条数
+        Page<SchoolCodeDTO> page = new Page<>(param.getPage(), param.getRows());
+        // 5.查询
+        IPage<SchoolCodeDTO> iPage = schoolService.getCodeByQW(page, qw);
+        log.info("[按条件获取学院代码][查询结果:{}][耗时:{}ms][结束]", JSON.toJSONString(iPage), (System.currentTimeMillis() - l));
+        return Result.ok(iPage);
+    }
 
 
     @DeleteMapping("/{id}")

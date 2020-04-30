@@ -1,5 +1,9 @@
 package com.heycm.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.heycm.dto.SchoolCodeDTO;
 import com.heycm.model.School;
 import com.heycm.mapper.SchoolMapper;
@@ -33,5 +37,10 @@ public class SchoolServiceImpl extends ServiceImpl<SchoolMapper, School> impleme
         List<SchoolCodeDTO> list = schoolMapper.getCode();
 
         return Result.ok(list);
+    }
+
+    @Override
+    public IPage<SchoolCodeDTO> getCodeByQW(Page<SchoolCodeDTO> page, QueryWrapper<SchoolCodeDTO> qw) {
+        return schoolMapper.getCodeByQW(page, qw);
     }
 }

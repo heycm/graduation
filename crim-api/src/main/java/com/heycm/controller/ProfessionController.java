@@ -26,7 +26,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author heycm@qq.com
  * @since 2020-04-26
  */
-@Api(tags = "5 - 学院控制器 Department")
+@Api(tags = "5 - 专业控制器 Department")
 @Transactional
 @RestController
 @RequestMapping("/api/v1/profession")
@@ -63,6 +63,14 @@ public class ProfessionController {
         return Result.ok();
     }
 
+    @ApiOperation(value = "3 - 查看所有的专业", notes = "查看所有的专业")
+    @ApiOperationSupport(order = 3)
+    @RequiresRoles("school")
+    @GetMapping("/list")
+    public ResponseMessage list() {
+        List<Profession> entityList = professionService.list();
+        return Result.ok(entityList);
+    }
 
 
 
@@ -116,12 +124,7 @@ public class ProfessionController {
     }
 
 
-    //查看所有的信息
-    @GetMapping("/list")
-    public ResponseMessage list() {
-        List<Profession> entityList = professionService.list();
-        return Result.ok(entityList);
-    }
+
 
 
     /**

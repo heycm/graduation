@@ -70,7 +70,50 @@
     </el-row>
 
     <part title="代号列表" type="main" />
-    <el-row type="flex" class="paddingLR-15 marginB-30">
+    <el-row type="flex" class="paddingLR-15 marginB-10">
+      <el-form :inline="true" :model="codeReq.data" class="demo-form-inline">
+        <el-form-item label="学院">
+          <el-select v-model="codeReq.data.deptId">
+            <el-option label="不限" value></el-option>
+            <el-option
+              v-for="dept in deptList"
+              :key="dept.id"
+              :label="dept.departmentName"
+              :value="dept.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="专业">
+          <el-select v-model="codeReq.data.proId">
+            <el-option label="不限" value></el-option>
+            <el-option
+              v-for="pro in proList"
+              :key="pro.id"
+              :label="pro.professionName"
+              :value="pro.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="年级">
+          <el-select v-model="codeReq.data.yearId">
+            <el-option label="不限" value></el-option>
+            <el-option
+              v-for="year in yearList"
+              :key="year.id"
+              :label="year.yearName"
+              :value="year.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="班级">
+          <el-input v-model="codeReq.data.className" placeholder="班级名称" clearable></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="selectCode">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
+    <el-row type="flex" class="paddingLR-15 marginB-10">
       <el-table :data="schoolCode" border>
         <el-table-column prop="deptId" label="代号" width="70" show-overflow-tooltip></el-table-column>
         <el-table-column prop="deptName" label="学院" show-overflow-tooltip></el-table-column>
@@ -81,6 +124,21 @@
         <el-table-column prop="classId" label="代号" width="70" show-overflow-tooltip></el-table-column>
         <el-table-column prop="className" label="班级" show-overflow-tooltip></el-table-column>
       </el-table>
+    </el-row>
+    <el-row class="paddingLR-15 marginB-30">
+      <el-col>
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pagination.currentPage"
+          :page-sizes="[5, 10, 20]"
+          :page-size="pagination.pageSize"
+          layout="sizes, prev, pager, next"
+          :total="pagination.total"
+          class="text-right"
+        ></el-pagination>
+      </el-col>
     </el-row>
 
     <!-- 弹窗 -->
@@ -211,6 +269,39 @@ export default {
           classId: "",
           className: ""
         }
+      ],
+      codeReq: {
+        page: 1,
+        rows: 5,
+        data: {
+          deptId: "",
+          proId: "",
+          yearId: "",
+          className: ""
+        }
+      },
+      pagination: {
+        currentPage: 1,
+        pageSize: 5,
+        total: 10
+      },
+      deptList: [
+        {
+          id: 1,
+          departmentName: "数学与信息科技学院"
+        }
+      ],
+      proList: [
+        {
+          id: 1,
+          professionName: "计算机科学与技术"
+        }
+      ],
+      yearList: [
+        {
+          id: 8,
+          yearName: "2020"
+        }
       ]
     };
   },
@@ -227,7 +318,11 @@ export default {
     init() {
       this.getSchoolUserList();
       this.getTree();
-      this.getCode();
+      // this.getCode();
+      this.selectCode();
+      this.getDeptList();
+      this.getProList();
+      this.getYearList();
     },
     getSchoolUserList() {
       this.$get("/school/userList")
@@ -256,6 +351,39 @@ export default {
         .then(res => {
           if (res.data.ok) {
             this.schoolCode = res.data.data;
+          } else {
+            this.$message.error(res.data.msg);
+          }
+        })
+        .catch(e => {});
+    },
+    getDeptList() {
+      this.$get("/department/list")
+        .then(res => {
+          if (res.data.ok) {
+            this.deptList = res.data.data;
+          } else {
+            this.$message.error(res.data.msg);
+          }
+        })
+        .catch(e => {});
+    },
+    getProList() {
+      this.$get("/profession/list")
+        .then(res => {
+          if (res.data.ok) {
+            this.proList = res.data.data;
+          } else {
+            this.$message.error(res.data.msg);
+          }
+        })
+        .catch(e => {});
+    },
+    getYearList() {
+      this.$get("/type/year/list")
+        .then(res => {
+          if (res.data.ok) {
+            this.yearList = res.data.data;
           } else {
             this.$message.error(res.data.msg);
           }
@@ -434,6 +562,7 @@ export default {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
+    // 增加节点之前
     append(node, data) {
       this.node.level = node.level;
       this.node.campusId = data.id;
@@ -446,6 +575,7 @@ export default {
       }
       this.dialogNodeVisible = true;
     },
+    // 移除节点之前
     remove(node, data) {
       if (node.level === 2) {
         this.delNodeUrl = "/department/" + data.id;
@@ -468,6 +598,7 @@ export default {
           });
         });
     },
+    // 增加节点
     addNode() {
       let node = this.copyObj(this.node);
       this.dialogNodeVisible = false;
@@ -484,6 +615,7 @@ export default {
         })
         .catch(e => {});
     },
+    // 移除节点
     delNode() {
       this.$delete(this.delNodeUrl)
         .then(res => {
@@ -497,6 +629,29 @@ export default {
           }
         })
         .catch(e => {});
+    },
+    // 按条件查询代号
+    selectCode() {
+      this.$post("/school/code", this.codeReq)
+        .then(res => {
+          if (res.data.ok) {
+            this.schoolCode = res.data.data.records;
+            this.pagination.total = res.data.data.total;
+            this.pagination.pageSize = res.data.data.size;
+            this.pagination.currentPage = res.data.data.current;
+          } else {
+            this.$message.error(res.data.msg);
+          }
+        })
+        .catch(e => {});
+    },
+    handleSizeChange(val) {
+      this.codeReq.rows = val;
+      this.selectCode();
+    },
+    handleCurrentChange(val) {
+      this.codeReq.page = val;
+      this.selectCode();
     }
   }
 };

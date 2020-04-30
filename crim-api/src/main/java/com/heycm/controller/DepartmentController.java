@@ -65,6 +65,15 @@ public class DepartmentController {
         return Result.ok();
     }
 
+    @ApiOperation(value = "3 - 查看所有的学院", notes = "查看所有的学院")
+    @ApiOperationSupport(order = 3)
+    @RequiresRoles("school")
+    @GetMapping("/list")
+    public ResponseMessage list() {
+        List<Department> entityList = departmentService.list();
+        return Result.ok(entityList);
+    }
+
 
 
 
@@ -113,14 +122,6 @@ public class DepartmentController {
         }
         Department entity = departmentService.getById(id);
         return Result.ok(entity);
-    }
-
-
-    //查看所有的信息
-    @GetMapping("/list")
-    public ResponseMessage list() {
-        List<Department> entityList = departmentService.list();
-        return Result.ok(entityList);
     }
 
 

@@ -1,5 +1,9 @@
 package com.heycm.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.heycm.dto.YearDTO;
 import com.heycm.param.Param;
 import com.heycm.service.ITypeService;
 import com.heycm.model.Type;
@@ -7,9 +11,14 @@ import com.heycm.query.TypeQuery;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -18,11 +27,42 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author heycm@qq.com
  * @since 2020-04-26
  */
+@Api(tags = "6 - 列表控制器 Type")
+@Transactional
 @RestController
 @RequestMapping("/api/v1/type")
 public class TypeController {
     @Autowired
     public ITypeService typeService;
+
+    @ApiOperation(value = "1 - 查看年级列表", notes = "查看年级列表")
+    @ApiOperationSupport(order = 1)
+    @RequiresRoles("school")
+    @GetMapping("/year/list")
+    public ResponseMessage getYearList() {
+        ArrayList<YearDTO> list = new ArrayList<>();
+        LambdaQueryWrapper<Type> eq = new QueryWrapper<Type>().lambda().eq(Type::getPid, 5);
+        List<Type> typeList = typeService.list(eq);
+        for (Type type : typeList) {
+            YearDTO yearDTO = new YearDTO();
+            yearDTO.setId(type.getId());
+            yearDTO.setYearName(type.getTypeName());
+            list.add(yearDTO);
+        }
+        return Result.ok(list);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 保存、修改 【区分id即可】
