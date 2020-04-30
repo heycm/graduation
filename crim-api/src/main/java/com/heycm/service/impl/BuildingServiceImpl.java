@@ -1,8 +1,8 @@
 package com.heycm.service.impl;
 
-import com.heycm.model.Site;
-import com.heycm.mapper.SiteMapper;
-import com.heycm.service.ISiteService;
+import com.heycm.model.Building;
+import com.heycm.mapper.BuildingMapper;
+import com.heycm.service.IBuildingService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-04-30
  */
 @Service
-public class SiteServiceImpl extends ServiceImpl<SiteMapper, Site> implements ISiteService {
+public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> implements IBuildingService {
 
 }

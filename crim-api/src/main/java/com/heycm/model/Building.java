@@ -23,26 +23,26 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("crim_site")
-@ApiModel(value="Site对象", description="")
-public class Site extends BaseModel<Site> {
+@TableName("crim_building")
+@ApiModel(value="Building对象", description="")
+public class Building extends BaseModel<Building> {
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "场地id")
+    @ApiModelProperty(value = "建筑id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "建筑id")
-    private Integer buildingId;
+    @ApiModelProperty(value = "校区id")
+    private Integer campusId;
 
-    @ApiModelProperty(value = "场地名称")
-    private String siteName;
+    @ApiModelProperty(value = "建筑名称")
+    private String buildingName;
 
-    @ApiModelProperty(value = "场地描述")
-    private String siteDesc;
+    @ApiModelProperty(value = "建筑描述")
+    private String buildingDesc;
 
-    @ApiModelProperty(value = "状态：0 空闲 1 已占用")
+    @ApiModelProperty(value = "状态")
     private Integer status;
 
 

@@ -1,6 +1,6 @@
 package com.heycm.service;
 
-import com.heycm.model.Site;
+import com.heycm.model.Building;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author heycm@qq.com
  * @since 2020-04-30
  */
-public interface ISiteService extends IService<Site> {
+public interface IBuildingService extends IService<Building> {
 
 }

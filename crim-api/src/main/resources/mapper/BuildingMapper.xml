@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.heycm.mapper.SiteMapper">
+<mapper namespace="com.heycm.mapper.BuildingMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.heycm.model.Site">
+    <resultMap id="BaseResultMap" type="com.heycm.model.Building">
         <id column="id" property="id" />
     <result column="create_user" property="createUser" />
     <result column="create_time" property="createTime" />
     <result column="modify_user" property="modifyUser" />
     <result column="modify_time" property="modifyTime" />
     <result column="is_deleted" property="isDeleted" />
-        <result column="building_id" property="buildingId" />
-        <result column="site_name" property="siteName" />
-        <result column="site_desc" property="siteDesc" />
+        <result column="campus_id" property="campusId" />
+        <result column="building_name" property="buildingName" />
+        <result column="building_desc" property="buildingDesc" />
         <result column="status" property="status" />
     </resultMap>
 
@@ -23,7 +23,7 @@
         modify_user,
         modify_time,
         is_deleted,
-        id, building_id, site_name, site_desc, status
+        id, campus_id, building_name, building_desc, status
     </sql>
 
 </mapper>

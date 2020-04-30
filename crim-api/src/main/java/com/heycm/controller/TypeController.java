@@ -3,6 +3,7 @@ package com.heycm.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.heycm.dto.CampusDTO;
 import com.heycm.dto.YearDTO;
 import com.heycm.param.Param;
 import com.heycm.service.ITypeService;
@@ -41,13 +42,30 @@ public class TypeController {
     @GetMapping("/year/list")
     public ResponseMessage getYearList() {
         ArrayList<YearDTO> list = new ArrayList<>();
-        LambdaQueryWrapper<Type> eq = new QueryWrapper<Type>().lambda().eq(Type::getPid, 5);
+        LambdaQueryWrapper<Type> eq = new QueryWrapper<Type>().lambda().eq(Type::getPid, 5).orderByDesc(Type::getTypeName);
         List<Type> typeList = typeService.list(eq);
         for (Type type : typeList) {
             YearDTO yearDTO = new YearDTO();
             yearDTO.setId(type.getId());
             yearDTO.setYearName(type.getTypeName());
             list.add(yearDTO);
+        }
+        return Result.ok(list);
+    }
+
+    @ApiOperation(value = "2 - 查看校区列表", notes = "查看校区列表")
+    @ApiOperationSupport(order = 2)
+    @RequiresRoles("school")
+    @GetMapping("/campus/list")
+    public ResponseMessage getCampusList() {
+        ArrayList<CampusDTO> list = new ArrayList<>();
+        LambdaQueryWrapper<Type> eq = new QueryWrapper<Type>().lambda().eq(Type::getPid, 1).orderByDesc(Type::getTypeName);
+        List<Type> typeList = typeService.list(eq);
+        for (Type type : typeList) {
+            CampusDTO campusDTO = new CampusDTO();
+            campusDTO.setId(type.getId());
+            campusDTO.setCampusName(type.getTypeName());
+            list.add(campusDTO);
         }
         return Result.ok(list);
     }

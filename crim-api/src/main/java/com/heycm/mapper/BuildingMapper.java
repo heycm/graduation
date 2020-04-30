@@ -1,6 +1,6 @@
 package com.heycm.mapper;
 
-import com.heycm.model.Site;
+import com.heycm.model.Building;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author heycm@qq.com
  * @since 2020-04-30
  */
-public interface SiteMapper extends BaseMapper<Site> {
+public interface BuildingMapper extends BaseMapper<Building> {
 
 }

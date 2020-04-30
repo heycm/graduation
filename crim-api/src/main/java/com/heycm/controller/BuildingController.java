@@ -2,9 +2,9 @@ package com.heycm.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.heycm.param.Param;
-import com.heycm.service.ISiteService;
-import com.heycm.model.Site;
-import com.heycm.query.SiteQuery;
+import com.heycm.service.IBuildingService;
+import com.heycm.model.Building;
+import com.heycm.query.BuildingQuery;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -26,26 +26,36 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @since 2020-04-30
  */
 @Slf4j
-@Api(tags = "9 - 场地控制器 Site")
+@Api(tags = "8 - 建筑控制器 Building")
 @Transactional
 @RestController
-@RequestMapping("/api/v1/site")
-public class SiteController {
+@RequestMapping("/api/v1/building")
+public class BuildingController {
     @Autowired
-    public ISiteService siteService;
+    public IBuildingService buildingService;
 
     @ApiOperation(value = "1 - 增加或更新", notes = "增加或更新")
     @ApiOperationSupport(order = 1)
     @RequiresRoles("school")
     @PostMapping("/save")
-    public ResponseMessage save(@RequestBody Site site) {
-        if (site == null || site.getBuildingId() == null || StringUtils.isEmpty(site.getSiteName())) {
+    public ResponseMessage save(@RequestBody Building building) {
+        if (building == null || building.getCampusId() == null || StringUtils.isEmpty(building.getBuildingName())) {
             return Result.error("参数不能为空");
         }
-        site.setStatus(0);
-        siteService.saveOrUpdate(site);
+        buildingService.saveOrUpdate(building);
         return Result.ok();
     }
+
+    @ApiOperation(value = "2 - 查看所有的信息", notes = "查看所有的信息")
+    @ApiOperationSupport(order = 2)
+    @RequiresRoles("school")
+    @GetMapping("/list")
+    public ResponseMessage list() {
+        List<Building> entityList = buildingService.list();
+        return Result.ok(entityList);
+    }
+
+
 
     /**
      * 根据ID删除对象信息
@@ -58,7 +68,7 @@ public class SiteController {
         if (id == null) {
             return Result.error("1000", "参数为NUll");
         }
-        siteService.removeById(id);
+        buildingService.removeById(id);
         return Result.ok();
     }
 
@@ -73,7 +83,7 @@ public class SiteController {
         if (param == null) {
             return Result.error("1000", "参数为NUll");
         }
-        siteService.removeByIds(param.getIds());
+        buildingService.removeByIds(param.getIds());
         return Result.ok();
     }
 
@@ -88,16 +98,8 @@ public class SiteController {
         if (id == null) {
             return Result.error("1000", "参数为NUll");
         }
-        Site entity = siteService.getById(id);
+        Building entity = buildingService.getById(id);
         return Result.ok(entity);
-    }
-
-
-    //查看所有的信息
-    @GetMapping("/list")
-    public ResponseMessage list() {
-        List<Site> entityList = siteService.list();
-        return Result.ok(entityList);
     }
 
 
@@ -108,12 +110,12 @@ public class SiteController {
      * @return ResponseMessage
      */
     @PostMapping("/pageList")
-    public ResponseMessage pageList(@RequestBody Param<SiteQuery> param) {
+    public ResponseMessage pageList(@RequestBody Param<BuildingQuery> param) {
         if (param == null) {
             return Result.error("1000", "参数为NUll");
         }
-        Page<Site> page = new Page<Site>(param.getPage(), param.getRows());
-        IPage iPage = siteService.page(page, null);
+        Page<Building> page = new Page<Building>(param.getPage(), param.getRows());
+        IPage iPage = buildingService.page(page, null);
         return Result.ok(iPage);
     }
 }

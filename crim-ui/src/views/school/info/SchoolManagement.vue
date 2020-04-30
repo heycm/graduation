@@ -108,8 +108,12 @@
         <el-form-item label="班级">
           <el-input v-model="codeReq.data.className" placeholder="班级名称" clearable></el-input>
         </el-form-item>
+        <br />
         <el-form-item>
           <el-button type="primary" @click="selectCode">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" plain @click="addClass">增加新班级</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -302,7 +306,12 @@ export default {
           id: 8,
           yearName: "2020"
         }
-      ]
+      ],
+      addClassReq: {
+        professionId: "",
+        yearLevelId: "",
+        gradeClassName: ""
+      }
     };
   },
   created() {
@@ -329,8 +338,6 @@ export default {
         .then(res => {
           if (res.data.ok) {
             this.schoolUserList = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
           }
         })
         .catch(e => {});
@@ -340,9 +347,7 @@ export default {
         .then(res => {
           if (res.data.ok) {
             this.tree = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
-          }
+          } 
         })
         .catch(e => {});
     },
@@ -351,8 +356,6 @@ export default {
         .then(res => {
           if (res.data.ok) {
             this.schoolCode = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
           }
         })
         .catch(e => {});
@@ -362,8 +365,6 @@ export default {
         .then(res => {
           if (res.data.ok) {
             this.deptList = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
           }
         })
         .catch(e => {});
@@ -373,8 +374,6 @@ export default {
         .then(res => {
           if (res.data.ok) {
             this.proList = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
           }
         })
         .catch(e => {});
@@ -384,8 +383,6 @@ export default {
         .then(res => {
           if (res.data.ok) {
             this.yearList = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
           }
         })
         .catch(e => {});
@@ -400,8 +397,6 @@ export default {
               message: "添加成功",
               type: "success"
             });
-          } else {
-            this.$message.error(res.data.msg);
           }
         })
         .catch(e => {});
@@ -639,8 +634,6 @@ export default {
             this.pagination.total = res.data.data.total;
             this.pagination.pageSize = res.data.data.size;
             this.pagination.currentPage = res.data.data.current;
-          } else {
-            this.$message.error(res.data.msg);
           }
         })
         .catch(e => {});
@@ -652,6 +645,22 @@ export default {
     handleCurrentChange(val) {
       this.codeReq.page = val;
       this.selectCode();
+    },
+    addClass() {
+      this.addClassReq.professionId = this.codeReq.data.proId;
+      this.addClassReq.yearLevelId = this.codeReq.data.yearId;
+      this.addClassReq.gradeClassName = this.codeReq.data.className;
+      this.$post("/gradeClass/save", this.addClassReq)
+        .then(res => {
+          if (res.data.ok) {
+            this.$message({
+              message: "添加成功",
+              type: "success"
+            });
+            this.getCode();
+          }
+        })
+        .catch(e => {});
     }
   }
 };
