@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/api/v1/sys")
-@Api(tags = "0 - 系统控制器 System")
+@Api(tags = "00 - 系统控制器 System")
 public class SystemController {
 
     /**

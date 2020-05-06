@@ -1,7 +1,14 @@
 package com.heycm.query;
 
+import lombok.Data;
+
 /**
  * @author heycm@qq.com
  * @since 2020-04-26
  */
-public class JobFairCompanyQuery {  }
+@Data
+public class JobFairCompanyQuery {
+    private Integer yearId;
+    private Integer quarter;
+    private String title;
+}

@@ -1,7 +1,15 @@
 package com.heycm.query;
 
+import lombok.Data;
+
 /**
  * @author heycm@qq.com
- * @since 2020-04-26
+ * @since 2020-05-04
  */
-public class AuditRecordQuery {  }
+@Data
+public class AuditRecordQuery {
+    private Integer yearId;
+    private Integer quarter;
+    private String title;
+    private Integer auditRes;
+}

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/api/v1/authCode")
-@Api(tags = "1 - 验证码控制器 AuthCode")
+@Api(tags = "01 - 验证码控制器 AuthCode")
 @Slf4j
 public class AuthCodeController {
 

@@ -53,7 +53,7 @@
         <dependency>
             <groupId>com.heycm</groupId>
             <artifactId>utils</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.6</version>
         </dependency>
         <!-- thymeleaf模板 -->
         <dependency>
@@ -137,26 +137,28 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
-        <!-- websocket 前端库 - 测试用 -->
-<!--        <dependency>-->
-<!--            <groupId>org.webjars</groupId>-->
-<!--            <artifactId>webjars-locator-core</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.webjars</groupId>-->
-<!--            <artifactId>sockjs-client</artifactId>-->
-<!--            <version>1.1.2</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.webjars</groupId>-->
-<!--            <artifactId>stomp-websocket</artifactId>-->
-<!--            <version>2.3.3</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.webjars</groupId>-->
-<!--            <artifactId>jquery</artifactId>-->
-<!--            <version>3.3.1</version>-->
-<!--        </dependency>-->
+        <!-- EasyPOI -->
+        <dependency>
+        <groupId>cn.afterturn</groupId>
+        <artifactId>easypoi-base</artifactId>
+        <version>3.2.0</version>
+    </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-web</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>26.0-jre</version>
+        </dependency>
 
         <!-- redis -->
         <dependency>

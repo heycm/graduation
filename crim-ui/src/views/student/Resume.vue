@@ -1,9 +1,9 @@
 <template>
   <div class>
     <el-row type="flex" :gutter="20">
-      <el-col :span="18">
+      <el-col :span="isStudent?18:24">
         <div class="padding-15 bgFFF">
-          <el-row type="flex" class="marginB-15">
+          <el-row type="flex" class="marginB-15" v-if="isStudent">
             <el-col>
               <part title="在线简历" type="main" />
             </el-col>
@@ -17,7 +17,7 @@
             <el-col :span="20">
               <part title="基本信息" type="main" />
             </el-col>
-            <el-col :span="4" class="text-right" style="padding-top:3px">
+            <el-col :span="4" class="text-right" style="padding-top:3px" v-if="isStudent">
               <el-button
                 type="text"
                 style="padding:0"
@@ -62,6 +62,7 @@
                   :on-error="uploadIdPhotoError"
                   :before-upload="beforeUploadIdPhoto"
                   :headers="headers"
+                  :disabled="!isStudent"
                 >
                   <el-image class="stu_resume_zjz" :src="resume.baseInfo.idPhotoUrl" fit="fill">
                     <div slot="error" class="image-slot">
@@ -79,7 +80,7 @@
             <el-col :span="20">
               <part title="个人优势" type="main" />
             </el-col>
-            <el-col :span="4" class="text-right" style="padding-top:3px">
+            <el-col :span="4" class="text-right" style="padding-top:3px" v-if="isStudent">
               <el-button
                 type="text"
                 style="padding:0"
@@ -97,7 +98,7 @@
             <el-col :span="20">
               <part title="期望职位" type="main" />
             </el-col>
-            <el-col :span="4" class="text-right" style="padding-top:3px">
+            <el-col :span="4" class="text-right" style="padding-top:3px" v-if="isStudent">
               <el-button
                 type="text"
                 style="padding:0"
@@ -120,7 +121,7 @@
                 <el-divider direction="vertical" class="stu_resume_vertical"></el-divider>
                 <span>{{item.expectedCity}}</span>
               </div>
-              <div class="resume_hover_in">
+              <div class="resume_hover_in"  v-if="isStudent">
                 <el-button
                   @click="openDialogExpectedPosition('edit', item)"
                   type="text"
@@ -141,7 +142,7 @@
             <el-col :span="20">
               <part title="实习经历" type="main" />
             </el-col>
-            <el-col :span="4" class="text-right" style="padding-top:3px">
+            <el-col :span="4" class="text-right" style="padding-top:3px" v-if="isStudent">
               <el-button
                 type="text"
                 style="padding:0"
@@ -174,7 +175,7 @@
                 <h4>内容：</h4>
                 {{item.workContent}}
               </div>
-              <div class="resume_hover_in">
+              <div class="resume_hover_in"  v-if="isStudent">
                 <el-button
                   type="text"
                   style="padding:0"
@@ -195,7 +196,7 @@
             <el-col :span="20">
               <part title="项目经历" type="main" />
             </el-col>
-            <el-col :span="4" class="text-right" style="padding-top:3px">
+            <el-col :span="4" class="text-right" style="padding-top:3px" v-if="isStudent">
               <el-button
                 type="text"
                 style="padding:0"
@@ -224,7 +225,7 @@
                 <h4>项目连接：</h4>
                 {{item.projectLink}}
               </div>
-              <div class="resume_hover_in">
+              <div class="resume_hover_in"  v-if="isStudent">
                 <el-button
                   type="text"
                   style="padding:0"
@@ -245,7 +246,7 @@
             <el-col :span="20">
               <part title="教育经历" type="main" />
             </el-col>
-            <el-col :span="4" class="text-right" style="padding-top:3px">
+            <el-col :span="4" class="text-right" style="padding-top:3px" v-if="isStudent">
               <el-button
                 type="text"
                 style="padding:0"
@@ -273,7 +274,7 @@
                 </div>
               </h4>
               <div>{{item.experienceInSchool}}</div>
-              <div class="resume_hover_in">
+              <div class="resume_hover_in"  v-if="isStudent">
                 <el-button
                   type="text"
                   style="padding:0"
@@ -294,7 +295,7 @@
             <el-col :span="20">
               <part title="资格证书" type="main" />
             </el-col>
-            <el-col :span="4" class="text-right" style="padding-top:3px">
+            <el-col :span="4" class="text-right" style="padding-top:3px" v-if="isStudent">
               <el-button
                 type="text"
                 style="padding:0"
@@ -306,7 +307,7 @@
               <el-tag
                 type="info"
                 effect="plain"
-                closable
+                :closable="isStudent"
                 class="stu_resume_tag"
                 v-for="tag in resume.qualificationList"
                 :key="tag.id"
@@ -319,7 +320,7 @@
             <el-col :span="20">
               <part title="社交主页" type="main" />
             </el-col>
-            <el-col :span="4" class="text-right" style="padding-top:3px">
+            <el-col :span="4" class="text-right" style="padding-top:3px" v-if="isStudent">
               <el-button
                 type="text"
                 style="padding:0"
@@ -334,7 +335,7 @@
               :key="item.id"
             >
               <div>{{item.pageUrl}}</div>
-              <div class="resume_hover_in">
+              <div class="resume_hover_in"  v-if="isStudent">
                 <el-button
                   type="text"
                   style="padding:0"
@@ -349,7 +350,7 @@
             <el-col :span="20">
               <part title="志愿服务经历" type="main" />
             </el-col>
-            <el-col :span="4" class="text-right" style="padding-top:3px">
+            <el-col :span="4" class="text-right" style="padding-top:3px" v-if="isStudent">
               <el-button
                 type="text"
                 style="padding:0"
@@ -374,7 +375,7 @@
                 <h4>内容：</h4>
                 {{item.projectDesc}}
               </div>
-              <div class="resume_hover_in">
+              <div class="resume_hover_in" v-if="isStudent">
                 <el-button
                   type="text"
                   style="padding:0"
@@ -394,7 +395,7 @@
         </div>
       </el-col>
       <!-- 附件管理 -->
-      <el-col :span="6">
+      <el-col :span="6" v-if="isStudent">
         <div class="padding-15 bgFFF">
           <part title="附件管理" type="main" />
           <el-row v-for="o in 4" :key="o" class="stu_resume_jianli_list">
@@ -888,6 +889,7 @@ export default {
   components: {},
   data() {
     return {
+      isStudent: false,
       resume: {
         id: 1, // 简历ID
         userId: 1, // 用户ID
@@ -1136,8 +1138,19 @@ export default {
     }
   },
   watch: {},
-  created() {},
+  created() {
+    this.init()
+  },
   methods: {
+    init(){
+      this.getRole();
+    },
+    getRole(){
+      const role = this.getUserInfo().roles[0];
+      if(role === "student"){
+        this.isStudent = true;
+      }
+    },
     uploadResumeSuccess(res, file) {},
     uploadResumeError(err, file) {},
     beforeUploadResume(file) {

@@ -29,5 +29,23 @@
         is_deleted,
         id, school_id, year_level_id, quarter, job_fair_title, job_fair_content, start_time, end_time, status
     </sql>
+<!--     分页查询招聘会列表   -->
+    <select id="pageList" resultType="com.heycm.dto.JobFairPageDTO">
+        SELECT t1.* FROM (
+            SELECT ct.id year_id, ct.type_name year_name, cj.id, cj.quarter, cj.job_fair_title title, cj.job_fair_content content, cj.start_time, cj.end_time, cj.status
+            FROM crim_type ct
+            INNER JOIN crim_job_fair cj ON ct.id = cj.year_level_id AND cj.is_deleted = 0
+            WHERE ct.pid = 5 AND ct.is_deleted = 0
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="applyList" resultType="com.heycm.dto.JobFairPageDTO">
+        SELECT ct.id year_id, ct.type_name year_name, cj.id, cj.job_fair_title title, cj.quarter, cj.start_time, cj.end_time, cj.status
+        FROM crim_type ct
+        INNER JOIN crim_job_fair cj ON ct.id = cj.year_level_id AND cj.is_deleted = 0 AND cj.status = 1
+        WHERE ct.pid = 5 AND ct.is_deleted = 0
+        ORDER BY cj.start_time DESC
+    </select>
 
 </mapper>

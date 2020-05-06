@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/api/v1/user")
-@Api(tags = "2 - 用户控制器 User")
+@Api(tags = "02 - 用户控制器 User")
 @Transactional
 public class UserController {
 
@@ -177,7 +177,7 @@ public class UserController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "8 - 删除账户", notes = "学校删除子账户")
+    @ApiOperation(value = "8 - 学校用户重置子用户角色", notes = "学校删除子账户")
     @ApiOperationSupport(order = 8)
     @DeleteMapping("/{id}")
     @RequiresRoles("school")
@@ -188,6 +188,36 @@ public class UserController {
         userService.removeById(id);
         return Result.ok();
     }
+
+    @ApiOperation(value = "9 - 学校用户重置学生用户密码", notes = "学校用户重置学生用户密码")
+    @ApiOperationSupport(order = 9)
+    @RequiresRoles("school")
+    @GetMapping("/resetPwd/{id}")
+    public ResponseMessage resetPwd(@PathVariable("id") Integer id) {
+        if (id == null) {
+            return Result.error("参数不能是空");
+        }
+        User byId = userService.getById(id);
+        if (byId == null) {
+            return Result.error("用户不存在");
+        }
+        String username = byId.getUsername();
+        String salt = PasswordUtils.generateSalt();
+        String encrypt = PasswordUtils.encrypt(username, salt);
+        byId.setSalt(salt);
+        byId.setPassword(encrypt);
+        userService.updateById(byId);
+        return Result.ok();
+    }
+
+
+
+
+
+
+
+
+
 
 
     /**

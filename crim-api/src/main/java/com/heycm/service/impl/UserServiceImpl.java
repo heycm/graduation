@@ -145,6 +145,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (user == null) {
             return Result.error(UserEnum.USER_NOT_EXIST);
         }
+        if (user.getStatus().equals(2)){
+            return Result.error(UserEnum.USER_DISABLE);
+        }
         // 4.明文密码加密，并与数据库中用户密码比对
         String encrypt = PasswordUtils.encrypt(userQuery.getPassword(), user.getSalt());
         if (!encrypt.equals(user.getPassword())) {
@@ -186,6 +189,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User user = getOne(eq);
         if (user == null) {
             return Result.error(UserEnum.USER_NOT_EXIST);
+        }
+        if (user.getStatus().equals(2)){
+            return Result.error(UserEnum.USER_DISABLE);
         }
         // 5.登录成功，创建token，写redis缓存，返回jwt
         return loginSuccess(user);
@@ -232,6 +238,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         UserLoginDTO userLoginDTO = new UserLoginDTO();
         userLoginDTO.setToken(token);
         userLoginDTO.setRoles(list);
+        userLoginDTO.setIsAudit(user.getStatus());
         // 5.返回
         log.info("[用户登录][成功][时间:{}][用户信息:{}][结束]", DateUtil.getStringYMDHMS(), JSON.toJSONString(userRoleAndPermission));
         return Result.ok(userLoginDTO);

@@ -26,7 +26,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author heycm@qq.com
  * @since 2020-04-26
  */
-@Api(tags = "5 - 专业控制器 Department")
+@Api(tags = "06 - 专业控制器 Profession")
 @Transactional
 @RestController
 @RequestMapping("/api/v1/profession")

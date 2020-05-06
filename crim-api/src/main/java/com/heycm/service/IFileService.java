@@ -1,5 +1,9 @@
 package com.heycm.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.heycm.dto.FilePageDTO;
 import com.heycm.model.File;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IFileService extends IService<File> {
 
+    IPage<FilePageDTO> schFilePage(Page<FilePageDTO> page, QueryWrapper<FilePageDTO> qw);
 }

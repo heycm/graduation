@@ -26,7 +26,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @since 2020-04-30
  */
 @Slf4j
-@Api(tags = "8 - 建筑控制器 Building")
+@Api(tags = "09 - 建筑控制器 Building")
 @Transactional
 @RestController
 @RequestMapping("/api/v1/building")

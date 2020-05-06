@@ -39,7 +39,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @since 2020-04-28
  */
 @Slf4j
-@Api(tags = "3 - 学校控制器 School")
+@Api(tags = "03 - 学校控制器 School")
 @Transactional
 @RestController
 @RequestMapping("/api/v1/school")

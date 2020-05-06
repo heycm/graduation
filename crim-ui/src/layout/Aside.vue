@@ -103,7 +103,8 @@
 
       <div v-if="userRole === 'company'">
         <!-- 企业 -->
-        <el-menu-item index="14">
+        <div v-if="isAudit === 0">
+          <el-menu-item index="14">
           <i class="el-icon-user"></i>
           <span slot="title">个人中心</span>
         </el-menu-item>
@@ -125,6 +126,11 @@
           <i class="el-icon-document"></i>
           <span slot="title">附件</span>
         </el-menu-item>
+        </div>
+        <el-menu-item index="19" v-if="isAudit === 1">
+          <i class="el-icon-user"></i>
+          <span slot="title">完善信息</span>
+        </el-menu-item>
       </div>
     </el-menu>
   </el-scrollbar>
@@ -140,7 +146,8 @@ export default {
   data() {
     return {
       active: "1",
-      userRole: ""
+      userRole: "",
+      isAudit: ""
     };
   },
   computed: {},
@@ -159,7 +166,8 @@ export default {
   },
   methods: {
     init() {
-      this.userRole = this.getUserInfo().roles[0]
+      this.userRole = this.getUserInfo().roles[0];
+      this.isAudit = this.getUserInfo().isAudit;
     },
     select(index) {
       this.active = index;
@@ -196,6 +204,7 @@ export default {
         ["15-4", "/company/activity/apply"],
         ["16", "/company/chat"],
         ["17", "/company/accessory"],
+        ["19", "/company/register"],
         ["default", "/404"]
       ]);
       let path = actions.get(index) || actions.get("default");

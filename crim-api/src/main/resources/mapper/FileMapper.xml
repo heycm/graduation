@@ -30,4 +30,17 @@
         id, user_id, file_name, file_uuid, file_suffix, file_size, file_type, file_url, status
     </sql>
 
+
+<!--  学校查询附件列表  -->
+    <select id="schFilePage" resultType="com.heycm.dto.FilePageDTO">
+        SELECT t1.* FROM (
+            SELECT cf.id, cf.user_id, cf.file_name, cf.file_suffix, cf.file_type, cf.file_size, cf.file_url, cf.status, cm.target_id, cj.job_fair_title
+            FROM crim_file cf
+            LEFT JOIN crim_mount cm ON cf.id = cm.file_id AND cm.is_deleted = 0 AND cm.target_type = 0
+            LEFT JOIN crim_job_fair cj ON cm.target_id = cj.id AND cj.is_deleted = 0
+            WHERE cf.is_deleted = 0 AND cf.file_type = 2
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
+
 </mapper>

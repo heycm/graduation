@@ -43,7 +43,11 @@ export default {
       }
     },
     toUserCenter() {
-      this.$router.push({path: this.userInfo.roles[0]})
+      if (this.userInfo.isAudit === 0) {
+        this.$router.push({ path: "/" + this.userInfo.roles[0] });
+      }else{
+        this.$router.push({ path: "/" + this.userInfo.roles[0] + "/register" });
+      }
     }
   }
 };

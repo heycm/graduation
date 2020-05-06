@@ -32,4 +32,19 @@
         id, user_id, grade_class_id, student_number, student_name, student_sex, student_birth, student_phone, student_email, allow_phone_login, status
     </sql>
 
+<!--  学生分页  -->
+    <select id="studentPage" resultType="com.heycm.dto.StudentPageDTO">
+        SELECT t1.* FROM (
+            SELECT cg.profession_id, cp.profession_name, ct.id year_id, ct.type_name year_name,
+                         cg.id class_id, cg.grade_class_name class_name,
+                         cs.id student_id, cs.user_id, cs.student_number, cs.student_name, cs.student_sex, cs.student_birth
+            FROM crim_grade_class cg
+            INNER JOIN crim_student cs ON cg.id = cs.grade_class_id AND cs.is_deleted = 0
+            INNER JOIN crim_profession cp ON cg.profession_id = cp.id AND cp.is_deleted = 0
+            INNER JOIN crim_type ct ON cg.year_level_id = ct.id AND ct.is_deleted = 0
+            WHERE cg.is_deleted = 0
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
+
 </mapper>

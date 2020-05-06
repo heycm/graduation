@@ -22,6 +22,7 @@ public enum UserEnum implements BaseEnum {
     SET_USER_ROLE_ERROR("50206", "分配用户角色失败"),
     USER_NOT_EXIST("50207", "账户不存在"),
     PASSWORD_ERROR("50208", "密码错误"),
+    USER_DISABLE("50209", "账户被禁"),
 
     ;
 

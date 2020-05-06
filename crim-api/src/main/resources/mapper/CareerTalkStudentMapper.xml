@@ -24,5 +24,22 @@
         is_deleted,
         id, career_talk_id, student_id, status
     </sql>
+    <select id="pageList" resultType="com.heycm.dto.CareerTalkStudentDTO">
+        SELECT t1.* FROM (
+            SELECT cjfc.job_fair_id, cjfc.company_id, cjfc.campus_id, cj.year_level_id year_id, ct.type_name year_name, cj.quarter, cj.job_fair_title, ct2.type_name campus_name, cc.career_talk_title, cts.id, cts.student_id, cs.student_name, cs.student_sex, ct3.type_name student_year_level, cg.profession_id, cp.profession_name
+            FROM crim_job_fair_company cjfc
+            INNER JOIN crim_job_fair cj ON cjfc.job_fair_id = cj.id AND cj.is_deleted = 0
+            INNER JOIN crim_type ct ON cj.year_level_id = ct.id AND ct.is_deleted = 0
+            INNER JOIN crim_type ct2 ON cjfc.campus_id = ct2.id AND ct2.is_deleted = 0
+            INNER JOIN crim_career_talk cc ON cjfc.id = cc.job_fair_company_id AND cc.is_deleted = 0
+            LEFT JOIN crim_career_talk_student cts ON cc.id = cts.career_talk_id AND cts.is_deleted = 0
+            LEFT JOIN crim_student cs ON cts.student_id = cs.id AND cs.is_deleted = 0
+            LEFT JOIN crim_grade_class cg ON cs.grade_class_id = cg.id AND cg.is_deleted = 0
+            LEFT JOIN crim_type ct3 ON cg.year_level_id = ct3.id AND ct3.is_deleted = 0
+            LEFT JOIN crim_profession cp ON cg.profession_id = cp.id AND cp.is_deleted = 0
+            WHERE cjfc.is_deleted = 0
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
 
 </mapper>

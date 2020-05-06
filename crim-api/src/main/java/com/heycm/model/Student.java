@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author heycm@qq.com
- * @since 2020-04-26
+ * @since 2020-05-04
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -28,7 +28,7 @@ import lombok.experimental.Accessors;
 @ApiModel(value="Student对象", description="")
 public class Student extends BaseModel<Student> {
 
-private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "学生id")
     @TableId(value = "id", type = IdType.AUTO)
@@ -41,13 +41,13 @@ private static final long serialVersionUID=1L;
     private Integer gradeClassId;
 
     @ApiModelProperty(value = "学生学号")
-    private Integer studentNumber;
+    private String studentNumber;
 
     @ApiModelProperty(value = "学生姓名")
     private String studentName;
 
-    @ApiModelProperty(value = "学生性别")
-    private String studentSex;
+    @ApiModelProperty(value = "学生性别：0 男 1 女")
+    private Integer studentSex;
 
     @ApiModelProperty(value = "学生出生年月")
     private Date studentBirth;

@@ -1,5 +1,6 @@
 package com.heycm.exception;
 
+import cn.afterturn.easypoi.exception.excel.ExcelImportException;
 import com.heycm.enums.CommEnum;
 import com.heycm.utils.JwtUtil;
 import com.heycm.utils.date.DateUtil;
@@ -15,6 +16,7 @@ import org.springframework.dao.QueryTimeoutException;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,6 +58,11 @@ public class GlobalExceptionHandler {
         return Result.error(CommEnum.AUTH_401_EXPIRED);
     }
 
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseMessage error(MaxUploadSizeExceededException e) {
+        return Result.error("单文件最大10MB");
+    }
+
     /**
      * 权限认证
      */
@@ -89,6 +96,14 @@ public class GlobalExceptionHandler {
         response.setStatus(500);
         log.error("[异常][时间:{}][接口:{}][异常信息:{}][结束]", DateUtil.getStringYMDHMS(), request.getRequestURI(), CommEnum.SYS_REDIS_CONNECT_ERROR.getMsg(), e);
         return Result.error(CommEnum.REDIS_QUERY_TIMEOUT_ERROR);
+    }
+
+    /**
+     * Excel导入异常
+     */
+    @ExceptionHandler(ExcelImportException.class)
+    public ResponseMessage error(ExcelImportException e) {
+        return Result.error(e.getMessage());
     }
 
 }

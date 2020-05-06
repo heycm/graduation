@@ -4,11 +4,12 @@
     <el-row class="marginB-15">
       <el-col :span="4" class="paddingLR-15">
         <div class="marginB-5">
-          <el-image class="info_logo_img" :src="company.companyLogoUrl" fit="scale-down"></el-image>
+          <el-image class="info_logo_img" :src="baseInfo.logoUrl" fit="scale-down"></el-image>
         </div>
         <el-upload
           class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          accept=".jpg, .jpeg, .png, .gif"
+          action="http://localhost:9999/api/v1/file/logo"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :on-error="handleAvatarError"
@@ -16,66 +17,66 @@
           :headers="headers"
         >
           <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/jpeg/png/gif文件，且不超过2mb</div>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png/gif文件，且不超过2mb</div>
         </el-upload>
       </el-col>
       <el-col :span="20" class="paddingLR-15">
-        <el-form :model="company">
+        <el-form :model="baseInfo">
           <el-row :gutter="10">
             <el-col :span="24">
               <el-form-item label="公司简介">
                 <el-input
                   type="textarea"
                   :autosize="{minRows:4, maxRows:10}"
-                  v-model="company.companyDesc"
+                  v-model="baseInfo.companyDesc"
                   placeholder="请输入内容"
                 ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="公司名称">
-                <el-input v-model="company.companyName" placeholder="例如：中国移动"></el-input>
+                <el-input v-model="baseInfo.companyName" placeholder="例如：中国移动"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="法人代表">
-                <el-input v-model="company.legalPerson" placeholder="例如：张xx"></el-input>
+                <el-input v-model="baseInfo.legalMan" placeholder="例如：张xx"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="注册资本">
-                <el-input v-model="company.registeredCapital" placeholder="例如：5000.00万元人民币"></el-input>
+                <el-input v-model="baseInfo.registeredCapital" placeholder="例如：5000.00万元人民币"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="成立时间">
-                <br>
-                <el-date-picker v-model="company.registeredDate" type="date" placeholder="选择日期"></el-date-picker>
+                <br />
+                <el-date-picker v-model="baseInfo.registeredDate" type="date" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="经营状态">
-                <el-input v-model="company.businessStatus" placeholder="例如：在营、开业、在册"></el-input>
+                <el-input v-model="baseInfo.businessStatus" placeholder="例如：在营、开业、在册"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="企业类型">
-                <el-input v-model="company.companyType" placeholder="例如：其他股份有限公司（非上市）"></el-input>
+                <el-input v-model="baseInfo.companyType" placeholder="例如：其他股份有限公司（非上市）"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="注册地址">
-                <el-input v-model="company.registeredPlace" placeholder="例如：北京市xx区xx街道xx号"></el-input>
+                <el-input v-model="baseInfo.registeredPlace" placeholder="例如：北京市xx区xx街道xx号"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="公司地址">
-                <el-input v-model="company.companyAddress" placeholder="例如：北京市xx区xx街道xx号"></el-input>
+                <el-input v-model="baseInfo.companyAddress" placeholder="例如：北京市xx区xx街道xx号"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="统一信用代码">
-                <el-input v-model="company.creditCode" placeholder="例如：10000000XXXXXXXXXX"></el-input>
+                <el-input v-model="baseInfo.creditCode" placeholder="例如：10000000XXXXXXXXXX"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="24">
@@ -83,16 +84,28 @@
                 <el-input
                   type="textarea"
                   :rows="4"
-                  v-model="company.businessScope"
+                  v-model="baseInfo.businessScope"
                   placeholder="请输入内容"
                 ></el-input>
               </el-form-item>
             </el-col>
+            <el-col :span="8">
+              <el-form-item label="联系人">
+                <el-input v-model="baseInfo.linkMan" placeholder="例如：张xx"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="联系电话">
+                <el-input v-model="baseInfo.linkPhone" placeholder="例如：18888888888"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item class="text-right">
+                <br />
+                <el-button type="primary" @click="save">保存</el-button>
+              </el-form-item>
+            </el-col>
           </el-row>
-
-          <el-form-item class="text-right">
-            <el-button type="primary" @click="save">保存</el-button>
-          </el-form-item>
         </el-form>
       </el-col>
     </el-row>
@@ -102,50 +115,40 @@
         <el-button @click="editDialogVisible=true">增加职位</el-button>
       </el-row>
       <el-row :gutter="10">
-        <el-col
-          class="marginB-10"
-          :span="12"
-          v-for="position in company.positionList"
-          :key="position.id"
-        >
+        <el-col class="marginB-10" :span="12" v-for="position in positionList" :key="position.id">
           <el-card class="com_info_position_card" shadow="never">
-            <div>
-              <div class="com_info_position_name">
-                <h4>
-                  {{position.positionName}}&nbsp;&nbsp;&nbsp;&nbsp;
-                  <span
-                    class="com_info_position_label"
-                  >[{{position.workPlace}}]</span>
-                </h4>
-                <div>
-                  <i class="el-icon-edit-outline" @click="openDditPositionDialog(position)"></i>
-                  <i class="el-icon-delete" @click="delPosition(position.id)"></i>
-                </div>
-              </div>
-              <div class="marginB-10">
-                <span class="com_info_position_pay">{{position.regularPay}}</span>
-                <el-divider direction="vertical" />
-                <span class="com_info_position_label">{{position.experience}}</span>
-                <el-divider direction="vertical" />
-                <span class="com_info_position_label">{{position.certificate}}</span>
-              </div>
-              <div class="marginB-10">
-                <h4 class="com_info_position_desc">职位描述</h4>
-                <div
-                  class="com_info_position_desc_content paddingL-15"
-                  v-html="position.positionDesc"
-                >{{position.positionDesc}}</div>
-              </div>
+            <div class="com_info_position_name">
+              <h4>
+                {{position.jobName}}&nbsp;&nbsp;&nbsp;&nbsp;
+                <span
+                  class="com_info_position_label"
+                >[{{position.workPlace}}]</span>
+              </h4>
               <div>
-                <h4 class="com_info_position_desc">技能要求</h4>
-                <div class="padding-15">
-                  <el-tag
-                    type="info"
-                    class="marginB-5 marginR-5"
-                    v-for="(item, index) in position.skillList"
-                    :key="index"
-                  >{{item}}</el-tag>
-                </div>
+                <i class="el-icon-edit-outline" @click="openDditPositionDialog(position)"></i>
+                <i class="el-icon-delete" @click="delPosition(position.id)"></i>
+              </div>
+            </div>
+            <div class="marginB-10">
+              <span class="com_info_position_pay">{{position.regularPay}}</span>
+              <el-divider direction="vertical" />
+              <span class="com_info_position_label">{{position.experience}}</span>
+              <el-divider direction="vertical" />
+              <span class="com_info_position_label">{{position.certificate}}</span>
+            </div>
+            <div class="marginB-10">
+              <h4 class="com_info_position_desc">职位描述</h4>
+              <div class="com_info_position_desc_content paddingL-15" v-html="position.jobDesc"></div>
+            </div>
+            <div>
+              <h4 class="com_info_position_desc">技能要求</h4>
+              <div class="padding-15">
+                <el-tag
+                  type="info"
+                  class="marginB-5 marginR-5"
+                  v-for="(item, index) in position.skills"
+                  :key="index"
+                >{{item}}</el-tag>
               </div>
             </div>
           </el-card>
@@ -159,7 +162,7 @@
         <el-row :gutter="10">
           <el-col :span="12">
             <el-form-item label="职位名称">
-              <el-input v-model="position.positionName" placeholder="例如：UI设计师"></el-input>
+              <el-input v-model="position.jobName" placeholder="例如：UI设计师"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -192,7 +195,7 @@
               <el-input
                 type="textarea"
                 :autosize="{minRows:3}"
-                v-model="position.positionDesc"
+                v-model="position.jobDesc"
                 placeholder="请输入内容"
               ></el-input>
             </el-form-item>
@@ -201,111 +204,109 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="jobSaveOrUpdate">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import bus from '@/utils/bus'
 export default {
   components: {},
   data() {
     return {
-      company: {
+      baseInfo: {
         id: "",
-        companyLogoUrl:
-          "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
         companyName: "",
-        legalPerson: "",
+        linkMan: "",
+        linkPhone: "",
+        legalMan: "",
         registeredCapital: "",
         registeredDate: "",
+        registeredDateString: "",
+        registeredPlace: "",
         businessStatus: "",
         companyType: "",
-        registeredPlace: "",
         companyAddress: "",
         creditCode: "",
         businessScope: "",
         companyDesc: "",
-        positionList: [
-          {
-            id: 1,
-            positionName: "高级Java",
-            workPlace: "北京",
-            regularPay: "13-21K",
-            experience: "应届生",
-            certificate: "本科",
-            skill: "Java,后端开发,JavaScript,Linux,spring",
-            skillList: ["Java", "后端开发", "JavaScript", "Linux", "spring"],
-            positionDesc:
-              "全日&nbsp;&nbsp;&nbsp;&nbsp;制统招本科<br>熟悉JAVA开发，熟悉spring、spring mvc、spring cloud、spring boot等开发框架<br>了解前端开发技术"
-          },
-          {
-            id: 2,
-            positionName: "Java",
-            workPlace: "天津",
-            regularPay: "13-21K",
-            experience: "应届生",
-            certificate: "本科",
-            skill: "Java,后端开发,JavaScript,Linux,spring",
-            skillList: ["Java", "后端开发", "JavaScript", "Linux", "spring"],
-            positionDesc:
-              "全日制统招本科<br>熟悉JAVA开发，熟悉spring、spring mvc、spring cloud、spring boot等开发框架<br>了解前端开发技术"
-          },
-          {
-            id: 3,
-            positionName: "Java",
-            workPlace: "武汉",
-            regularPay: "13-21K",
-            experience: "应届生",
-            certificate: "本科",
-            skill: "Java,后端开发,JavaScript,Linux,spring",
-            skillList: ["Java", "后端开发", "JavaScript", "Linux", "spring"],
-            positionDesc:
-              "全日制统招本科<br>熟悉JAVA开发，熟悉spring、spring mvc、spring cloud、spring boot等开发框架<br>了解前端开发技术"
-          },
-          {
-            id: 4,
-            positionName: "Java",
-            workPlace: "重庆",
-            regularPay: "13-21K",
-            experience: "应届生",
-            certificate: "本科",
-            skill: "Java,后端开发,JavaScript,Linux,spring",
-            skillList: ["Java", "后端开发", "JavaScript", "Linux", "spring"],
-            positionDesc:
-              "全日制统招本科<br>熟悉JAVA开发，熟悉spring、spring mvc、spring cloud、spring boot等开发框架<br>了解前端开发技术"
-          }
-        ]
+        status: "",
+        licenseUrl: "",
+        logoUrl: ""
       },
+      positionList: [],
       editDialogVisible: false,
       position: {
         id: "",
-        positionName: "",
+        companyId: "",
+        jobName: "",
         workPlace: "",
         regularPay: "",
         experience: "",
         certificate: "",
         skill: "",
-        positionDesc: ""
+        jobDesc: ""
       }
     };
   },
   computed: {
     headers() {
       return {
-        // Authorization: localStorage.getItem("token")
-        Authorization: "token"
+        Authorization: this.getUserInfo().token
       };
     }
   },
   watch: {},
-  created() {},
+  created() {
+    this.init();
+  },
   methods: {
-    handleAvatarSuccess(res, file) {},
-    handleAvatarError(err, file) {},
+    init() {
+      this.getBaseInfo();
+      this.getPositionList();
+    },
+    getBaseInfo() {
+      this.$get("/company/info")
+        .then(res => {
+          if (res.data.ok) {
+            this.baseInfo = res.data.data;
+            this.baseInfo.businessScope = this.parseTextarea(
+              this.baseInfo.businessScope
+            );
+            this.baseInfo.companyDesc = this.parseTextarea(
+              this.baseInfo.companyDesc
+            );
+          }
+        })
+        .catch(e => {});
+    },
+    getPositionList() {
+      this.$get("/company/position")
+        .then(res => {
+          if (res.data.ok) {
+            this.positionList = res.data.data;
+          }
+        })
+        .catch(e => {});
+    },
+    handleAvatarSuccess(res, file) {
+      if (res.ok) {
+        this.$message({
+          message: "上传成功",
+          type: "success"
+        });
+        this.getBaseInfo();
+        bus.$emit("logoChange");
+      } else {
+        this.$message.error(res.msg);
+      }
+    },
+    handleAvatarError(err, file) {
+      this.$message.error("服务器繁忙，请稍后重试");
+    },
     beforeAvatarUpload(file) {
-      console.log(file);
       // 图片格式
       let imgType = ["image/jpeg", "image/gif", "image/png"];
       const isJPG = imgType.indexOf(file.type) > -1;
@@ -321,20 +322,42 @@ export default {
       return isJPG && isLt2M;
     },
     save() {
-      let company = this.copyObj(this.company);
+      let company = this.copyObj(this.baseInfo);
       company.companyDesc = this.transTextarea(company.companyDesc);
-      console.log(company);
+      company.businessScope = this.transTextarea(company.businessScope);
+      this.$post("/company/save", company).then(res => {
+        if (res.data.ok) {
+          this.$message({
+            message: "保存成功",
+            type: "success"
+          });
+          this.getBaseInfo();
+        }
+      });
     },
     openDditPositionDialog(position) {
       this.editDialogVisible = true;
       this.position = this.copyObj(position);
-      this.position.positionDesc = this.parseTextarea(
-        this.position.positionDesc
-      );
+      this.position.jobDesc = this.parseTextarea(this.position.jobDesc);
     },
     // 关闭dialog回调
     afterCloseEditDialog() {
       this.position = this.clearObj(this.position);
+    },
+    jobSaveOrUpdate() {
+      let job = this.position;
+      this.editDialogVisible = false;
+      job.companyId = this.baseInfo.id;
+      job.jobDesc = this.transTextarea(job.jobDesc);
+      this.$post("/jobVacancy/save", job)
+        .then(res => {
+          this.$message({
+            message: "操作成功",
+            type: "success"
+          });
+          this.getPositionList();
+        })
+        .catch(e => {});
     },
     delPosition(id) {
       // do delete

@@ -27,5 +27,17 @@
         is_deleted,
         id, job_fair_company_id, career_talk_title, start_time, end_time, career_talk_desc, status
     </sql>
+    <select id="pageList" resultType="com.heycm.dto.CareerTalkDTO">
+        SELECT t1.* FROM (
+            SELECT cjfc.id job_fair_company_id, cj.year_level_id year_id, ct2.type_name year_name, cj.quarter, cj.start_time job_fair_start_time, cj.end_time job_fair_end_time, cjfc.job_fair_id, cjfc.company_id, cj.job_fair_title, cjfc.campus_id, ct.type_name campus_name, cc.id, cc.career_talk_title, cc.start_time, cc.end_time, cc.career_talk_desc
+            FROM crim_job_fair_company cjfc
+            INNER JOIN crim_job_fair cj ON cjfc.job_fair_id = cj.id
+            INNER JOIN crim_type ct2 ON cj.year_level_id = ct2.id
+            INNER JOIN crim_type ct ON cjfc.campus_id = ct.id
+            LEFT JOIN crim_career_talk cc ON cjfc.id = cc.job_fair_company_id AND cc.is_deleted = 0
+            WHERE cjfc.is_deleted = 0
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
 
 </mapper>

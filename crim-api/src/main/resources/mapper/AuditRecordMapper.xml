@@ -5,14 +5,15 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.heycm.model.AuditRecord">
         <id column="id" property="id" />
-        <result column="create_user" property="createUser" />
-        <result column="create_time" property="createTime" />
-        <result column="modify_user" property="modifyUser" />
-        <result column="modify_time" property="modifyTime" />
-        <result column="is_deleted" property="isDeleted" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="modify_user" property="modifyUser" />
+    <result column="modify_time" property="modifyTime" />
+    <result column="is_deleted" property="isDeleted" />
         <result column="audit_type" property="auditType" />
         <result column="job_fair_id" property="jobFairId" />
-        <result column="company_id" property="companyId" />
+        <result column="campus_id" property="campusId" />
+        <result column="user_id" property="userId" />
         <result column="apply_time" property="applyTime" />
         <result column="audit_res" property="auditRes" />
         <result column="audit_feedback" property="auditFeedback" />
@@ -28,7 +29,20 @@
         modify_user,
         modify_time,
         is_deleted,
-        id, audit_type, job_fair_id, company_id, apply_time, audit_res, audit_feedback, audit_user, audit_time, status
+        id, audit_type, job_fair_id, campus_id, user_id, apply_time, audit_res, audit_feedback, audit_user, audit_time, status
     </sql>
+
+<!--  企业申请入会记录  -->
+    <select id="applyJobFairAuditRecords" resultType="com.heycm.dto.AuidtJobFairDTO">
+        SELECT t1.* FROM (
+            SELECT ct.id year_id, ct.type_name year_name, cj.id job_fair_id, cj.job_fair_title, cj.quarter, ca.id audit_id, ca.user_id, ca.apply_time, ca.audit_res, ca.audit_time, ca.audit_feedback, ca.status audit_status, ct2.id campus_id, ct2.type_name campus_name
+            FROM crim_type ct
+            INNER JOIN crim_job_fair cj ON ct.id = cj.year_level_id AND cj.is_deleted = 0
+            LEFT JOIN crim_audit_record ca ON cj.id = ca.job_fair_id AND ca.audit_type = 1 AND ca.is_deleted = 0
+            LEFT JOIN crim_type ct2 ON ct2.id = ca.campus_id
+            WHERE ct.pid = 5 AND ct.is_deleted = 0
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
 
 </mapper>

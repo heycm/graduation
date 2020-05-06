@@ -4,17 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.heycm.model.JobFairCompany">
-        <id column="id" property="id" />
-    <result column="create_user" property="createUser" />
-    <result column="create_time" property="createTime" />
-    <result column="modify_user" property="modifyUser" />
-    <result column="modify_time" property="modifyTime" />
-    <result column="is_deleted" property="isDeleted" />
-        <result column="job_fair_id" property="jobFairId" />
-        <result column="company_id" property="companyId" />
-        <result column="campus_id" property="campusId" />
-        <result column="site_id" property="siteId" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_user" property="modifyUser"/>
+        <result column="modify_time" property="modifyTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="job_fair_id" property="jobFairId"/>
+        <result column="company_id" property="companyId"/>
+        <result column="campus_id" property="campusId"/>
+        <result column="site_id" property="siteId"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -26,5 +26,20 @@
         is_deleted,
         id, job_fair_id, company_id, campus_id, site_id, status
     </sql>
+
+
+    <!--  企业已参与的招聘会  -->
+    <select id="pageList" resultType="com.heycm.dto.JobFairCompanyDTO">
+        SELECT t1.* FROM (
+            SELECT ct.id year_id, ct.type_name year_name, cj.id job_fair_id, cj.quarter, cj.job_fair_title, cj.start_time, cj.end_time, cj.status job_fair_status, cjfc.id, cjfc.company_id, ct2.id campus_id, ct2.type_name campus_Name, cs.id site_id, cs.site_name, cs.site_desc, cs.status site_status
+            FROM crim_type ct
+            INNER JOIN crim_job_fair cj ON ct.id = cj.year_level_id
+            INNER JOIN crim_job_fair_company cjfc ON cj.id = cjfc.job_fair_id AND cjfc.is_deleted = 0
+            INNER JOIN crim_type ct2 ON cjfc.campus_id = ct2.id
+            LEFT JOIN crim_site cs ON cjfc.site_id = cs.id
+            WHERE ct.pid = 5
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
 
 </mapper>

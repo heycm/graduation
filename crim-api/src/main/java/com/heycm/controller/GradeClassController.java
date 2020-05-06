@@ -28,7 +28,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @since 2020-04-26
  */
 @Slf4j
-@Api(tags = "7 - 班级控制器 GradeClass")
+@Api(tags = "08 - 班级控制器 GradeClass")
 @Transactional
 @RestController
 @RequestMapping("/api/v1/gradeClass")
@@ -58,6 +58,15 @@ public class GradeClassController {
         gradeClassService.saveOrUpdate(gradeClass);
         log.info("[增加班级][班级信息:{}][耗时:{}ms][结束]", JSON.toJSONString(gradeClass), (System.currentTimeMillis() - l));
         return Result.ok();
+    }
+
+    @ApiOperation(value = "2 - 查看所有的信息", notes = "查看所有的信息")
+    @ApiOperationSupport(order = 2)
+    @RequiresRoles("school")
+    @GetMapping("/list")
+    public ResponseMessage list() {
+        List<GradeClass> entityList = gradeClassService.list();
+        return Result.ok(entityList);
     }
 
     /**
@@ -103,12 +112,7 @@ public class GradeClassController {
     }
 
 
-    //查看所有的信息
-    @GetMapping("/list")
-    public ResponseMessage list() {
-        List<GradeClass> entityList = gradeClassService.list();
-        return Result.ok(entityList);
-    }
+
 
 
     /**

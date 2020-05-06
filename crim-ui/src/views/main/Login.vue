@@ -140,7 +140,6 @@ export default {
               type: "success"
             });
           } else {
-            this.$message.error(res.data.msg);
             this.stopCountDown();
           }
         })

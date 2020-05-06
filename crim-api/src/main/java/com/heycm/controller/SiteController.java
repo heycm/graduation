@@ -1,6 +1,8 @@
 package com.heycm.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.heycm.dto.SideDTO;
 import com.heycm.param.Param;
 import com.heycm.service.ISiteService;
 import com.heycm.model.Site;
@@ -26,7 +28,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @since 2020-04-30
  */
 @Slf4j
-@Api(tags = "9 - 场地控制器 Site")
+@Api(tags = "10 - 场地控制器 Site")
 @Transactional
 @RestController
 @RequestMapping("/api/v1/site")
@@ -47,16 +49,41 @@ public class SiteController {
         return Result.ok();
     }
 
-    /**
-     * 根据ID删除对象信息
-     *
-     * @param id 对象id
-     * @return ResponseMessage
-     */
+    @ApiOperation(value = "2 - 分页查询数据", notes = "分页查询数据")
+    @ApiOperationSupport(order = 2)
+    @RequiresRoles("school")
+    @PostMapping("/pageList")
+    public ResponseMessage pageList(@RequestBody Param<SiteQuery> param) {
+        if (param == null) {
+            param = new Param<SiteQuery>();
+        }
+        // 1.设置默认当前页是第 1 页
+        if (param.getPage() == null) {
+            param.setPage(1);
+        }
+        // 2.设置默认每页 5 条数据
+        if (param.getRows() == null) {
+            param.setRows(5);
+        }
+        SiteQuery siteQuery = param.getData();
+        QueryWrapper<SiteQuery> qw = new QueryWrapper<>();
+        if (siteQuery != null) {
+            qw.eq(siteQuery.getCampusId() != null, "t1.campus_id", siteQuery.getCampusId())
+                    .eq(siteQuery.getBuildingId() != null, "t1.building_id", siteQuery.getBuildingId())
+                    .like(StringUtils.isNotEmpty(siteQuery.getSiteName()), "t1.site_name", siteQuery.getSiteName());
+        }
+        Page<SideDTO> page = new Page<SideDTO>(param.getPage(), param.getRows());
+        IPage<SideDTO> iPage = siteService.pageList(page, qw);
+        return Result.ok(iPage);
+    }
+
+    @ApiOperation(value = "3 - 根据ID删除对象信息", notes = "根据ID删除对象信息")
+    @ApiOperationSupport(order = 3)
+    @RequiresRoles("school")
     @DeleteMapping("/{id}")
     public ResponseMessage delete(@PathVariable("id") Long id) {
         if (id == null) {
-            return Result.error("1000", "参数为NUll");
+            return Result.error("参数不能为");
         }
         siteService.removeById(id);
         return Result.ok();
@@ -101,19 +128,4 @@ public class SiteController {
     }
 
 
-    /**
-     * 分页查询数据：
-     *
-     * @param param 查询对象
-     * @return ResponseMessage
-     */
-    @PostMapping("/pageList")
-    public ResponseMessage pageList(@RequestBody Param<SiteQuery> param) {
-        if (param == null) {
-            return Result.error("1000", "参数为NUll");
-        }
-        Page<Site> page = new Page<Site>(param.getPage(), param.getRows());
-        IPage iPage = siteService.page(page, null);
-        return Result.ok(iPage);
-    }
 }

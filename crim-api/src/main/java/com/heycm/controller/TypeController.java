@@ -14,6 +14,7 @@ import com.heycm.utils.response.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author heycm@qq.com
  * @since 2020-04-26
  */
-@Api(tags = "6 - 列表控制器 Type")
+@Api(tags = "07 - 列表控制器 Type")
 @Transactional
 @RestController
 @RequestMapping("/api/v1/type")
@@ -38,7 +39,7 @@ public class TypeController {
 
     @ApiOperation(value = "1 - 查看年级列表", notes = "查看年级列表")
     @ApiOperationSupport(order = 1)
-    @RequiresRoles("school")
+    @RequiresRoles(logical = Logical.OR, value = {"school", "company"})
     @GetMapping("/year/list")
     public ResponseMessage getYearList() {
         ArrayList<YearDTO> list = new ArrayList<>();
@@ -55,7 +56,7 @@ public class TypeController {
 
     @ApiOperation(value = "2 - 查看校区列表", notes = "查看校区列表")
     @ApiOperationSupport(order = 2)
-    @RequiresRoles("school")
+    @RequiresRoles(logical = Logical.OR, value = {"school", "company"})
     @GetMapping("/campus/list")
     public ResponseMessage getCampusList() {
         ArrayList<CampusDTO> list = new ArrayList<>();

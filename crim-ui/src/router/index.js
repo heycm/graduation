@@ -325,7 +325,15 @@ export default new Router({
           path: 'student/list',
           name: 'comStudentList',
           component: () => import('@/views/company/activity/StudentList'),
-          meta: { title: '参加学生', role: 'company', index: '15-3' }
+          meta: { title: '参加学生', role: 'company', index: '15-3' },
+          children: [
+            {
+              path: 'resume/:id',
+              name: 'comResume',
+              component: () => import('@/views/student/Resume'),
+              meta: { title: '学生简历', role: 'company'}
+            }
+          ]
         },
         {
           path: 'apply',
@@ -353,6 +361,16 @@ export default new Router({
           name: 'comAccessory',
           component: () => import('@/views/company/Accessory'),
           meta: { title: '附件', role: 'company', index: '17' }
+      }]
+    },
+    {
+      path: '/company',
+      component: Layout,
+      children: [{
+          path: 'register',
+          name: 'comRegisterStep',
+          component: () => import('@/views/company/RegisterStep'),
+          meta: { title: '完善信息', role: 'company', index: '19' }
       }]
     },
     {

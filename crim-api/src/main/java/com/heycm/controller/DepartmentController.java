@@ -29,7 +29,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author heycm@qq.com
  * @since 2020-04-26
  */
-@Api(tags = "4 - 学院控制器 Department")
+@Api(tags = "04 - 学院控制器 Department")
 @Transactional
 @RestController
 @RequestMapping("/api/v1/department")

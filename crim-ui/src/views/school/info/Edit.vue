@@ -10,7 +10,7 @@
       <el-col :span="12" :push="6" class="paddingLR-15">
         <el-upload
           class="upload-demo"
-          action="http://localhost:9999/api/v1/file/sch/logo"
+          action="http://localhost:9999/api/v1/file/logo"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :on-error="handleAvatarError"

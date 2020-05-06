@@ -1,5 +1,6 @@
 package com.heycm.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.heycm.param.Param;
 import com.heycm.service.IJobVacancyService;
 import com.heycm.model.JobVacancy;
@@ -7,7 +8,12 @@ import com.heycm.query.JobVacancyQuery;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,27 +25,31 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @since 2020-04-26
  */
 @RestController
+@Api(tags = "15 - 招聘职位控制器 JobVacancy")
+@Transactional
 @RequestMapping("/api/v1/jobVacancy")
 public class JobVacancyController {
     @Autowired
     public IJobVacancyService jobVacancyService;
 
-    /**
-     * 保存、修改 【区分id即可】
-     * @param param param
-     * @return ResponseMessage
-     */
+
+    @ApiOperation(value = "1 - 保存、修改", notes = "保存、修改")
+    @ApiOperationSupport(order = 1)
+    @RequiresRoles("company")
     @PostMapping("/save")
-    public ResponseMessage save(@RequestBody Param<JobVacancy> param) {
-        if (param == null) {
-            return Result.error("1000", "参数为NUll");
+    public ResponseMessage save(@RequestBody JobVacancy jobVacancy) {
+        if (jobVacancy == null || jobVacancy.getCompanyId() == null || StringUtils.isEmpty(jobVacancy.getJobName())
+                || StringUtils.isEmpty(jobVacancy.getWorkPlace()) || StringUtils.isEmpty(jobVacancy.getRegularPay())
+                || StringUtils.isEmpty(jobVacancy.getExperience()) || StringUtils.isEmpty(jobVacancy.getCertificate())) {
+            return Result.error("参数不能为空");
         }
-            jobVacancyService.saveOrUpdate(param.getData());
+        jobVacancyService.saveOrUpdate(jobVacancy);
         return Result.ok();
     }
 
     /**
      * 根据ID删除对象信息
+     *
      * @param id 对象id
      * @return ResponseMessage
      */
@@ -48,12 +58,13 @@ public class JobVacancyController {
         if (id == null) {
             return Result.error("1000", "参数为NUll");
         }
-            jobVacancyService.removeById(id);
+        jobVacancyService.removeById(id);
         return Result.ok();
     }
 
     /**
      * 根据IDs批量删除
+     *
      * @param param param
      * @return ResponseMessage
      */
@@ -62,12 +73,13 @@ public class JobVacancyController {
         if (param == null) {
             return Result.error("1000", "参数为NUll");
         }
-            jobVacancyService.removeByIds(param.getIds());
+        jobVacancyService.removeByIds(param.getIds());
         return Result.ok();
     }
 
     /**
      * 根据ID获取对象信息
+     *
      * @param id 对象id
      * @return ResponseMessage
      */
@@ -90,10 +102,11 @@ public class JobVacancyController {
 
 
     /**
-    * 分页查询数据：
-    * @param param 查询对象
-    * @return  ResponseMessage
-    */
+     * 分页查询数据：
+     *
+     * @param param 查询对象
+     * @return ResponseMessage
+     */
     @PostMapping("/pageList")
     public ResponseMessage pageList(@RequestBody Param<JobVacancyQuery> param) {
         if (param == null) {

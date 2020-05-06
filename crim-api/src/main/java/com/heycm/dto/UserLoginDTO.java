@@ -12,7 +12,9 @@ import java.util.List;
 @Data
 public class UserLoginDTO {
 
+    private Integer isAudit;
     private List<String> roles;
     private String token;
+
 
 }

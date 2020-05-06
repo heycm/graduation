@@ -4,50 +4,61 @@
     <el-row class="paddingLR-15 marginB-10">
       <div class="add_act_preview">
         <div v-if="showPreview" v-html="preview">{{preview}}</div>
-        <h1 v-if="activity.title">{{activity.title}}</h1>
-        <div v-html="activity.editorContent">{{activity.editorContent}}</div>
+        <h1 v-if="activity.jobFairTitle">{{activity.jobFairTitle}}</h1>
+        <div v-html="activity.jobFairContent">{{activity.jobFairContent}}</div>
       </div>
     </el-row>
-    <part title="标题" type="main" />
-    <el-row class="paddingLR-15 marginB-10">
-      <el-input v-model="activity.title" placeholder="请输入标题"></el-input>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <part title="标题" type="main" />
+        <el-row class="paddingLR-15 marginB-10">
+          <el-input v-model="activity.jobFairTitle" placeholder="请输入标题"></el-input>
+        </el-row>
+      </el-col>
+      <el-col :span="12">
+        <part title="年份" type="main" />
+        <el-row class="paddingLR-15 marginB-10">
+          <el-select v-model="activity.yearLevelId">
+            <el-option
+              v-for="year in yearList"
+              :key="year.id"
+              :label="year.yearName"
+              :value="year.id"
+            ></el-option>
+          </el-select>
+        </el-row>
+      </el-col>
+      <el-col :span="12">
+        <part title="活动时间" type="main" />
+        <el-row class="paddingLR-15 marginB-10">
+          <el-date-picker
+            v-model="activity.jarFairCycle"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          ></el-date-picker>
+        </el-row>
+      </el-col>
+      <el-col :span="12">
+        <part title="季度" type="main" />
+        <el-row class="paddingLR-15 marginB-10">
+          <el-select v-model="activity.quarter">
+            <el-option label="秋季" :value="0"></el-option>
+            <el-option label="春季" :value="1"></el-option>
+          </el-select>
+        </el-row>
+      </el-col>
     </el-row>
+
     <part title="内容" type="main" />
     <el-row class="paddingLR-15 marginB-10">
       <WangEditor @editorContent="getEditorContent" ref="editor" placeholder="请编辑活动内容..." />
     </el-row>
-    <part title="活动时间" type="main" />
-    <el-row class="paddingLR-15 marginB-10">
-      <el-date-picker
-        v-model="datePicker"
-        type="daterange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-      ></el-date-picker>
-    </el-row>
-    <part title="附件" type="main" />
-    <el-row class="paddingLR-15 marginB-10">
-      <el-col :span="6">
-        <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
-        >
-          <el-button type="primary">点击上传</el-button>
-        </el-upload>
-      </el-col>
-    </el-row>
     <el-row class="paddingLR-15 marginB-15 text-center">
-      <el-button type="warning" @click="reset">重置</el-button>
-      <el-button type="primary">发布</el-button>
-      <el-button type="primary" plain>保存</el-button>
+      <el-button type="warning" @click="reset">内容重置</el-button>
+      <el-button type="primary" @click="add('publish')">发布</el-button>
+      <el-button type="primary" plain @click="add('save')">保存</el-button>
     </el-row>
   </div>
 </template>
@@ -58,51 +69,33 @@ export default {
   components: { WangEditor },
   data() {
     return {
-      datePicker: "",
       preview: '<p style="color:#ccc;text-align: center;">这里是预览区...</p>',
       showPreview: true,
-      activity: {
-        title: "",
-        editorContent: ""
-      },
-      options: [
+      yearList: [
         {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
+          id: 8,
+          yearName: "2020"
         }
       ],
-      value: "",
-      fileList: [
-        {
-          name: "food.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        },
-        {
-          name: "food2.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        }
-      ]
+      activity: {
+        jobFairTitle: "",
+        yearLevelId: "",
+        quarter: "",
+        jarFairCycle: [],
+        startTime: "",
+        endTime: "",
+        jobFairContent: ""
+      },
+      
     };
   },
-  computed: {},
+  computed: {
+    headers() {
+      return {
+        Authorization: this.getUserInfo().token
+      };
+    }
+  },
   watch: {
     activity: {
       handler(val) {
@@ -112,32 +105,45 @@ export default {
       // immediate: true // 监听初始值
     }
   },
-  created() {},
+  created() {
+    this.init();
+  },
   methods: {
+    init() {
+      this.getYearList();
+    },
+    getYearList() {
+      this.$get("/type/year/list")
+        .then(res => {
+          if (res.data.ok) {
+            this.yearList = res.data.data;
+          }
+        })
+        .catch(e => {});
+    },
     getEditorContent(data) {
-      console.log(data);
-      this.activity.editorContent = data;
+      this.activity.jobFairContent = data;
     },
     reset() {
       this.$refs.editor.clear();
-      this.editorContent = "";
+      this.jobFairContent = "";
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
+    add(addType) {
+      this.activity.startTime = this.activity.jarFairCycle[0];
+      this.activity.endTime = this.activity.jarFairCycle[1];
+      this.$post(`/jobFair/${addType}`, this.activity)
+        .then(res => {
+          if (res.data.ok) {
+            this.$message({
+              message: addType === "publish" ? "发布成功" : "已保存",
+              type: "success"
+            });
+            this.activity = this.clearObj(this.activity);
+            this.reset();
+          }
+        })
+        .catch(e => {});
     },
-    handlePreview(file) {
-      console.log(file);
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      );
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    }
   }
 };
 </script>
