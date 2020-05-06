@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 30/04/2020 04:02:59
+ Date: 07/05/2020 00:00:34
 */
 
 SET NAMES utf8mb4;
@@ -25,9 +25,10 @@ CREATE TABLE `crim_audit_record`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '审核记录id',
   `audit_type` int(11) NOT NULL COMMENT '审核类型：0 注册审核 1 参与招聘会审核',
   `job_fair_id` int(11) DEFAULT NULL COMMENT '招聘会id',
-  `company_id` int(11) NOT NULL COMMENT '企业id',
+  `campus_id` int(11) DEFAULT NULL COMMENT '校区id',
+  `user_id` int(11) NOT NULL COMMENT '用户id',
   `apply_time` datetime(0) NOT NULL COMMENT '申请审核时间',
-  `audit_res` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '审核结果：0 通过 1 拒绝',
+  `audit_res` int(11) DEFAULT NULL COMMENT '审核结果：0 通过 1 拒绝 2 待审核',
   `audit_feedback` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '审核反馈意见',
   `audit_user` int(11) DEFAULT NULL COMMENT '审核人id',
   `audit_time` datetime(0) DEFAULT NULL COMMENT '审核时间',
@@ -35,10 +36,46 @@ CREATE TABLE `crim_audit_record`  (
   `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `modify_user` int(11) DEFAULT NULL COMMENT '最新修改人id',
   `modify_time` datetime(0) DEFAULT NULL COMMENT '最新修改时间',
-  `status` int(11) NOT NULL COMMENT '状态：0 已审核 1 审核中',
+  `status` int(11) DEFAULT NULL COMMENT '状态：0 已审核 1 未审核',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_audit_record
+-- ----------------------------
+INSERT INTO `crim_audit_record` VALUES (1, 0, NULL, NULL, 4, '2020-05-04 22:55:12', 0, '欢迎哟', 1, '2020-05-04 23:25:26', 4, '2020-05-04 22:55:12', 1, '2020-05-04 23:25:26', 0, 0);
+INSERT INTO `crim_audit_record` VALUES (2, 0, NULL, NULL, 4, '2020-05-05 13:27:57', 0, '欢迎哟', 1, '2020-05-05 13:43:04', 4, '2020-05-05 13:27:57', 1, '2020-05-05 13:43:04', 0, 0);
+INSERT INTO `crim_audit_record` VALUES (3, 1, 1, NULL, 4, '2020-05-05 17:31:03', 2, NULL, NULL, NULL, 4, '2020-05-05 17:31:03', 4, '2020-05-05 17:31:03', 0, 1);
+INSERT INTO `crim_audit_record` VALUES (4, 1, 1, NULL, 4, '2020-05-05 17:38:19', 2, NULL, NULL, NULL, 4, '2020-05-05 17:35:41', 4, '2020-05-05 17:38:19', 0, 1);
+INSERT INTO `crim_audit_record` VALUES (5, 1, 1, NULL, 4, '2020-05-05 20:58:22', 2, NULL, NULL, NULL, 4, '2020-05-05 20:58:22', 4, '2020-05-05 20:58:22', 0, 1);
+INSERT INTO `crim_audit_record` VALUES (6, 1, 1, 2, 4, '2020-05-05 21:00:20', 0, 'ok', 1, '2020-05-05 21:45:39', 4, '2020-05-05 21:00:20', 1, '2020-05-05 21:45:39', 0, 0);
+INSERT INTO `crim_audit_record` VALUES (7, 1, 1, 4, 4, '2020-05-05 21:10:11', 0, '还行', 1, '2020-05-05 21:46:39', 4, '2020-05-05 21:10:11', 1, '2020-05-05 21:46:39', 0, 0);
+INSERT INTO `crim_audit_record` VALUES (8, 1, 1, 3, 4, '2020-05-05 21:10:21', 1, ' 不能太贪心哦', 1, '2020-05-05 22:00:06', 4, '2020-05-05 21:10:21', 1, '2020-05-05 22:00:06', 0, 0);
+INSERT INTO `crim_audit_record` VALUES (9, 1, 1, 3, 4, '2020-05-05 22:02:00', NULL, NULL, NULL, NULL, 4, '2020-05-05 22:02:00', 4, '2020-05-05 22:02:00', 1, 0);
+
+-- ----------------------------
+-- Table structure for crim_building
+-- ----------------------------
+DROP TABLE IF EXISTS `crim_building`;
+CREATE TABLE `crim_building`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '建筑id',
+  `campus_id` int(11) DEFAULT NULL COMMENT '校区id',
+  `building_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '建筑名称',
+  `building_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '建筑描述',
+  `create_user` int(11) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `modify_user` int(11) DEFAULT NULL COMMENT '最新修改人id',
+  `modify_time` datetime(0) DEFAULT NULL COMMENT '最新修改时间',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_building
+-- ----------------------------
+INSERT INTO `crim_building` VALUES (1, 2, '逸夫楼', '主楼', 1, '2020-04-30 23:35:20', 1, '2020-04-30 23:35:20', NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_career_talk
@@ -58,7 +95,15 @@ CREATE TABLE `crim_career_talk`  (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_career_talk
+-- ----------------------------
+INSERT INTO `crim_career_talk` VALUES (1, 1, '赤壁之战', '2020-05-13 09:00:00', '2020-05-13 11:00:00', '同学们请带上简历哟', 4, '2020-05-06 16:15:17', 4, '2020-05-06 18:25:15', NULL, 0);
+INSERT INTO `crim_career_talk` VALUES (2, 2, '啊实打实', '2020-05-13 09:00:00', '2020-05-13 10:30:00', NULL, 4, '2020-05-06 17:24:24', 4, '2020-05-06 17:24:24', NULL, 1);
+INSERT INTO `crim_career_talk` VALUES (3, 1, '赤壁之战', '2020-05-14 09:00:00', '2020-05-14 09:15:00', '啊实打实<br>as90du', 4, '2020-05-06 17:41:39', 4, '2020-05-06 17:41:39', NULL, 1);
+INSERT INTO `crim_career_talk` VALUES (4, 2, '打完球', '2020-05-13 09:00:00', '2020-05-13 11:30:00', NULL, 4, '2020-05-06 18:15:16', 4, '2020-05-06 18:24:23', NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_career_talk_student
@@ -75,7 +120,12 @@ CREATE TABLE `crim_career_talk_student`  (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_career_talk_student
+-- ----------------------------
+INSERT INTO `crim_career_talk_student` VALUES (1, 1, 1, NULL, NULL, NULL, NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_chat
@@ -124,10 +174,16 @@ CREATE TABLE `crim_company`  (
   `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `modify_user` int(11) DEFAULT NULL COMMENT '最新修改人',
   `modify_time` datetime(0) DEFAULT NULL COMMENT '最新修改时间',
-  `status` int(11) NOT NULL COMMENT '状态：-1 黑名单 0 审核通过 1 未审核 2 审核中 3 审核不通过 4 审核信息过期',
+  `status` int(11) DEFAULT NULL COMMENT '状态： 0 注册审核通过 1 已提交注册审核 2 注册审核不通过',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_company
+-- ----------------------------
+INSERT INTO `crim_company` VALUES (1, 4, '中国移动', NULL, NULL, NULL, '张xx', '5000000.00万元人民币', '2020-05-04', '北京市', '在营', '上市股份有限公司', '北京市', '10000000000XXXXXXXXXX', NULL, NULL, 4, '2020-05-04 21:14:07', 4, '2020-05-04 21:14:07', NULL, 1);
+INSERT INTO `crim_company` VALUES (2, 4, '中国移动', NULL, '张默默', '13888888888', '张xx', '5000000.00万元人民币', '2020-05-04', '北京市', '在营', '上市股份有限公司', '北京市', '10000000000XXXXXXXXXX', '经营范围<br>经营范围<br>经营范围<br>经营范围经营范围经营范围<br>经营范围<br>', '简介简介简介简介&nbsp;&nbsp;简介简介1234<br><br>bbq', 4, '2020-05-04 21:14:54', 1, '2020-05-05 13:43:04', 0, 0);
 
 -- ----------------------------
 -- Table structure for crim_department
@@ -222,12 +278,22 @@ CREATE TABLE `crim_file`  (
   `status` int(11) DEFAULT NULL COMMENT '状态：0 挂载 1 空闲',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of crim_file
 -- ----------------------------
-INSERT INTO `crim_file` VALUES (1, 1, '404', '7145636a-cfe1-4394-8984-671456de6c68.gif', 'gif', 19877, 0, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/7145636a-cfe1-4394-8984-671456de6c68.gif', 1, '2020-04-29 02:20:16', 1, '2020-04-29 03:00:43', NULL, 0);
+INSERT INTO `crim_file` VALUES (1, 1, '捕获', '69821e7f-f70f-4f7d-abb9-6e629d37a693.PNG', 'PNG', 34739, 0, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/69821e7f-f70f-4f7d-abb9-6e629d37a693.PNG', 1, '2020-04-29 02:20:16', 1, '2020-05-03 12:47:34', NULL, 0);
+INSERT INTO `crim_file` VALUES (2, 1, '404', '521b82b2-5790-457d-b3a8-dfa8c7287f19.gif', 'gif', 19877, 2, 'http://crim-file.oss-cn-beijing.aliyuncs.com/files/521b82b2-5790-457d-b3a8-dfa8c7287f19.gif?Expires=1896082201&OSSAccessKeyId=LTAI4Fhi546AL87pHNV48eG7&Signature=DA3krE8ozIbADlBhnvPvwOWxb3g%3D', 1, '2020-05-03 17:30:03', 1, '2020-05-03 17:30:03', 0, 0);
+INSERT INTO `crim_file` VALUES (3, 1, '2020显卡天梯', '902f47c3-75ed-480d-9059-cd40bb276268.jpg', 'jpg', 402861, 2, 'http://crim-file.oss-cn-beijing.aliyuncs.com/files/902f47c3-75ed-480d-9059-cd40bb276268.jpg?Expires=1896082202&OSSAccessKeyId=LTAI4Fhi546AL87pHNV48eG7&Signature=KUzJrhmh%2BL6PegemtDFX7cvcZWM%3D', 1, '2020-05-03 17:30:03', 1, '2020-05-03 17:30:03', 1, 1);
+INSERT INTO `crim_file` VALUES (4, 1, '0913160406何宇 - 综测', 'c657bfd1-2a91-45c2-966d-5ebda7a3e1d9.xls', 'xls', 43008, 2, 'http://crim-file.oss-cn-beijing.aliyuncs.com/files/c657bfd1-2a91-45c2-966d-5ebda7a3e1d9.xls?Expires=1896082202&OSSAccessKeyId=LTAI4Fhi546AL87pHNV48eG7&Signature=j62nzKpugrVu1fqkkQhREk2wnfc%3D', 1, '2020-05-03 17:30:03', 1, '2020-05-03 17:30:03', 1, 1);
+INSERT INTO `crim_file` VALUES (5, 1, 'JavaEE_API ', '00998ce2-f3c0-4d38-9676-683610fb2857.chm', 'chm', 6930265, 2, 'http://crim-file.oss-cn-beijing.aliyuncs.com/files/00998ce2-f3c0-4d38-9676-683610fb2857.chm?Expires=1896082202&OSSAccessKeyId=LTAI4Fhi546AL87pHNV48eG7&Signature=E40dvRZWC07bCaQjm901VPpx62s%3D', 1, '2020-05-03 17:30:03', 1, '2020-05-03 17:30:03', 1, 1);
+INSERT INTO `crim_file` VALUES (6, 1, 'JavaEE_API ', 'f9b7709a-ed05-4faa-903a-cf17cdf524f6.chw', 'chw', 1223248, 2, 'http://crim-file.oss-cn-beijing.aliyuncs.com/files/f9b7709a-ed05-4faa-903a-cf17cdf524f6.chw?Expires=1896082203&OSSAccessKeyId=LTAI4Fhi546AL87pHNV48eG7&Signature=PWrr%2BVYI%2BIbZzaaz3MRRWEYRc4k%3D', 1, '2020-05-03 17:30:03', 1, '2020-05-03 17:30:03', 1, 1);
+INSERT INTO `crim_file` VALUES (7, 4, '捕获', '4b0cf7c5-4928-4fef-bf2d-178cd56d3527.PNG', 'PNG', 33, 0, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/4b0cf7c5-4928-4fef-bf2d-178cd56d3527.PNG', 4, '2020-05-04 21:45:16', 4, '2020-05-06 23:12:12', NULL, 0);
+INSERT INTO `crim_file` VALUES (8, 4, '营业执照', 'f9f61631-f7f4-44fe-bd08-5c627342e18e.jpeg', 'jpeg', 30, 1, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/f9f61631-f7f4-44fe-bd08-5c627342e18e.jpeg', 4, '2020-05-04 21:58:21', 4, '2020-05-04 22:01:17', NULL, 1);
+INSERT INTO `crim_file` VALUES (9, 4, '营业执照', '457dd864-f00a-4c06-9e8c-ab7c41cf936b.jpeg', 'jpeg', 30, 1, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/457dd864-f00a-4c06-9e8c-ab7c41cf936b.jpeg', 4, '2020-05-04 21:58:35', 4, '2020-05-04 21:58:35', NULL, 1);
+INSERT INTO `crim_file` VALUES (10, 4, '营业执照', '52be41b7-e7cc-4c75-82ad-b0e084937af3.jpeg', 'jpeg', 30, 1, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/52be41b7-e7cc-4c75-82ad-b0e084937af3.jpeg', 4, '2020-05-04 22:00:29', 4, '2020-05-04 22:00:29', NULL, 1);
+INSERT INTO `crim_file` VALUES (11, 4, '营业执照', '12f69aff-98d1-4084-924b-21181ec8d701.jpeg', 'jpeg', 30, 1, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/12f69aff-98d1-4084-924b-21181ec8d701.jpeg', 4, '2020-05-04 22:55:09', 4, '2020-05-04 22:55:09', NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_forbidden_record
@@ -262,7 +328,7 @@ CREATE TABLE `crim_grade_class`  (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of crim_grade_class
@@ -270,6 +336,8 @@ CREATE TABLE `crim_grade_class`  (
 INSERT INTO `crim_grade_class` VALUES (1, 1, 6, '计算机 1801班', NULL, NULL, NULL, NULL, NULL, 0);
 INSERT INTO `crim_grade_class` VALUES (2, 1, 6, '计算机 1802班', NULL, NULL, NULL, NULL, NULL, 0);
 INSERT INTO `crim_grade_class` VALUES (3, 2, 7, '网络 1901班', NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `crim_grade_class` VALUES (4, 1, 9, '科技1601班', 1, '2020-04-30 22:27:30', 1, '2020-04-30 22:27:30', NULL, 0);
+INSERT INTO `crim_grade_class` VALUES (5, 1, 9, '科技1602班', 1, '2020-04-30 22:30:35', 1, '2020-04-30 22:30:35', NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_home_page
@@ -339,7 +407,6 @@ CREATE TABLE `crim_interview`  (
 DROP TABLE IF EXISTS `crim_job_fair`;
 CREATE TABLE `crim_job_fair`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '招聘会id',
-  `school_id` int(11) NOT NULL COMMENT '学校id',
   `year_level_id` int(11) NOT NULL COMMENT '年度id：type表year_level子节点id',
   `quarter` int(11) NOT NULL COMMENT '季度：0 秋季 1 春季',
   `job_fair_title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '招聘会标题',
@@ -350,10 +417,16 @@ CREATE TABLE `crim_job_fair`  (
   `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `modify_user` int(11) DEFAULT NULL COMMENT '最新修改人id',
   `modify_time` datetime(0) DEFAULT NULL COMMENT '最新修改时间',
-  `status` int(11) NOT NULL COMMENT '状态：0 保存 1 已发布 -1 已过期',
+  `status` int(11) NOT NULL COMMENT '状态：0 保存 1 已发布 -1 已结束',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_job_fair
+-- ----------------------------
+INSERT INTO `crim_job_fair` VALUES (1, 8, 0, 'as阿萨大师', '请编辑活动内容...<p>阿萨斯擦擦阿擦擦是阿萨达</p><p>按</p><p>奥平时就怕假设</p>', '2020-05-13', '2020-06-13', 1, '2020-05-02 23:17:53', 1, '2020-05-02 23:17:53', 1, 0);
+INSERT INTO `crim_job_fair` VALUES (4, 8, 0, '阿萨达', '<p>洗啊户撒a上课效率想按实际来了南京爱普生呀呀呀十八届就噢噢as【 啊asjo\'osa</p><p>阿萨</p><ol><li>asdac as&nbsp;</li><li>as擦</li><li>aaw素材</li></ol><p><br></p><h2 style=\"text-align: center;\"><span style=\"font-weight: bold;\">活泼可爱</span></h2>', '2020-05-05', '2020-06-24', 1, '2020-05-02 23:24:16', 1, '2020-05-02 23:24:16', 1, 0);
 
 -- ----------------------------
 -- Table structure for crim_job_fair_company
@@ -361,18 +434,24 @@ CREATE TABLE `crim_job_fair`  (
 DROP TABLE IF EXISTS `crim_job_fair_company`;
 CREATE TABLE `crim_job_fair_company`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '招聘会/企业 关联表id',
-  `job_fair_id` int(11) DEFAULT NULL COMMENT '招聘会id',
-  `company_id` int(11) DEFAULT NULL COMMENT '企业id',
-  `campus_id` int(11) DEFAULT NULL COMMENT '校区id：type表campus子节点id',
+  `job_fair_id` int(11) NOT NULL COMMENT '招聘会id',
+  `company_id` int(11) NOT NULL COMMENT '企业id',
+  `campus_id` int(11) NOT NULL COMMENT '校区id：type表campus子节点id',
   `site_id` int(11) DEFAULT NULL COMMENT '分配场地id',
   `create_user` int(11) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `modify_user` int(11) DEFAULT NULL COMMENT '最新修改人id',
   `modify_time` datetime(0) DEFAULT NULL COMMENT '最新修改时间',
-  `status` int(11) DEFAULT NULL COMMENT '状态',
-  `is_deleted` int(11) DEFAULT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
+  `status` int(11) NOT NULL COMMENT '状态：0 已分配场地 1 未分配场地',
+  `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_job_fair_company
+-- ----------------------------
+INSERT INTO `crim_job_fair_company` VALUES (1, 1, 2, 2, 1, 1, '2020-05-05 21:45:39', 1, '2020-05-05 21:45:39', 0, 0);
+INSERT INTO `crim_job_fair_company` VALUES (2, 1, 2, 4, NULL, 1, '2020-05-05 21:46:39', 1, '2020-05-05 21:46:39', 1, 0);
 
 -- ----------------------------
 -- Table structure for crim_job_vacancy
@@ -396,7 +475,13 @@ CREATE TABLE `crim_job_vacancy`  (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_job_vacancy
+-- ----------------------------
+INSERT INTO `crim_job_vacancy` VALUES (1, 2, 'JAVA', '北京', '10K', '100年', '本科', 'springboot,spring cloud,三十六计,熟读孙子兵法', '巴啦啦&nbsp;啊啥就&nbsp;安排速度<br>时间冻结啊哈<br>&nbsp;奥苏东坡&nbsp;阿苏与', NULL, NULL, NULL, 4, '2020-05-05 14:14:36', NULL, 0);
+INSERT INTO `crim_job_vacancy` VALUES (2, 2, 'UI设计师', '广州', '12K', '应届生', '本科', 'es6,大前端', '厉害就行，非诚勿扰', NULL, 4, '2020-05-05 14:15:49', 4, '2020-05-05 14:15:49', NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_mount
@@ -404,17 +489,22 @@ CREATE TABLE `crim_job_vacancy`  (
 DROP TABLE IF EXISTS `crim_mount`;
 CREATE TABLE `crim_mount`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '挂载记录id',
-  `file_id` int(255) DEFAULT NULL COMMENT '文件id',
-  `target_type` int(255) DEFAULT NULL COMMENT '挂载目标类型：0 招聘会 1 宣讲会',
-  `target_id` int(11) DEFAULT NULL COMMENT '挂载目标id',
+  `file_id` int(255) NOT NULL COMMENT '文件id',
+  `target_type` int(255) NOT NULL COMMENT '挂载目标类型：0 招聘会 1 宣讲会',
+  `target_id` int(11) NOT NULL COMMENT '挂载目标id',
   `create_user` int(255) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `modify_user` int(255) DEFAULT NULL COMMENT '最新修改人id',
   `modify_time` datetime(0) DEFAULT NULL COMMENT '最新修改时间',
   `status` int(255) DEFAULT NULL COMMENT '状态',
-  `is_deleted` int(255) DEFAULT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
+  `is_deleted` int(255) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_mount
+-- ----------------------------
+INSERT INTO `crim_mount` VALUES (1, 2, 0, 1, NULL, NULL, NULL, NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_permission
@@ -659,9 +749,7 @@ INSERT INTO `crim_school` VALUES (1, 1, '河北科技师范学院', '秦皇岛',
 DROP TABLE IF EXISTS `crim_site`;
 CREATE TABLE `crim_site`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '场地id',
-  `school_id` int(11) NOT NULL COMMENT '学校id',
-  `campus_id` int(11) DEFAULT NULL COMMENT '校区id',
-  `building_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '建筑/楼名称',
+  `building_id` int(11) NOT NULL COMMENT '建筑id',
   `site_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '场地名称',
   `site_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '场地描述',
   `create_user` int(11) DEFAULT NULL COMMENT '创建人id',
@@ -671,7 +759,14 @@ CREATE TABLE `crim_site`  (
   `status` int(11) NOT NULL COMMENT '状态：0 空闲 1 已占用',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_site
+-- ----------------------------
+INSERT INTO `crim_site` VALUES (1, 1, 'A103', '', 1, '2020-04-30 23:38:34', 1, '2020-04-30 23:38:34', 1, 0);
+INSERT INTO `crim_site` VALUES (2, 1, 'A104', NULL, NULL, NULL, NULL, NULL, 0, 1);
+INSERT INTO `crim_site` VALUES (3, 1, 'A104', '', 1, '2020-05-02 22:21:49', 1, '2020-05-02 22:21:49', 0, 0);
 
 -- ----------------------------
 -- Table structure for crim_student
@@ -681,10 +776,10 @@ CREATE TABLE `crim_student`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '学生id',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `grade_class_id` int(11) NOT NULL COMMENT '班级id',
-  `student_number` int(11) NOT NULL COMMENT '学生学号',
+  `student_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学生学号',
   `student_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学生姓名',
-  `student_sex` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '学生性别',
-  `student_birth` date DEFAULT NULL COMMENT '学生出生年月',
+  `student_sex` int(11) NOT NULL COMMENT '学生性别：0 男 1 女',
+  `student_birth` date NOT NULL COMMENT '学生出生年月',
   `student_phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '学生手机号',
   `student_email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '学生邮箱号',
   `allow_phone_login` int(11) DEFAULT NULL COMMENT '是否允许使用手机号登录：0 是 1 否',
@@ -695,7 +790,14 @@ CREATE TABLE `crim_student`  (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_student
+-- ----------------------------
+INSERT INTO `crim_student` VALUES (1, 8, 3, '0913190101', '张三', 0, '2000-01-01', NULL, NULL, NULL, 1, '2020-05-04 00:36:01', 1, '2020-05-04 00:36:01', NULL, 0);
+INSERT INTO `crim_student` VALUES (2, 9, 3, '0913190102', '李四', 1, '2000-02-26', NULL, NULL, NULL, 1, '2020-05-04 00:36:01', 1, '2020-05-04 13:01:34', NULL, 0);
+INSERT INTO `crim_student` VALUES (3, 10, 4, '0911160101', '张辽', 0, '1997-01-16', NULL, NULL, NULL, 1, '2020-05-04 13:19:02', 1, '2020-05-04 13:19:02', NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_type
@@ -713,7 +815,7 @@ CREATE TABLE `crim_type`  (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of crim_type
@@ -728,6 +830,7 @@ INSERT INTO `crim_type` VALUES (7, 5, '2019', '年级二级节点', NULL, NULL, 
 INSERT INTO `crim_type` VALUES (8, 5, '2020', '年级二级节点', NULL, NULL, NULL, NULL, NULL, 0);
 INSERT INTO `crim_type` VALUES (9, 5, '2016', NULL, NULL, NULL, NULL, NULL, NULL, 0);
 INSERT INTO `crim_type` VALUES (10, 5, '2017', NULL, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `crim_type` VALUES (11, NULL, 'building', '建筑父节点', NULL, NULL, NULL, NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_user
@@ -747,7 +850,7 @@ CREATE TABLE `crim_user`  (
   `status` int(11) NOT NULL COMMENT '账户状态：0 正常 1 审核 2 禁用',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of crim_user
@@ -755,10 +858,13 @@ CREATE TABLE `crim_user`  (
 INSERT INTO `crim_user` VALUES (1, '13888888888', 'a4cca5f88bf96dc0a66ba22aa9081594', '4eca9446d90d32c57fe974829ec30d63', 0, NULL, NULL, '2020-04-26 23:13:02', 1, '2020-04-29 17:35:26', 0, 0);
 INSERT INTO `crim_user` VALUES (2, '13999999999', '3dd192f23b99a7e1ab92b7685e606913', 'b82a070dbbe86fa5b55f2fa959f1cef3', 2, NULL, NULL, '2020-04-26 23:29:31', NULL, '2020-04-26 23:29:31', 1, 0);
 INSERT INTO `crim_user` VALUES (3, '13777777777', 'b52e531028d0e3280a8dc287c0497b71', 'bf558e070ca15afc5337041626d6606d', 2, NULL, NULL, '2020-04-26 23:36:08', NULL, '2020-04-26 23:36:08', 1, 0);
-INSERT INTO `crim_user` VALUES (4, '13878657039', '72fc1500eec96e1d1bd7a3ef296d2827', '2665033fe7849c3e933eff03cecc28c3', 2, NULL, NULL, '2020-04-28 22:01:50', NULL, '2020-04-28 22:01:50', 1, 0);
+INSERT INTO `crim_user` VALUES (4, '13878657039', '72fc1500eec96e1d1bd7a3ef296d2827', '2665033fe7849c3e933eff03cecc28c3', 2, NULL, NULL, '2020-04-28 22:01:50', 1, '2020-05-05 13:43:04', 0, 0);
 INSERT INTO `crim_user` VALUES (5, 'child-one', '33db06fa7d025b4072a27e912ccbbe99', 'ef185e089b31aa17b6e8ded32b517a8c', 0, 1, 1, '2020-04-29 15:30:56', 1, '2020-04-29 17:42:58', 0, 0);
 INSERT INTO `crim_user` VALUES (6, 'child-tow', '687d1e2fc2a2148a0a8691dc3ef662e5', 'b3a3dc080d5d1987a77b8d5535bfef52', 0, 1, 1, '2020-04-29 15:34:59', 1, '2020-04-29 15:34:59', 0, 0);
 INSERT INTO `crim_user` VALUES (7, 'child-three', '69c310c0b157fa84eb2e498565d0691e', '2a7fc772f2cde8fde2d3db3393ae6d8d', 0, 1, 1, '2020-04-29 15:35:21', 1, '2020-04-29 15:35:21', 0, 0);
+INSERT INTO `crim_user` VALUES (8, '0913190101', '9a8f65435ed1dfc22054bae7bacd1431', '8c92d9e060450da81c5157beaa75cd8a', 1, NULL, 1, '2020-05-04 00:36:01', 1, '2020-05-04 12:28:21', 0, 0);
+INSERT INTO `crim_user` VALUES (9, '0913190102', '7508e189f15f58420f8fc916331fde97', '2e6ded1de0d58d9a28d3d4331db66f01', 1, NULL, 1, '2020-05-04 00:36:01', 1, '2020-05-04 12:23:58', 0, 0);
+INSERT INTO `crim_user` VALUES (10, '0911160101', '513ee453d525398482b6372072e8aa31', '6fb17506995bae02708c7c9270be49a3', 1, NULL, 1, '2020-05-04 13:19:02', 1, '2020-05-04 13:19:02', 0, 0);
 
 -- ----------------------------
 -- Table structure for crim_user_role
@@ -775,7 +881,7 @@ CREATE TABLE `crim_user_role`  (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of crim_user_role
@@ -785,8 +891,10 @@ INSERT INTO `crim_user_role` VALUES (2, 2, 3, NULL, NULL, NULL, NULL, NULL, 0);
 INSERT INTO `crim_user_role` VALUES (3, 3, 3, NULL, NULL, NULL, NULL, NULL, 0);
 INSERT INTO `crim_user_role` VALUES (4, 4, 3, NULL, '2020-04-28 22:01:50', NULL, '2020-04-28 22:01:50', NULL, 0);
 INSERT INTO `crim_user_role` VALUES (5, 5, 4, 1, '2020-04-29 15:30:56', 1, '2020-04-29 15:30:56', NULL, 0);
-INSERT INTO `crim_user_role` VALUES (6, 6, 1, 1, '2020-04-29 15:34:59', 1, '2020-04-29 15:34:59', NULL, 0);
+INSERT INTO `crim_user_role` VALUES (6, 6, 4, 1, '2020-04-29 15:34:59', 1, '2020-04-29 15:34:59', NULL, 0);
 INSERT INTO `crim_user_role` VALUES (7, 7, 4, 1, '2020-04-29 15:35:21', 1, '2020-04-29 15:35:21', NULL, 0);
+INSERT INTO `crim_user_role` VALUES (8, 8, 2, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `crim_user_role` VALUES (9, 9, 2, NULL, NULL, NULL, NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_volunteer_experience
