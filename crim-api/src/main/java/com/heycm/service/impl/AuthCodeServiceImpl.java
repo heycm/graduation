@@ -48,7 +48,7 @@ public class AuthCodeServiceImpl implements IAuthCodeService {
     @Override
     public ResponseMessage sendSmsCode(String phone) throws Exception {
         // 1.校验手机号
-        if (StringUtils.isEmpty(phone)){
+        if (StringUtils.isBlank(phone)){
             return Result.error(UserEnum.PHONE_EMPTY);
         }
         if (!Tools.checkPhone(phone)) {

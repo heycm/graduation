@@ -10,7 +10,7 @@
     <result column="modify_user" property="modifyUser" />
     <result column="modify_time" property="modifyTime" />
     <result column="is_deleted" property="isDeleted" />
-        <result column="remuse_id" property="remuseId" />
+        <result column="resume_id" property="resumeId" />
         <result column="school_name" property="schoolName" />
         <result column="certificate" property="certificate" />
         <result column="major" property="major" />

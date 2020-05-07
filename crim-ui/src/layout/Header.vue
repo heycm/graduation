@@ -99,7 +99,15 @@ export default {
         .catch(() => {});
     },
     // 获取学生的信息，包含logo
-    getStudentInfo() {}
+    getStudentInfo() {
+      this.$get("/student/info")
+        .then(res => {
+          if (res.data.ok) {
+            this.logoUrl = res.data.data.logoUrl;
+          }
+        })
+        .catch(() => {});
+    }
   }
 };
 </script>

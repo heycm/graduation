@@ -20,4 +20,8 @@ public class StudentQuery {
     private Integer sex;
     private Date birth;
 
+
+    private String studentPhone;
+    private String studentEmail;
+
 }

@@ -36,7 +36,7 @@ private static final long serialVersionUID=1L;
     private Integer id;
 
     @ApiModelProperty(value = "简历id")
-    private Integer remuseId;
+    private Integer resumeId;
 
     @ApiModelProperty(value = "学校名称")
     private String schoolName;

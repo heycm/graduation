@@ -91,9 +91,7 @@ public class SchoolController {
     public ResponseMessage getSchoolInfo() {
         SchoolInfoDTO schoolInfoDTO = new SchoolInfoDTO();
         School school = schoolService.getById(1);
-        Integer userId = subjectUtil.getCurrentUserId();
-        LambdaQueryWrapper<File> eq = new QueryWrapper<File>().lambda().eq(File::getUserId, userId).eq(File::getFileType, 0);
-        File one = fileService.getOne(eq);
+        File one = fileService.getOne(new QueryWrapper<File>().lambda().eq(File::getUserId, school.getUserId()).eq(File::getFileType, 0));
         if (one != null) {
             schoolInfoDTO.setLogoUrl(one.getFileUrl());
         }

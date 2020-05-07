@@ -3,6 +3,8 @@ package com.heycm.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.heycm.enums.CommEnum;
+import com.heycm.enums.Const;
 import com.heycm.model.UserRole;
 import com.heycm.param.Param;
 import com.heycm.service.IUserRoleService;
@@ -18,6 +20,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -118,7 +121,7 @@ public class UserController {
     @ApiOperation(value = "5 - 重置密码", notes = "重置密码")
     @ApiOperationSupport(order = 5)
     @PostMapping("/password")
-    @RequiresRoles(logical = Logical.OR, value = {"company", "student", "school", "school-child"})
+    @RequiresRoles(logical = Logical.OR, value = {"company", "school", "school-child"})
     public ResponseMessage password(String password) {
         // 1.入参校验
         if (StringUtils.isEmpty(password)) {
@@ -177,7 +180,7 @@ public class UserController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "8 - 学校用户重置子用户角色", notes = "学校删除子账户")
+    @ApiOperation(value = "8 - 学校删除子账户", notes = "学校删除子账户")
     @ApiOperationSupport(order = 8)
     @DeleteMapping("/{id}")
     @RequiresRoles("school")
@@ -210,14 +213,95 @@ public class UserController {
         return Result.ok();
     }
 
+    @ApiOperation(value = "10 - 学生根据原密码重置密码", notes = "学生根据原密码重置密码")
+    @ApiOperationSupport(order = 10)
+    @RequiresRoles("student")
+    @PostMapping("/stu/pwd")
+    public ResponseMessage stuResetPwd(@RequestBody UserQuery userQuery) {
+        // 1.入参必须带有 原密码、新密码、确认密码
+        if (userQuery == null || StringUtils.isBlank(userQuery.getOldPwd())
+                || StringUtils.isBlank(userQuery.getNewPwd()) || StringUtils.isBlank(userQuery.getSurePwd())) {
+            return Result.error("参数不能是空");
+        }
+        // 2.新密码与确认密码匹配
+        if (!userQuery.getNewPwd().equals(userQuery.getSurePwd())) {
+            return Result.error("确认密码不匹配");
+        }
+        // 3.查找当前用户
+        User user = userService.getById(subjectUtil.getCurrentUserId());
+        // 4.拿到当前用户的 原密码盐值 与 原密码密文
+        String salt = user.getSalt();
+        String password = user.getPassword();
+        // 5.入参原密码加密，与原密码密文匹配
+        String oldEncrypt = PasswordUtils.encrypt(userQuery.getOldPwd(), salt);
+        if (!password.equals(oldEncrypt)) {
+            return Result.error("原密码错误");
+        }
+        // 6.生成新的盐值，加密新密码，保存
+        String newSalt = PasswordUtils.generateSalt();
+        String newEncrypt = PasswordUtils.encrypt(userQuery.getNewPwd(), newSalt);
+        user.setSalt(newSalt);
+        user.setPassword(newEncrypt);
+        userService.updateById(user);
+        // 7-1.如果当前用户是子用户，设置父用户密码与当前用户密码一致
+        if (user.getPid() != null) {
+            User pUser = userService.getById(user.getPid());
+            pUser.setSalt(newSalt);
+            pUser.setPassword(newEncrypt);
+            userService.updateById(pUser);
+        }
+        // 7-2.如果当前用户是父用户，设置子用户密码与当前用户密码一致
+        else {
+            User child = userService.getOne(new QueryWrapper<User>().lambda().eq(User::getPid, user.getId()));
+            child.setSalt(newSalt);
+            child.setPassword(newEncrypt);
+            userService.updateById(child);
+        }
+        // 8.用户登出
+        redisUtil.del(subjectUtil.getCurrentUserToken());
+        subjectUtil.logout();
+        return Result.ok();
+    }
 
-
-
-
-
-
-
-
+    @ApiOperation(value = "10 - 学生根据短信验证码重置密码", notes = "学生根据短信验证码重置密码")
+    @ApiOperationSupport(order = 10)
+    @RequiresRoles("student")
+    @PostMapping("/stu/pwd/sms")
+    public ResponseMessage stuResetPwdBySms(@RequestBody UserQuery userQuery) {
+        // 1.入参必须带有 原密码、新密码、确认密码
+        if (userQuery == null || StringUtils.isBlank(userQuery.getNewPwd()) || StringUtils.isBlank(userQuery.getSmsCode())) {
+            return Result.error("参数不能是空");
+        }
+        // 2.查找当前用户
+        User user = userService.getById(subjectUtil.getCurrentUserId());
+        // 3.如果当前账户是主账户，需要找到其子账户，获取子账户用户名（手机号）
+        if (user.getPid() == null) {
+            user = userService.getOne(new QueryWrapper<User>().lambda().eq(User::getPid, user.getId()));
+        }
+        // 4.拿到用户手机号，去redis查验证码
+        String phone = user.getUsername();
+        String smsCode = (String) redisUtil.get(Const.PREFIX_REDIS_SMS_CODE.getValue() + phone);
+        // 5.验证码过期或不匹配
+        if (StringUtils.isBlank(smsCode)) {
+            return Result.error(CommEnum.SMS_CODE_INVALID);
+        }
+        // 6.生成新的盐值，加密新密码
+        String newSalt = PasswordUtils.generateSalt();
+        String newEncrypt = PasswordUtils.encrypt(userQuery.getNewPwd(), newSalt);
+        // 7.更新子账户盐值和密码
+        user.setSalt(newSalt);
+        user.setPassword(newEncrypt);
+        userService.updateById(user);
+        // 9.更新父账户密码
+        User pUser = userService.getById(user.getPid());
+        pUser.setSalt(newSalt);
+        pUser.setPassword(newEncrypt);
+        userService.updateById(pUser);
+        // 10.用户登出
+        redisUtil.del(subjectUtil.getCurrentUserToken());
+        subjectUtil.logout();
+        return Result.ok();
+    }
 
 
     /**

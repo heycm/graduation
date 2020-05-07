@@ -1,5 +1,6 @@
 package com.heycm.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.heycm.param.Param;
 import com.heycm.service.IInternshipExperienceService;
 import com.heycm.model.InternshipExperience;
@@ -7,7 +8,12 @@ import com.heycm.query.InternshipExperienceQuery;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,23 +24,24 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author heycm@qq.com
  * @since 2020-04-26
  */
+@Slf4j
+@Api(tags = "21 - 实习经历控制器 InternshipExperience")
+@Transactional
 @RestController
 @RequestMapping("/api/v1/internshipExperience")
 public class InternshipExperienceController {
     @Autowired
     public IInternshipExperienceService internshipExperienceService;
 
-    /**
-     * 保存、修改 【区分id即可】
-     * @param param param
-     * @return ResponseMessage
-     */
+    @ApiOperation(value = "1 - 增加、更新实习经历", notes = "增加、更新实习经历")
+    @ApiOperationSupport(order = 1)
+    @RequiresRoles("student")
     @PostMapping("/save")
-    public ResponseMessage save(@RequestBody Param<InternshipExperience> param) {
-        if (param == null) {
-            return Result.error("1000", "参数为NUll");
+    public ResponseMessage save(@RequestBody InternshipExperience internshipExperience) {
+        if (internshipExperience == null) {
+            return Result.error("参数不能为空");
         }
-            internshipExperienceService.saveOrUpdate(param.getData());
+            internshipExperienceService.saveOrUpdate(internshipExperience);
         return Result.ok();
     }
 

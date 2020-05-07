@@ -1,5 +1,6 @@
 package com.heycm.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.heycm.param.Param;
 import com.heycm.service.IEducationExperienceService;
 import com.heycm.model.EducationExperience;
@@ -7,7 +8,12 @@ import com.heycm.query.EducationExperienceQuery;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,23 +24,24 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author heycm@qq.com
  * @since 2020-04-26
  */
+@Slf4j
+@Api(tags = "23 - 教育经历控制器 ExpectedPosition")
+@Transactional
 @RestController
 @RequestMapping("/api/v1/educationExperience")
 public class EducationExperienceController {
     @Autowired
     public IEducationExperienceService educationExperienceService;
 
-    /**
-     * 保存、修改 【区分id即可】
-     * @param param param
-     * @return ResponseMessage
-     */
+    @ApiOperation(value = "1 - 增加、更新教育经历", notes = "增加、更新教育经历")
+    @ApiOperationSupport(order = 1)
+    @RequiresRoles("student")
     @PostMapping("/save")
-    public ResponseMessage save(@RequestBody Param<EducationExperience> param) {
-        if (param == null) {
-            return Result.error("1000", "参数为NUll");
+    public ResponseMessage save(@RequestBody EducationExperience educationExperience) {
+        if (educationExperience == null) {
+            return Result.error("参数不能为空");
         }
-            educationExperienceService.saveOrUpdate(param.getData());
+            educationExperienceService.saveOrUpdate(educationExperience);
         return Result.ok();
     }
 

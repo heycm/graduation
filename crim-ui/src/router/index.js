@@ -328,7 +328,7 @@ export default new Router({
           meta: { title: '参加学生', role: 'company', index: '15-3' },
           children: [
             {
-              path: 'resume/:id',
+              path: 'resume/:studentid',
               name: 'comResume',
               component: () => import('@/views/student/Resume'),
               meta: { title: '学生简历', role: 'company'}

@@ -44,7 +44,7 @@ private static final long serialVersionUID=1L;
     private Integer sex;
 
     @ApiModelProperty(value = "出生年月")
-    private Date brith;
+    private Date birth;
 
     @ApiModelProperty(value = "届别，如：2020")
     private Integer classLevel;

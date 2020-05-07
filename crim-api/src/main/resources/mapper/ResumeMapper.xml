@@ -13,7 +13,7 @@
         <result column="user_id" property="userId" />
         <result column="name" property="name" />
         <result column="sex" property="sex" />
-        <result column="brith" property="brith" />
+        <result column="birth" property="birth" />
         <result column="class_level" property="classLevel" />
         <result column="job_status" property="jobStatus" />
         <result column="phone" property="phone" />
@@ -31,7 +31,7 @@
         modify_user,
         modify_time,
         is_deleted,
-        id, user_id, name, sex, brith, class_level, job_status, phone, weixin, email, photo_id, advantage, status
+        id, user_id, name, sex, birth, class_level, job_status, phone, weixin, email, photo_id, advantage, status
     </sql>
 
 </mapper>

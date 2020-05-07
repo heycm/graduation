@@ -26,4 +26,8 @@ public class UserQuery {
 
     @ApiModelProperty("短信验证码")
     private String smsCode;
+
+    private String oldPwd;
+    private String newPwd;
+    private String surePwd;
 }

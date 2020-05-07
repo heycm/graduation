@@ -1,5 +1,6 @@
 package com.heycm.service;
 
+import com.heycm.dto.ResumeInfoDTO;
 import com.heycm.model.Resume;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-04-26
  */
 public interface IResumeService extends IService<Resume> {
+
+    ResumeInfoDTO getResumeInfoDTO(Integer userId);
 
 }

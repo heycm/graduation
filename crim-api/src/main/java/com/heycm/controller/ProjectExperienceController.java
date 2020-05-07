@@ -1,5 +1,6 @@
 package com.heycm.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.heycm.param.Param;
 import com.heycm.service.IProjectExperienceService;
 import com.heycm.model.ProjectExperience;
@@ -7,7 +8,12 @@ import com.heycm.query.ProjectExperienceQuery;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,28 +24,30 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @author heycm@qq.com
  * @since 2020-04-26
  */
+@Slf4j
+@Api(tags = "22 - 项目经历控制器 ProjectExperience")
+@Transactional
 @RestController
 @RequestMapping("/api/v1/projectExperience")
 public class ProjectExperienceController {
     @Autowired
     public IProjectExperienceService projectExperienceService;
 
-    /**
-     * 保存、修改 【区分id即可】
-     * @param param param
-     * @return ResponseMessage
-     */
+    @ApiOperation(value = "1 - 增加、更新项目经历", notes = "增加、更新项目经历")
+    @ApiOperationSupport(order = 1)
+    @RequiresRoles("student")
     @PostMapping("/save")
-    public ResponseMessage save(@RequestBody Param<ProjectExperience> param) {
-        if (param == null) {
-            return Result.error("1000", "参数为NUll");
+    public ResponseMessage save(@RequestBody ProjectExperience projectExperience) {
+        if (projectExperience == null) {
+            return Result.error("参数不能为空");
         }
-            projectExperienceService.saveOrUpdate(param.getData());
+        projectExperienceService.saveOrUpdate(projectExperience);
         return Result.ok();
     }
 
     /**
      * 根据ID删除对象信息
+     *
      * @param id 对象id
      * @return ResponseMessage
      */
@@ -48,12 +56,13 @@ public class ProjectExperienceController {
         if (id == null) {
             return Result.error("1000", "参数为NUll");
         }
-            projectExperienceService.removeById(id);
+        projectExperienceService.removeById(id);
         return Result.ok();
     }
 
     /**
      * 根据IDs批量删除
+     *
      * @param param param
      * @return ResponseMessage
      */
@@ -62,12 +71,13 @@ public class ProjectExperienceController {
         if (param == null) {
             return Result.error("1000", "参数为NUll");
         }
-            projectExperienceService.removeByIds(param.getIds());
+        projectExperienceService.removeByIds(param.getIds());
         return Result.ok();
     }
 
     /**
      * 根据ID获取对象信息
+     *
      * @param id 对象id
      * @return ResponseMessage
      */
@@ -90,10 +100,11 @@ public class ProjectExperienceController {
 
 
     /**
-    * 分页查询数据：
-    * @param param 查询对象
-    * @return  ResponseMessage
-    */
+     * 分页查询数据：
+     *
+     * @param param 查询对象
+     * @return ResponseMessage
+     */
     @PostMapping("/pageList")
     public ResponseMessage pageList(@RequestBody Param<ProjectExperienceQuery> param) {
         if (param == null) {
