@@ -79,7 +79,7 @@ export default {
          * @return {String} 转换后的数据
          */
         Vue.prototype.transTextarea = (str) => {
-            return str.replace(/\n|\r\n/g, "<br>").replace(/\s/g, "&nbsp;");
+            return !str ? '' : str.replace(/\n|\r\n/g, "<br>").replace(/\s/g, "&nbsp;");
         },
         /**
          * 将字符串中的 <br> 解析为输入框需要的 \n，
@@ -88,7 +88,7 @@ export default {
          * @return {String} 解析后的数据
          */
         Vue.prototype.parseTextarea = (str) => {
-            return str.replace(RegExp("<br>", "g"), "\n").replace(/&nbsp;/ig, " ");
+            return !str ? '' : str.replace(RegExp("<br>", "g"), "\n").replace(/&nbsp;/ig, " ");
         },
         /**
          * 设置当前登录用户信息

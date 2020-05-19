@@ -1,6 +1,6 @@
 package com.heycm.service;
 
-import com.heycm.model.Interview;
+import com.heycm.model.Star;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author heycm@qq.com
  * @since 2020-05-08
  */
-public interface IInterviewService extends IService<Interview> {
+public interface IStarService extends IService<Star> {
 
-    void setIsLastChoiceZero(Integer studentId);
 }

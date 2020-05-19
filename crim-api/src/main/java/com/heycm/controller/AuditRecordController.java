@@ -3,17 +3,12 @@ package com.heycm.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.heycm.dto.AuidtJobFairDTO;
-import com.heycm.model.Company;
-import com.heycm.model.JobFairCompany;
-import com.heycm.model.User;
+import com.heycm.dto.WaitAuditDTO;
+import com.heycm.model.*;
 import com.heycm.param.Param;
 import com.heycm.query.JobFairQuery;
-import com.heycm.service.IAuditRecordService;
-import com.heycm.model.AuditRecord;
+import com.heycm.service.*;
 import com.heycm.query.AuditRecordQuery;
-import com.heycm.service.ICompanyService;
-import com.heycm.service.IJobFairCompanyService;
-import com.heycm.service.IUserService;
 import com.heycm.utils.SubjectUtil;
 import com.heycm.utils.date.DateUtil;
 import com.heycm.utils.response.ResponseMessage;
@@ -28,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +46,8 @@ public class AuditRecordController {
     public ICompanyService companyService;
     @Autowired
     public IJobFairCompanyService jobFairCompanyService;
+    @Autowired
+    public IFileService fileService;
     @Autowired
     public SubjectUtil subjectUtil;
 
@@ -205,7 +203,7 @@ public class AuditRecordController {
     @ApiOperation(value = "6 - 通过申请入会审核", notes = "通过申请入会审核")
     @ApiOperationSupport(order = 6)
     @RequiresRoles("school")
-    @GetMapping("/joinJobFair/pass/{id}")
+    @PostMapping("/joinJobFair/pass/{id}")
     public ResponseMessage passJoinJobFair(@PathVariable("id") Integer id, String auditFeedBack) {
         if (id == null) {
             return Result.error("参数不能为空");
@@ -237,7 +235,7 @@ public class AuditRecordController {
     @ApiOperation(value = "7 - 拒绝申请入会审核", notes = "拒绝申请入会审核")
     @ApiOperationSupport(order = 7)
     @RequiresRoles("school")
-    @GetMapping("/joinJobFair/deny/{id}")
+    @PostMapping("/joinJobFair/deny/{id}")
     public ResponseMessage denyJoinJobFair(@PathVariable("id") Integer id, String auditFeedBack) {
         if (id == null || StringUtils.isBlank(auditFeedBack)) {
             return Result.error("参数不能为空");
@@ -256,6 +254,39 @@ public class AuditRecordController {
         byId.setStatus(0);
         auditRecordService.updateById(byId);
         return Result.ok();
+    }
+
+    @ApiOperation(value = "7 - 查询待审核列表", notes = "查询待审核列表")
+    @ApiOperationSupport(order = 7)
+    @RequiresRoles("school")
+    @PostMapping("/wait")
+    public ResponseMessage waitAuditList(@RequestBody Param<AuditRecordQuery> param) {
+        if (param == null) {
+            param = new Param<AuditRecordQuery>();
+        }
+        if (param.getPage() == null) {
+            param.setPage(1);
+        }
+        if (param.getRows() == null) {
+            param.setRows(5);
+        }
+        IPage<WaitAuditDTO> page = new Page<>(param.getPage(), param.getRows());
+        QueryWrapper<AuditRecordQuery> qw = new QueryWrapper<>();
+        AuditRecordQuery query = param.getData();
+        if (query != null) {
+            qw.eq(StringUtils.isNotBlank(query.getCreditCode()), "t1.credit_code", query.getCreditCode())
+                    .like(StringUtils.isNotBlank(query.getCompanyName()), "t1.company_name", query.getCompanyName());
+        }
+        IPage<WaitAuditDTO> iPage = auditRecordService.getWaitAuditList(page, qw);
+        for (WaitAuditDTO dto : iPage.getRecords()) {
+            File logo = fileService.getOne(new QueryWrapper<File>().lambda().eq(File::getUserId, dto.getUserId()).eq(File::getFileType, 0));
+            if(logo!=null){
+                dto.setLogoUrl(logo.getFileUrl());
+            }
+            List<File> license = fileService.list(new QueryWrapper<File>().lambda().eq(File::getUserId, dto.getUserId()).eq(File::getFileType, 1));
+            dto.setLicense(license);
+        }
+        return Result.ok(iPage);
     }
 
 

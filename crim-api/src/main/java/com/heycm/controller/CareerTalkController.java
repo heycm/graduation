@@ -1,14 +1,20 @@
 package com.heycm.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.heycm.dto.CareerTalkDTO;
+import com.heycm.dto.StudentCareerTalkDTO;
 import com.heycm.model.Company;
+import com.heycm.model.Student;
+import com.heycm.model.User;
 import com.heycm.param.Param;
 import com.heycm.service.ICareerTalkService;
 import com.heycm.model.CareerTalk;
 import com.heycm.query.CareerTalkQuery;
 import com.heycm.service.ICompanyService;
+import com.heycm.service.IStudentService;
+import com.heycm.service.IUserService;
 import com.heycm.utils.SubjectUtil;
 import com.heycm.utils.date.DateUtil;
 import com.heycm.utils.response.ResponseMessage;
@@ -42,6 +48,10 @@ public class CareerTalkController {
     public ICareerTalkService careerTalkService;
     @Autowired
     public ICompanyService companyService;
+    @Autowired
+    public IUserService userService;
+    @Autowired
+    public IStudentService studentService;
     @Autowired
     public SubjectUtil subjectUtil;
 
@@ -106,6 +116,59 @@ public class CareerTalkController {
     }
 
 
+    @ApiOperation(value = "3 - 学生查询企业的宣讲会", notes = "学生查询企业的宣讲会")
+    @ApiOperationSupport(order = 3)
+    @RequiresRoles("student")
+    @PostMapping("/stu/pageList")
+    public ResponseMessage stuPageList(@RequestBody Param<CareerTalkQuery> param) {
+        log.info("[学生查询企业的宣讲会][入参:{}][结束]", JSON.toJSONString(param));
+        User user = userService.getById(subjectUtil.getCurrentUserId());
+        Integer userId = user.getPid() == null ? user.getId() : user.getPid();
+        Student student = studentService.getOne(new QueryWrapper<Student>().lambda().eq(Student::getUserId, userId));
+        if (param == null) {
+            param = new Param<CareerTalkQuery>();
+        }
+        if (param.getPage() == null) {
+            param.setPage(1);
+        }
+        if (param.getRows() == null) {
+            param.setRows(5);
+        }
+        Page<StudentCareerTalkDTO> page = new Page<>(param.getPage(), param.getRows());
+        QueryWrapper<CareerTalkQuery> qw = new QueryWrapper<>();
+        CareerTalkQuery data = param.getData();
+        if (data != null) {
+            qw.eq(data.getYearId() != null, "t1.year_id", data.getYearId())
+                    .eq(data.getQuarter() != null, "t1.quarter", data.getQuarter())
+                    .like(StringUtils.isNotBlank(data.getJobFairTitle()), "t1.job_fair_title", data.getJobFairTitle())
+                    .like(StringUtils.isNotBlank(data.getCompanyName()), "t1.company_name", data.getCompanyName());
+            qw.isNotNull(data.getIsStar() != null && data.getIsStar(), "t1.star_id")
+                    .isNull(data.getIsStar() != null && !data.getIsStar(), "t1.star_id");
+        }
+        qw.orderByDesc("t1.year_name");
+        IPage<StudentCareerTalkDTO> iPage = careerTalkService.stuPageList(page, student.getId(), qw);
+        for (StudentCareerTalkDTO record : iPage.getRecords()) {
+            if (record.getStartTime() != null && record.getEndTime() != null) {
+                String start = DateUtil.getStringYMDHMS(record.getStartTime());
+                String end = DateUtil.getStringYMDHMS(record.getEndTime());
+                StringBuilder builder = new StringBuilder()
+                        .append(start.split(" ")[0].split("-")[1])
+                        .append("月")
+                        .append(start.split(" ")[0].split("-")[2])
+                        .append("日 ")
+                        .append(start.split(" ")[1].split(":")[0])
+                        .append(":")
+                        .append(start.split(" ")[1].split(":")[1])
+                        .append(" - ")
+                        .append(end.split(" ")[1].split(":")[0])
+                        .append(":")
+                        .append(end.split(" ")[1].split(":")[1]);
+                record.setTimeCycle(builder.toString());
+            }
+        }
+
+        return Result.ok(iPage);
+    }
 
 
     /**

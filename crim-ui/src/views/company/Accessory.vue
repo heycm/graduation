@@ -51,12 +51,11 @@
       </el-upload>
     </el-row>
     <el-row type="flex" class="paddingLR-15 marginB-10">
-      <el-table :data="tableData" tooltip-effect="dark">
-        <el-table-column label="文件名" show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+      <el-table :data="list" tooltip-effect="dark">
+        <el-table-column prop="name" label="文件名" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="name" label="大小(KB)" width="120"></el-table-column>
-        <el-table-column prop="name" label="上传时间" width="200"></el-table-column>
+        <el-table-column prop="size" label="大小(KB)" width="120"></el-table-column>
+        <el-table-column prop="datetime" label="上传时间" width="200"></el-table-column>
         <el-table-column label="操作" width="140">
           <template>
             <el-button type="text" size="mini">下载</el-button>
@@ -128,47 +127,53 @@ export default {
   components: {},
   data() {
     return {
+      list:[{
+        id: 1,
+        name: "营业执照",
+        size: 36,
+        datetime: '2020-05-12 14:13:12'
+      }],
       tableData: [
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: "文件名",
+          name: "200",
+          address: "宣讲会标题",
           status: 1
         },
         {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: "文件名",
+          name: "24",
+          address: "",
           status: 0
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: "文件名",
+          name: "3600",
+          address: "宣讲会标题",
           status: 1
         },
         {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: "文件名",
+          name: "777",
+          address: "宣讲会标题",
           status: 1
         },
         {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: "文件名",
+          name: "863",
+          address: "宣讲会标题",
           status: 1
         },
         {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: "文件名",
+          name: "124",
+          address: "",
           status: 0
         },
         {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: "1956348",
+          name: "512",
+          address: "",
           status: 0
         }
       ],

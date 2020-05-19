@@ -1,6 +1,8 @@
 package com.heycm.query;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author heycm@qq.com
@@ -14,5 +16,8 @@ public class CareerTalkQuery {
     private Integer quarter;
     private String jobFairTitle;
     private String careerTalkTitle;
+
+    private  String companyName;
+    private  Boolean isStar;
 
 }

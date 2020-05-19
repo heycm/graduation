@@ -85,7 +85,8 @@
         <el-row :gutter="10" style="width:1000px;margin:40px auto 0 auto;" class="xq-content">
           <el-col :span="6" v-for="(item, index) in companyList" :key="index">
             <el-card shadow="hover">
-              <img :src="item.logoUrl" class="company-logo" />
+              <!-- <img :src="item.logoUrl" class="company-logo" /> -->
+              <div class="company-logo"><el-avatar shape="square" :size="60" :src="item.logoUrl"></el-avatar></div>
               <p style="margin-top:10px;text-align:center;">{{item.companyName}}</p>
               <p style="margin-top:10px;text-align:center;color:#898e9d">{{item.industry}}</p>
               <div style="margin:10px auto 0 auto;text-align:center;">
@@ -165,7 +166,7 @@ export default {
         {
           id: 1,
           logoUrl:
-            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/company-logo.jpeg",
+            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg",
           companyName: "某某公司1",
           industry: "互联网",
           jobs: 58
@@ -173,7 +174,7 @@ export default {
         {
           id: 2,
           logoUrl:
-            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/company-logo.jpeg",
+            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg",
           companyName: "某某公司2",
           industry: "互联网",
           jobs: 58
@@ -181,7 +182,7 @@ export default {
         {
           id: 3,
           logoUrl:
-            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/company-logo.jpeg",
+            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg",
           companyName: "某某公司3",
           industry: "互联网",
           jobs: 58
@@ -189,7 +190,7 @@ export default {
         {
           id: 4,
           logoUrl:
-            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/company-logo.jpeg",
+            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg",
           companyName: "某某公司4",
           industry: "互联网",
           jobs: 58
@@ -197,7 +198,7 @@ export default {
         {
           id: 5,
           logoUrl:
-            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/company-logo.jpeg",
+            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg",
           companyName: "某某公司5",
           industry: "教育",
           jobs: 58
@@ -205,7 +206,7 @@ export default {
         {
           id: 6,
           logoUrl:
-            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/company-logo.jpeg",
+            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg",
           companyName: "某某公司6",
           industry: "计算机软件",
           jobs: 58
@@ -213,7 +214,7 @@ export default {
         {
           id: 7,
           logoUrl:
-            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/company-logo.jpeg",
+            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg",
           companyName: "某某公司7",
           industry: "移动互联网",
           jobs: 58
@@ -221,7 +222,7 @@ export default {
         {
           id: 8,
           logoUrl:
-            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/company-logo.jpeg",
+            "https://crim-img.oss-cn-beijing.aliyuncs.com/images/a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg",
           companyName: "某某公司8",
           industry: "互联网",
           jobs: 99
@@ -269,7 +270,6 @@ export default {
             });
             this.countDown();
           } else {
-            this.$message.error(res.data.msg);
             this.stopCountDown();
           }
         })
@@ -307,8 +307,6 @@ export default {
               type: "success"
             });
             this.$router.push({path: "/login"})
-          }else{
-            this.$message.error(res.data.msg)
           }
         })
         .catch(e => {});

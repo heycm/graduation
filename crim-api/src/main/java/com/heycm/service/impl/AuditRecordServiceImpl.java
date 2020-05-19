@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.heycm.dto.AuidtJobFairDTO;
+import com.heycm.dto.WaitAuditDTO;
 import com.heycm.model.AuditRecord;
 import com.heycm.mapper.AuditRecordMapper;
 import com.heycm.query.AuditRecordQuery;
@@ -12,6 +13,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -30,5 +32,10 @@ public class AuditRecordServiceImpl extends ServiceImpl<AuditRecordMapper, Audit
     @Override
     public IPage<AuidtJobFairDTO> applyJobFairAuditRecords(Page<AuidtJobFairDTO> page, QueryWrapper<AuditRecordQuery> qw) {
         return auditRecordMapper.applyJobFairAuditRecords(page, qw);
+    }
+
+    @Override
+    public IPage<WaitAuditDTO> getWaitAuditList(IPage<WaitAuditDTO> page, QueryWrapper<AuditRecordQuery> qw) {
+        return auditRecordMapper.getWaitAuditList(page, qw);
     }
 }

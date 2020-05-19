@@ -35,15 +35,15 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         //加上判断你是否自己设置了修改时间，如果设置了这里不会填充
         // Object modifyTime = getFieldValByName("modifyTime",metaObject);
-        // Object modifyUser = getFieldValByName("modifyUser",metaObject);
+        Object modifyUser = getFieldValByName("modifyUser",metaObject);
         // if(modifyTime==null){
         //     setUpdateFieldValByName("modifyTime", new Date(), metaObject);
         // }
-        // if(modifyUser==null){
-        //     setUpdateFieldValByName("modifyUser",getIdByToken(), metaObject);
-        // }
+        if(modifyUser==null){
+            setUpdateFieldValByName("modifyUser",getIdByToken(), metaObject);
+        }
         setUpdateFieldValByName("modifyTime", new Date(), metaObject);
-        setUpdateFieldValByName("modifyUser", getIdByToken(), metaObject);
+        // setUpdateFieldValByName("modifyUser", getIdByToken(), metaObject);
     }
 
     private Integer getIdByToken() {

@@ -101,6 +101,43 @@ public class JobFairCompanyController {
     }
 
 
+
+    @ApiOperation(value = "2 - 学校查询参与企业列表", notes = "学校查询参与企业列表")
+    @ApiOperationSupport(order = 2)
+    @RequiresRoles(logical = Logical.OR, value = {"school"})
+    @PostMapping("/company/list")
+    public ResponseMessage joinCompanyList(@RequestBody Param<JobFairCompanyQuery> param) {
+        long l = System.currentTimeMillis();
+        log.info("[学校查询参与企业列表][入参:{}][结束]", JSON.toJSONString(param));
+        if (param == null) {
+            param = new Param<JobFairCompanyQuery>();
+        }
+        // 1.设置默认当前页是第 1 页
+        if (param.getPage() == null) {
+            param.setPage(1);
+        }
+        // 2.设置默认每页 5 条数据
+        if (param.getRows() == null) {
+            param.setRows(5);
+        }
+        QueryWrapper<JobFairCompanyDTO> qw = new QueryWrapper<>();
+        JobFairCompanyQuery data = param.getData();
+        if (data != null) {
+            qw.eq(data.getYearId() != null, "t1.year_id", data.getYearId())
+                    .eq(data.getQuarter() != null, "t1.quarter", data.getQuarter())
+                    .eq(data.getCampusId()!=null, "t1.campus_id", data.getCampusId())
+                    .like(StringUtils.isNotBlank(data.getTitle()), "t1.job_fair_title", data.getTitle())
+                    .like(StringUtils.isNotBlank(data.getCompanyName()), "t1.company_name", data.getCompanyName());
+        }
+        Page<JobFairCompanyDTO> page = new Page<>(param.getPage(), param.getRows());
+        IPage<JobFairCompanyDTO> iPage = jobFairCompanyService.joinCompanyList(page, qw);
+
+        log.info("[学校查询参与企业列表][耗时:{}ms][查询结果:{}][结束]", (System.currentTimeMillis() - l), JSON.toJSONString(iPage));
+        return Result.ok(iPage);
+    }
+
+
+
     /**
      * 保存、修改 【区分id即可】
      *

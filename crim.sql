@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 08/05/2020 01:57:42
+ Date: 11/05/2020 16:09:06
 */
 
 SET NAMES utf8mb4;
@@ -39,20 +39,23 @@ CREATE TABLE `crim_audit_record`  (
   `status` int(11) DEFAULT NULL COMMENT '状态：0 已审核 1 未审核',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of crim_audit_record
 -- ----------------------------
-INSERT INTO `crim_audit_record` VALUES (1, 0, NULL, NULL, 4, '2020-05-04 22:55:12', 0, '欢迎哟', 1, '2020-05-04 23:25:26', 4, '2020-05-04 22:55:12', 1, '2020-05-04 23:25:26', 0, 0);
-INSERT INTO `crim_audit_record` VALUES (2, 0, NULL, NULL, 4, '2020-05-05 13:27:57', 0, '欢迎哟', 1, '2020-05-05 13:43:04', 4, '2020-05-05 13:27:57', 1, '2020-05-05 13:43:04', 0, 0);
+INSERT INTO `crim_audit_record` VALUES (1, 0, NULL, NULL, 4, '2020-05-04 22:55:12', 0, '欢迎哟', 1, '2020-05-04 23:25:26', 4, '2020-05-04 22:55:12', 1, '2020-05-04 23:25:26', 0, 1);
+INSERT INTO `crim_audit_record` VALUES (2, 0, NULL, NULL, 4, '2020-05-05 13:27:57', 0, '欢迎哟', 1, '2020-05-05 13:43:04', 4, '2020-05-05 13:27:57', 1, '2020-05-05 13:43:04', 0, 1);
 INSERT INTO `crim_audit_record` VALUES (3, 1, 1, NULL, 4, '2020-05-05 17:31:03', 2, NULL, NULL, NULL, 4, '2020-05-05 17:31:03', 4, '2020-05-05 17:31:03', 0, 1);
 INSERT INTO `crim_audit_record` VALUES (4, 1, 1, NULL, 4, '2020-05-05 17:38:19', 2, NULL, NULL, NULL, 4, '2020-05-05 17:35:41', 4, '2020-05-05 17:38:19', 0, 1);
 INSERT INTO `crim_audit_record` VALUES (5, 1, 1, NULL, 4, '2020-05-05 20:58:22', 2, NULL, NULL, NULL, 4, '2020-05-05 20:58:22', 4, '2020-05-05 20:58:22', 0, 1);
-INSERT INTO `crim_audit_record` VALUES (6, 1, 1, 2, 4, '2020-05-05 21:00:20', 0, 'ok', 1, '2020-05-05 21:45:39', 4, '2020-05-05 21:00:20', 1, '2020-05-05 21:45:39', 0, 0);
-INSERT INTO `crim_audit_record` VALUES (7, 1, 1, 4, 4, '2020-05-05 21:10:11', 0, '还行', 1, '2020-05-05 21:46:39', 4, '2020-05-05 21:10:11', 1, '2020-05-05 21:46:39', 0, 0);
-INSERT INTO `crim_audit_record` VALUES (8, 1, 1, 3, 4, '2020-05-05 21:10:21', 1, ' 不能太贪心哦', 1, '2020-05-05 22:00:06', 4, '2020-05-05 21:10:21', 1, '2020-05-05 22:00:06', 0, 0);
-INSERT INTO `crim_audit_record` VALUES (9, 1, 1, 3, 4, '2020-05-05 22:02:00', NULL, NULL, NULL, NULL, 4, '2020-05-05 22:02:00', 4, '2020-05-05 22:02:00', 1, 0);
+INSERT INTO `crim_audit_record` VALUES (6, 1, 1, 2, 4, '2020-05-05 21:00:20', 0, 'ok', 1, '2020-05-05 21:45:39', 4, '2020-05-05 21:00:20', 1, '2020-05-05 21:45:39', 0, 1);
+INSERT INTO `crim_audit_record` VALUES (7, 1, 1, 4, 4, '2020-05-05 21:10:11', 0, '还行', 1, '2020-05-05 21:46:39', 4, '2020-05-05 21:10:11', 1, '2020-05-05 21:46:39', 0, 1);
+INSERT INTO `crim_audit_record` VALUES (8, 1, 1, 3, 4, '2020-05-05 21:10:21', 1, ' 不能太贪心哦', 1, '2020-05-05 22:00:06', 4, '2020-05-05 21:10:21', 1, '2020-05-05 22:00:06', 0, 1);
+INSERT INTO `crim_audit_record` VALUES (9, 1, 1, 3, 4, '2020-05-05 22:02:00', NULL, NULL, NULL, NULL, 4, '2020-05-05 22:02:00', 4, '2020-05-05 22:02:00', 1, 1);
+INSERT INTO `crim_audit_record` VALUES (10, 1, 1, 2, 4, '2020-05-10 00:25:11', 0, '通过测试', 1, '2020-05-10 00:34:39', 4, '2020-05-10 00:25:11', 4, '2020-05-10 00:34:39', 0, 0);
+INSERT INTO `crim_audit_record` VALUES (11, 1, 1, 4, 4, '2020-05-10 00:25:42', 1, '通过测试', 1, '2020-05-10 00:29:53', 4, '2020-05-10 00:25:42', 4, '2020-05-10 00:29:53', 0, 1);
+INSERT INTO `crim_audit_record` VALUES (12, 1, 4, 4, 4, '2020-05-10 00:32:24', 1, '拒绝测试', 1, '2020-05-10 00:35:04', 4, '2020-05-10 00:32:24', 4, '2020-05-10 00:35:04', 0, 0);
 
 -- ----------------------------
 -- Table structure for crim_building
@@ -103,7 +106,7 @@ CREATE TABLE `crim_career_talk`  (
 INSERT INTO `crim_career_talk` VALUES (1, 1, '赤壁之战', '2020-05-13 09:00:00', '2020-05-13 11:00:00', '同学们请带上简历哟', 4, '2020-05-06 16:15:17', 4, '2020-05-06 18:25:15', NULL, 0);
 INSERT INTO `crim_career_talk` VALUES (2, 2, '啊实打实', '2020-05-13 09:00:00', '2020-05-13 10:30:00', NULL, 4, '2020-05-06 17:24:24', 4, '2020-05-06 17:24:24', NULL, 1);
 INSERT INTO `crim_career_talk` VALUES (3, 1, '赤壁之战', '2020-05-14 09:00:00', '2020-05-14 09:15:00', '啊实打实<br>as90du', 4, '2020-05-06 17:41:39', 4, '2020-05-06 17:41:39', NULL, 1);
-INSERT INTO `crim_career_talk` VALUES (4, 2, '打完球', '2020-05-13 09:00:00', '2020-05-13 11:30:00', NULL, 4, '2020-05-06 18:15:16', 4, '2020-05-06 18:24:23', NULL, 0);
+INSERT INTO `crim_career_talk` VALUES (4, 2, '打完球', '2020-05-13 09:00:00', '2020-05-13 11:30:00', NULL, 4, '2020-05-06 18:15:16', 4, '2020-05-06 18:24:23', NULL, 1);
 
 -- ----------------------------
 -- Table structure for crim_career_talk_student
@@ -120,12 +123,27 @@ CREATE TABLE `crim_career_talk_student`  (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of crim_career_talk_student
 -- ----------------------------
-INSERT INTO `crim_career_talk_student` VALUES (1, 1, 1, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `crim_career_talk_student` VALUES (1, 1, 1, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (4, 4, 1, 16, '2020-05-08 21:07:54', 16, '2020-05-08 21:07:54', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (5, 1, 1, 16, '2020-05-08 21:16:51', 16, '2020-05-08 21:16:51', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (6, 1, 1, 16, '2020-05-08 21:17:08', 16, '2020-05-08 21:17:08', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (7, 1, 1, 16, '2020-05-08 21:19:40', 16, '2020-05-08 21:19:40', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (8, 4, 1, 16, '2020-05-08 21:20:23', 16, '2020-05-08 21:20:23', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (9, 1, 1, 16, '2020-05-08 21:20:26', 16, '2020-05-08 21:20:26', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (10, 1, 1, 16, '2020-05-08 21:20:58', 16, '2020-05-08 21:20:58', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (11, 4, 1, 16, '2020-05-08 21:21:00', 16, '2020-05-08 21:21:00', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (12, 1, 1, 16, '2020-05-08 21:38:19', 16, '2020-05-08 21:38:19', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (13, 4, 1, 16, '2020-05-08 21:41:01', 16, '2020-05-08 21:41:01', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (14, 1, 1, 16, '2020-05-08 21:45:33', 16, '2020-05-08 21:45:33', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (15, 1, 1, 16, '2020-05-08 22:13:29', 16, '2020-05-08 22:13:29', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (16, 1, 1, 16, '2020-05-08 22:15:17', 16, '2020-05-08 22:15:17', NULL, 1);
+INSERT INTO `crim_career_talk_student` VALUES (17, 4, 1, 16, '2020-05-08 22:15:21', 16, '2020-05-08 22:15:21', NULL, 0);
+INSERT INTO `crim_career_talk_student` VALUES (18, 1, 1, 16, '2020-05-09 16:36:22', 16, '2020-05-09 16:36:22', NULL, 0);
 
 -- ----------------------------
 -- Table structure for crim_chat
@@ -133,10 +151,10 @@ INSERT INTO `crim_career_talk_student` VALUES (1, 1, 1, NULL, NULL, NULL, NULL, 
 DROP TABLE IF EXISTS `crim_chat`;
 CREATE TABLE `crim_chat`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '消息id',
-  `type` int(11) DEFAULT NULL COMMENT '消息类型：0 文本 1 文件',
-  `from` int(11) DEFAULT NULL COMMENT '发送者id',
-  `to` int(11) DEFAULT NULL COMMENT '接受者id',
-  `content` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '消息内容（文本内容/文件链接）',
+  `type` int(11) NOT NULL COMMENT '消息类型：0 文本 1 文件',
+  `from_id` int(11) NOT NULL COMMENT '发送者id',
+  `to_id` int(11) NOT NULL COMMENT '接受者id',
+  `content` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '消息内容（文本内容/文件链接）',
   `err_code` int(11) DEFAULT NULL COMMENT '错误代码',
   `err_msg` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '错误描述',
   `send_time` datetime(0) DEFAULT NULL COMMENT '发送时间',
@@ -144,10 +162,106 @@ CREATE TABLE `crim_chat`  (
   `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
   `modify_user` int(11) DEFAULT NULL COMMENT '最新修改人id',
   `modify_time` datetime(0) DEFAULT NULL COMMENT '最新修改时间',
-  `status` int(11) DEFAULT NULL COMMENT '消息状态：0 已发送 1 未发送',
-  `is_deleted` int(11) DEFAULT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
+  `status` int(11) NOT NULL COMMENT '消息状态：0 已发送 1 未发送',
+  `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_chat
+-- ----------------------------
+INSERT INTO `crim_chat` VALUES (1, 0, 4, 8, 'hello', NULL, NULL, '2020-05-09 02:11:30', NULL, NULL, 4, '2020-05-09 02:41:15', 0, 0);
+INSERT INTO `crim_chat` VALUES (2, 0, 4, 8, '你好', NULL, NULL, '2020-05-09 02:12:19', NULL, NULL, 4, '2020-05-09 02:41:15', 0, 0);
+INSERT INTO `crim_chat` VALUES (3, 0, 8, 4, '<p>你好嚯嚯嚯</p>', 505001, '对方未在线', '2020-05-09 14:32:15', 16, '2020-05-09 14:32:15', 16, '2020-05-09 14:32:15', 0, 0);
+INSERT INTO `crim_chat` VALUES (4, 0, 8, 4, '<p>如果您看到这条消息</p><p>请回复</p>', 505001, '对方未在线', '2020-05-09 14:33:34', 16, '2020-05-09 14:33:34', 16, '2020-05-09 14:33:34', 0, 0);
+INSERT INTO `crim_chat` VALUES (5, 0, 4, 8, '<p>收到</p>', NULL, NULL, '2020-05-09 14:45:11', 4, '2020-05-09 14:45:11', 4, '2020-05-09 14:45:11', 0, 0);
+INSERT INTO `crim_chat` VALUES (6, 0, 8, 4, '<p>水哦啊端技术</p>', NULL, NULL, '2020-05-09 14:45:22', 16, '2020-05-09 14:45:22', 16, '2020-05-09 14:45:22', 0, 0);
+INSERT INTO `crim_chat` VALUES (7, 0, 4, 8, '<p>你才</p>', NULL, NULL, '2020-05-09 14:45:50', 4, '2020-05-09 14:45:50', 4, '2020-05-09 14:45:50', 0, 0);
+INSERT INTO `crim_chat` VALUES (8, 0, 4, 8, '<p><br></p>', NULL, NULL, '2020-05-09 14:46:00', 4, '2020-05-09 14:46:00', 4, '2020-05-09 14:46:00', 0, 0);
+INSERT INTO `crim_chat` VALUES (9, 0, 4, 8, '<p>去你的&nbsp;</p>', NULL, NULL, '2020-05-09 14:47:32', 4, '2020-05-09 14:47:32', 4, '2020-05-09 14:47:32', 0, 0);
+INSERT INTO `crim_chat` VALUES (10, 0, 8, 4, '<p>你这BUG不是一般的多啊</p>', NULL, NULL, '2020-05-09 14:47:50', 16, '2020-05-09 14:47:50', 16, '2020-05-09 14:47:50', 0, 0);
+INSERT INTO `crim_chat` VALUES (11, 0, 4, 8, '<p><br></p>', NULL, NULL, '2020-05-09 14:48:12', 4, '2020-05-09 14:48:12', 4, '2020-05-09 14:48:12', 0, 0);
+INSERT INTO `crim_chat` VALUES (12, 0, 4, 8, '<p>我丢</p><p><br></p>', NULL, NULL, '2020-05-09 14:48:32', 4, '2020-05-09 14:48:32', 4, '2020-05-09 14:48:32', 0, 0);
+INSERT INTO `crim_chat` VALUES (13, 0, 4, 8, '<p><br></p>', NULL, NULL, '2020-05-09 14:48:44', 4, '2020-05-09 14:48:44', 4, '2020-05-09 14:48:44', 0, 0);
+INSERT INTO `crim_chat` VALUES (14, 0, 8, 4, '<p>我他么</p><p><br></p><p>无语了</p>', NULL, NULL, '2020-05-09 14:49:40', 16, '2020-05-09 14:49:40', 16, '2020-05-09 14:49:40', 0, 0);
+INSERT INTO `crim_chat` VALUES (15, 0, 8, 4, '<p>bug真的很多</p><p>爱丽丝的航空</p><p>傲娇的</p>', NULL, NULL, '2020-05-09 14:50:04', 16, '2020-05-09 14:50:04', 16, '2020-05-09 14:50:04', 0, 0);
+INSERT INTO `crim_chat` VALUES (16, 0, 8, 4, '<p>加速度和s</p><p>熬时间</p><p>奥苏</p><p>啊【四大</p>', NULL, NULL, '2020-05-09 14:50:18', 16, '2020-05-09 14:50:18', 16, '2020-05-09 14:50:18', 0, 0);
+INSERT INTO `crim_chat` VALUES (17, 0, 4, 8, '<p>ca</p><p><br></p>', NULL, NULL, '2020-05-09 14:50:50', 4, '2020-05-09 14:50:50', 4, '2020-05-09 14:50:50', 0, 0);
+INSERT INTO `crim_chat` VALUES (18, 0, 4, 8, '<p><br></p>', NULL, NULL, '2020-05-09 14:51:08', 4, '2020-05-09 14:51:08', 4, '2020-05-09 14:51:08', 0, 0);
+INSERT INTO `crim_chat` VALUES (19, 0, 8, 4, '<p>我累了</p>', NULL, NULL, '2020-05-09 14:51:27', 16, '2020-05-09 14:51:27', 16, '2020-05-09 14:51:27', 0, 0);
+INSERT INTO `crim_chat` VALUES (20, 0, 8, 4, '<p>你这毛病太多</p>', NULL, NULL, '2020-05-09 14:51:54', 16, '2020-05-09 14:51:54', 16, '2020-05-09 14:51:54', 0, 0);
+INSERT INTO `crim_chat` VALUES (21, 0, 8, 4, '<p>换个编辑框</p>', NULL, NULL, '2020-05-09 14:52:11', 16, '2020-05-09 14:52:11', 16, '2020-05-09 14:52:11', 0, 0);
+INSERT INTO `crim_chat` VALUES (22, 0, 8, 4, '老实交代为噢诶\n爱的\n啊【拍摄地\n啊【【】拍摄地\n啊【0我的\n啊【电商\n啊【0地【怕死的\n啊【0四【奥斯丁\naps9duasp0', NULL, NULL, '2020-05-09 14:57:02', 16, '2020-05-09 14:57:02', 16, '2020-05-09 14:57:02', 0, 0);
+INSERT INTO `crim_chat` VALUES (23, 0, 8, 4, '我打设计费喷水电机<br>奥苏【嗲', NULL, NULL, '2020-05-09 14:59:09', 16, '2020-05-09 14:59:09', 16, '2020-05-09 14:59:09', 0, 0);
+INSERT INTO `crim_chat` VALUES (24, 0, 4, 8, '我真的无语了', NULL, NULL, '2020-05-09 14:59:56', 4, '2020-05-09 14:59:56', 4, '2020-05-09 14:59:56', 0, 0);
+INSERT INTO `crim_chat` VALUES (25, 0, 4, 8, '这是个什么鬼', NULL, NULL, '2020-05-09 15:00:07', 4, '2020-05-09 15:00:07', 4, '2020-05-09 15:00:07', 0, 0);
+INSERT INTO `crim_chat` VALUES (26, 0, 4, 8, '丑，<br>的不行', NULL, NULL, '2020-05-09 15:01:09', 4, '2020-05-09 15:01:09', 4, '2020-05-09 15:01:09', 0, 0);
+INSERT INTO `crim_chat` VALUES (27, 0, 4, 8, '试试<br>时候<br>试试<br>树敌', NULL, NULL, '2020-05-09 15:02:14', 4, '2020-05-09 15:02:14', 4, '2020-05-09 15:02:14', 0, 0);
+INSERT INTO `crim_chat` VALUES (28, 0, 4, 8, '是<br>搜集的<br>平搜集的<br>是【哦对', NULL, NULL, '2020-05-09 15:05:19', 4, '2020-05-09 15:05:19', 4, '2020-05-09 15:05:19', 0, 0);
+INSERT INTO `crim_chat` VALUES (29, 0, 4, 8, '是<br>搜集的<br>平搜集的<br>是【哦对', NULL, NULL, '2020-05-09 15:07:20', 4, '2020-05-09 15:07:20', 4, '2020-05-09 15:07:20', 0, 0);
+INSERT INTO `crim_chat` VALUES (30, 0, 4, 8, '终于<br>哭了l<br>累了<br>笑了<br>那就这样吧<br>。。。。。', NULL, NULL, '2020-05-09 15:10:37', 4, '2020-05-09 15:10:37', 4, '2020-05-09 15:10:37', 0, 0);
+INSERT INTO `crim_chat` VALUES (31, 0, 8, 4, '卡搜集的卡萨丁借记卡', 505001, '对方未在线', '2020-05-09 15:29:54', 16, '2020-05-09 15:29:54', 16, '2020-05-09 15:29:54', 0, 0);
+INSERT INTO `crim_chat` VALUES (32, 0, 4, 8, '哈哈哈<br>', NULL, NULL, '2020-05-09 15:31:10', 4, '2020-05-09 15:31:10', 4, '2020-05-09 15:31:10', 0, 0);
+INSERT INTO `crim_chat` VALUES (33, 0, 4, 8, '萨瓦迪卡', NULL, NULL, '2020-05-09 15:37:06', 4, '2020-05-09 15:37:06', 4, '2020-05-09 15:37:06', 0, 0);
+INSERT INTO `crim_chat` VALUES (34, 0, 4, 8, '阿斯顿撒旦', NULL, NULL, '2020-05-09 15:59:27', 4, '2020-05-09 15:59:27', 4, '2020-05-09 15:59:27', 0, 0);
+INSERT INTO `crim_chat` VALUES (35, 0, 4, 8, 'ca<br>', NULL, NULL, '2020-05-09 16:00:27', 4, '2020-05-09 16:00:27', 4, '2020-05-09 16:00:27', 0, 0);
+INSERT INTO `crim_chat` VALUES (36, 0, 4, 8, '终于', NULL, NULL, '2020-05-09 16:00:38', 4, '2020-05-09 16:00:38', 4, '2020-05-09 16:00:38', 0, 0);
+INSERT INTO `crim_chat` VALUES (37, 0, 4, 8, '我太难了', NULL, NULL, '2020-05-09 16:04:50', 4, '2020-05-09 16:04:50', 4, '2020-05-09 16:04:50', 0, 0);
+INSERT INTO `crim_chat` VALUES (38, 0, 8, 4, '说来听听', NULL, NULL, '2020-05-09 16:05:16', 16, '2020-05-09 16:05:16', 16, '2020-05-09 16:05:16', 0, 0);
+INSERT INTO `crim_chat` VALUES (39, 0, 4, 8, '说多都是泪<br>www<br>嘤嘤嘤怪准备要出现了', NULL, NULL, '2020-05-09 16:07:25', 4, '2020-05-09 16:07:25', 4, '2020-05-09 16:07:25', 0, 0);
+INSERT INTO `crim_chat` VALUES (40, 0, 8, 4, '我吐了，正常点OK？', NULL, NULL, '2020-05-09 16:08:06', 16, '2020-05-09 16:08:06', 16, '2020-05-09 16:08:06', 0, 0);
+INSERT INTO `crim_chat` VALUES (41, 0, 4, 8, 'okok', NULL, NULL, '2020-05-09 16:08:32', 4, '2020-05-09 16:08:32', 4, '2020-05-09 16:08:32', 0, 0);
+INSERT INTO `crim_chat` VALUES (42, 0, 4, 8, '哎<br>累', NULL, NULL, '2020-05-09 16:08:52', 4, '2020-05-09 16:08:52', 4, '2020-05-09 16:08:52', 0, 0);
+INSERT INTO `crim_chat` VALUES (43, 0, 8, 4, 'gun', NULL, NULL, '2020-05-09 16:09:02', 16, '2020-05-09 16:09:02', 16, '2020-05-09 16:09:02', 0, 0);
+INSERT INTO `crim_chat` VALUES (44, 0, 8, 4, '四大', NULL, NULL, '2020-05-09 16:24:04', 16, '2020-05-09 16:24:04', 16, '2020-05-09 16:24:04', 0, 0);
+INSERT INTO `crim_chat` VALUES (45, 0, 4, 8, '考虑到付款', 505001, '对方未在线', '2020-05-09 20:42:19', 4, '2020-05-09 20:42:19', 4, '2020-05-09 21:16:37', 0, 0);
+INSERT INTO `crim_chat` VALUES (46, 0, 4, 8, '说的就是的', 505001, '对方未在线', '2020-05-09 20:42:34', 4, '2020-05-09 20:42:34', 4, '2020-05-09 21:16:37', 0, 0);
+INSERT INTO `crim_chat` VALUES (47, 0, 8, 4, '好的呢', NULL, NULL, '2020-05-09 20:43:19', 16, '2020-05-09 20:43:19', 16, '2020-05-09 20:43:19', 0, 0);
+INSERT INTO `crim_chat` VALUES (48, 0, 4, 8, '下单吧亲', NULL, NULL, '2020-05-09 20:44:48', 4, '2020-05-09 20:44:48', 4, '2020-05-09 20:44:48', 0, 0);
+INSERT INTO `crim_chat` VALUES (49, 0, 8, 4, '我就不，pui', NULL, NULL, '2020-05-09 20:45:04', 16, '2020-05-09 20:45:04', 16, '2020-05-09 20:45:04', 0, 0);
+INSERT INTO `crim_chat` VALUES (50, 0, 4, 8, '你是在演我？？？', NULL, NULL, '2020-05-09 20:46:19', 4, '2020-05-09 20:46:19', 4, '2020-05-09 20:46:19', 0, 0);
+INSERT INTO `crim_chat` VALUES (51, 0, 8, 4, '是的呢亲', NULL, NULL, '2020-05-09 20:46:44', 16, '2020-05-09 20:46:44', 16, '2020-05-09 20:46:44', 0, 0);
+INSERT INTO `crim_chat` VALUES (52, 0, 4, 8, '再见', NULL, NULL, '2020-05-09 20:48:28', 4, '2020-05-09 20:48:28', 4, '2020-05-09 20:48:28', 0, 0);
+INSERT INTO `crim_chat` VALUES (53, 0, 8, 4, '好的呢', NULL, NULL, '2020-05-09 20:49:06', 16, '2020-05-09 20:49:06', 16, '2020-05-09 20:49:06', 0, 0);
+INSERT INTO `crim_chat` VALUES (54, 0, 4, 8, '。。。', NULL, NULL, '2020-05-09 20:49:20', 4, '2020-05-09 20:49:20', 4, '2020-05-09 20:49:20', 0, 0);
+INSERT INTO `crim_chat` VALUES (55, 0, 4, 8, '自行体会我的白眼神', NULL, NULL, '2020-05-09 20:49:45', 4, '2020-05-09 20:49:45', 4, '2020-05-09 20:49:45', 0, 0);
+INSERT INTO `crim_chat` VALUES (56, 0, 8, 4, '拜拜', NULL, NULL, '2020-05-09 20:51:09', 16, '2020-05-09 20:51:09', 16, '2020-05-09 20:51:09', 0, 0);
+INSERT INTO `crim_chat` VALUES (57, 0, 4, 8, '┏(＾0＾)┛', NULL, NULL, '2020-05-09 20:51:21', 4, '2020-05-09 20:51:21', 4, '2020-05-09 20:51:21', 0, 0);
+INSERT INTO `crim_chat` VALUES (58, 0, 4, 8, '酷&nbsp;墨镜&nbsp;得意&nbsp;王家卫&nbsp;机智酷&nbsp;墨镜&nbsp;得意&nbsp;王家卫&nbsp;机智', NULL, NULL, '2020-05-09 20:51:41', 4, '2020-05-09 20:51:41', 4, '2020-05-09 20:51:41', 0, 0);
+INSERT INTO `crim_chat` VALUES (59, 0, 8, 4, '对方', NULL, NULL, '2020-05-09 20:52:46', 16, '2020-05-09 20:52:46', 16, '2020-05-09 20:52:46', 0, 0);
+INSERT INTO `crim_chat` VALUES (60, 0, 4, 8, '是', NULL, NULL, '2020-05-09 20:53:18', 4, '2020-05-09 20:53:18', 4, '2020-05-09 20:53:18', 0, 0);
+INSERT INTO `crim_chat` VALUES (61, 0, 4, 8, '你', NULL, NULL, '2020-05-09 20:53:29', 4, '2020-05-09 20:53:29', 4, '2020-05-09 20:53:29', 0, 0);
+INSERT INTO `crim_chat` VALUES (62, 0, 4, 8, '吗', NULL, NULL, '2020-05-09 20:53:35', 4, '2020-05-09 20:53:35', 4, '2020-05-09 20:53:35', 0, 0);
+INSERT INTO `crim_chat` VALUES (63, 0, 8, 4, '不是走开', NULL, NULL, '2020-05-09 20:53:42', 16, '2020-05-09 20:53:42', 16, '2020-05-09 20:53:42', 0, 0);
+INSERT INTO `crim_chat` VALUES (64, 0, 4, 8, '我<br>哈<br>哈<br>哈<br>哈<br>哈<br>了', NULL, NULL, '2020-05-09 20:54:09', 4, '2020-05-09 20:54:09', 4, '2020-05-09 20:54:09', 0, 0);
+INSERT INTO `crim_chat` VALUES (65, 0, 4, 8, '是', NULL, NULL, '2020-05-09 20:55:04', 4, '2020-05-09 20:55:04', 4, '2020-05-09 20:55:04', 0, 0);
+INSERT INTO `crim_chat` VALUES (66, 0, 4, 8, '阿萨飒飒的', NULL, NULL, '2020-05-09 20:55:09', 4, '2020-05-09 20:55:09', 4, '2020-05-09 20:55:09', 0, 0);
+INSERT INTO `crim_chat` VALUES (67, 0, 4, 8, '书大户', NULL, NULL, '2020-05-09 20:58:57', 4, '2020-05-09 20:58:57', 4, '2020-05-09 20:58:57', 0, 0);
+INSERT INTO `crim_chat` VALUES (68, 0, 4, 8, 'as多划算', NULL, NULL, '2020-05-09 20:59:03', 4, '2020-05-09 20:59:03', 4, '2020-05-09 20:59:03', 0, 0);
+INSERT INTO `crim_chat` VALUES (69, 0, 8, 4, '的压碎<br>爱拍速冻', NULL, NULL, '2020-05-09 20:59:13', 16, '2020-05-09 20:59:13', 16, '2020-05-09 20:59:13', 0, 0);
+INSERT INTO `crim_chat` VALUES (70, 0, 8, 4, '让国人', NULL, NULL, '2020-05-09 20:59:16', 16, '2020-05-09 20:59:16', 16, '2020-05-09 20:59:16', 0, 0);
+INSERT INTO `crim_chat` VALUES (71, 0, 8, 4, '规范和法国恢复', NULL, NULL, '2020-05-09 20:59:19', 16, '2020-05-09 20:59:19', 16, '2020-05-09 20:59:19', 0, 0);
+INSERT INTO `crim_chat` VALUES (72, 0, 8, 4, '欠人情翁群翁多群无', NULL, NULL, '2020-05-09 20:59:22', 16, '2020-05-09 20:59:22', 16, '2020-05-09 20:59:22', 0, 0);
+INSERT INTO `crim_chat` VALUES (73, 0, 8, 4, '阿萨达', NULL, NULL, '2020-05-09 20:59:34', 16, '2020-05-09 20:59:34', 16, '2020-05-09 20:59:34', 0, 0);
+INSERT INTO `crim_chat` VALUES (74, 0, 8, 4, '水电费水电费', NULL, NULL, '2020-05-09 20:59:38', 16, '2020-05-09 20:59:38', 16, '2020-05-09 20:59:38', 0, 0);
+INSERT INTO `crim_chat` VALUES (75, 0, 8, 4, '收到', NULL, NULL, '2020-05-09 21:00:11', 16, '2020-05-09 21:00:11', 16, '2020-05-09 21:00:11', 0, 0);
+INSERT INTO `crim_chat` VALUES (76, 0, 8, 4, '收到的', NULL, NULL, '2020-05-09 21:00:14', 16, '2020-05-09 21:00:14', 16, '2020-05-09 21:00:14', 0, 0);
+INSERT INTO `crim_chat` VALUES (77, 0, 8, 4, '按时大大', NULL, NULL, '2020-05-09 21:00:16', 16, '2020-05-09 21:00:16', 16, '2020-05-09 21:00:16', 0, 0);
+INSERT INTO `crim_chat` VALUES (78, 0, 4, 8, '按时大大', NULL, NULL, '2020-05-09 21:00:59', 4, '2020-05-09 21:00:59', 4, '2020-05-09 21:00:59', 0, 0);
+INSERT INTO `crim_chat` VALUES (79, 0, 4, 8, '按时大大', NULL, NULL, '2020-05-09 21:01:04', 4, '2020-05-09 21:01:04', 4, '2020-05-09 21:01:04', 0, 0);
+INSERT INTO `crim_chat` VALUES (80, 0, 4, 8, '收到的', NULL, NULL, '2020-05-09 21:01:07', 4, '2020-05-09 21:01:07', 4, '2020-05-09 21:01:07', 0, 0);
+INSERT INTO `crim_chat` VALUES (81, 0, 4, 8, '啊实打实的', NULL, NULL, '2020-05-09 21:01:09', 4, '2020-05-09 21:01:09', 4, '2020-05-09 21:01:09', 0, 0);
+INSERT INTO `crim_chat` VALUES (82, 0, 4, 8, '阿达萨达是', NULL, NULL, '2020-05-09 21:01:11', 4, '2020-05-09 21:01:11', 4, '2020-05-09 21:01:11', 0, 0);
+INSERT INTO `crim_chat` VALUES (83, 0, 4, 8, '撒', NULL, NULL, '2020-05-09 21:02:04', 4, '2020-05-09 21:02:04', 4, '2020-05-09 21:02:04', 0, 0);
+INSERT INTO `crim_chat` VALUES (84, 0, 8, 4, '爱是低价克里斯<br>爱搜点击<br>奥斯', NULL, NULL, '2020-05-09 21:02:12', 16, '2020-05-09 21:02:12', 16, '2020-05-09 21:02:12', 0, 0);
+INSERT INTO `crim_chat` VALUES (85, 0, 8, 4, '按时大大', NULL, NULL, '2020-05-09 21:02:13', 16, '2020-05-09 21:02:13', 16, '2020-05-09 21:02:13', 0, 0);
+INSERT INTO `crim_chat` VALUES (86, 0, 8, 4, '按时大大', NULL, NULL, '2020-05-09 21:02:16', 16, '2020-05-09 21:02:16', 16, '2020-05-09 21:02:16', 0, 0);
+INSERT INTO `crim_chat` VALUES (87, 0, 8, 4, '阿萨大师', NULL, NULL, '2020-05-09 21:02:18', 16, '2020-05-09 21:02:18', 16, '2020-05-09 21:02:18', 0, 0);
+INSERT INTO `crim_chat` VALUES (88, 0, 4, 8, '爱上大城市', 505001, '对方未在线', '2020-05-09 21:07:12', 4, '2020-05-09 21:07:12', 4, '2020-05-09 21:16:37', 0, 0);
+INSERT INTO `crim_chat` VALUES (89, 0, 8, 4, '阿萨达', 505001, '对方未在线', '2020-05-09 21:12:47', 16, '2020-05-09 21:12:47', 16, '2020-05-09 21:29:20', 0, 0);
+INSERT INTO `crim_chat` VALUES (90, 0, 4, 8, '阿萨德', NULL, NULL, '2020-05-09 21:13:00', 4, '2020-05-09 21:13:00', 4, '2020-05-09 21:13:00', 0, 0);
+INSERT INTO `crim_chat` VALUES (91, 0, 4, 8, '&nbsp;撒', NULL, NULL, '2020-05-09 21:19:47', 4, '2020-05-09 21:19:47', 4, '2020-05-09 21:19:47', 0, 0);
+INSERT INTO `crim_chat` VALUES (92, 0, 4, 8, '等我', 505001, '对方未在线', '2020-05-09 21:27:17', 4, '2020-05-09 21:27:17', 4, '2020-05-09 21:52:11', 0, 0);
 
 -- ----------------------------
 -- Table structure for crim_company
@@ -183,7 +297,7 @@ CREATE TABLE `crim_company`  (
 -- Records of crim_company
 -- ----------------------------
 INSERT INTO `crim_company` VALUES (1, 4, '中国移动', NULL, NULL, NULL, '张xx', '5000000.00万元人民币', '2020-05-04', '北京市', '在营', '上市股份有限公司', '北京市', '10000000000XXXXXXXXXX', NULL, NULL, 4, '2020-05-04 21:14:07', 4, '2020-05-04 21:14:07', NULL, 1);
-INSERT INTO `crim_company` VALUES (2, 4, '中国移动', NULL, '张默默', '13888888888', '张xx', '5000000.00万元人民币', '2020-05-04', '北京市', '在营', '上市股份有限公司', '北京市', '10000000000XXXXXXXXXX', '经营范围<br>经营范围<br>经营范围<br>经营范围经营范围经营范围<br>经营范围<br>', '简介简介简介简介&nbsp;&nbsp;简介简介1234<br><br>bbq', 4, '2020-05-04 21:14:54', 1, '2020-05-05 13:43:04', 0, 0);
+INSERT INTO `crim_company` VALUES (2, 4, '中国移动', NULL, '张默默', '13888888888', '张xx', '5000000.00万元人民币', '2020-05-04', '北京市', '在营', '上市股份有限公司', '北京市', '10000000000XXXXXXXXXX', '经营范围<br>经营范围<br>经营范围<br>经营范围经营范围经营范围<br>经营范围<br>', '简介简介简介简介&nbsp;&nbsp;简介简介1234<br><br>bbq', 4, '2020-05-04 21:14:54', 1, '2020-05-10 00:29:53', 2, 0);
 
 -- ----------------------------
 -- Table structure for crim_department
@@ -302,7 +416,7 @@ INSERT INTO `crim_file` VALUES (3, 1, '2020显卡天梯', '902f47c3-75ed-480d-90
 INSERT INTO `crim_file` VALUES (4, 1, '0913160406何宇 - 综测', 'c657bfd1-2a91-45c2-966d-5ebda7a3e1d9.xls', 'xls', 43008, 2, 'http://crim-file.oss-cn-beijing.aliyuncs.com/files/c657bfd1-2a91-45c2-966d-5ebda7a3e1d9.xls?Expires=1896082202&OSSAccessKeyId=LTAI4Fhi546AL87pHNV48eG7&Signature=j62nzKpugrVu1fqkkQhREk2wnfc%3D', 1, '2020-05-03 17:30:03', 1, '2020-05-03 17:30:03', 1, 1);
 INSERT INTO `crim_file` VALUES (5, 1, 'JavaEE_API ', '00998ce2-f3c0-4d38-9676-683610fb2857.chm', 'chm', 6930265, 2, 'http://crim-file.oss-cn-beijing.aliyuncs.com/files/00998ce2-f3c0-4d38-9676-683610fb2857.chm?Expires=1896082202&OSSAccessKeyId=LTAI4Fhi546AL87pHNV48eG7&Signature=E40dvRZWC07bCaQjm901VPpx62s%3D', 1, '2020-05-03 17:30:03', 1, '2020-05-03 17:30:03', 1, 1);
 INSERT INTO `crim_file` VALUES (6, 1, 'JavaEE_API ', 'f9b7709a-ed05-4faa-903a-cf17cdf524f6.chw', 'chw', 1223248, 2, 'http://crim-file.oss-cn-beijing.aliyuncs.com/files/f9b7709a-ed05-4faa-903a-cf17cdf524f6.chw?Expires=1896082203&OSSAccessKeyId=LTAI4Fhi546AL87pHNV48eG7&Signature=PWrr%2BVYI%2BIbZzaaz3MRRWEYRc4k%3D', 1, '2020-05-03 17:30:03', 1, '2020-05-03 17:30:03', 1, 1);
-INSERT INTO `crim_file` VALUES (7, 4, '捕获', '4b0cf7c5-4928-4fef-bf2d-178cd56d3527.PNG', 'PNG', 33, 0, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/4b0cf7c5-4928-4fef-bf2d-178cd56d3527.PNG', 4, '2020-05-04 21:45:16', 4, '2020-05-06 23:12:12', NULL, 0);
+INSERT INTO `crim_file` VALUES (7, 4, '中国移动logo', 'a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg', 'jpg', 20, 0, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/a81c3c98-bb7f-4cc7-a815-0e19b786d5cc.jpg', 4, '2020-05-04 21:45:16', 4, '2020-05-09 20:48:50', NULL, 0);
 INSERT INTO `crim_file` VALUES (8, 4, '营业执照', 'f9f61631-f7f4-44fe-bd08-5c627342e18e.jpeg', 'jpeg', 30, 1, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/f9f61631-f7f4-44fe-bd08-5c627342e18e.jpeg', 4, '2020-05-04 21:58:21', 4, '2020-05-04 22:01:17', NULL, 1);
 INSERT INTO `crim_file` VALUES (9, 4, '营业执照', '457dd864-f00a-4c06-9e8c-ab7c41cf936b.jpeg', 'jpeg', 30, 1, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/457dd864-f00a-4c06-9e8c-ab7c41cf936b.jpeg', 4, '2020-05-04 21:58:35', 4, '2020-05-04 21:58:35', NULL, 1);
 INSERT INTO `crim_file` VALUES (10, 4, '营业执照', '52be41b7-e7cc-4c75-82ad-b0e084937af3.jpeg', 'jpeg', 30, 1, 'https://crim-img.oss-cn-beijing.aliyuncs.com/images/52be41b7-e7cc-4c75-82ad-b0e084937af3.jpeg', 4, '2020-05-04 22:00:29', 4, '2020-05-04 22:00:29', NULL, 1);
@@ -415,9 +529,10 @@ CREATE TABLE `crim_interview`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '面试记录id',
   `company_id` int(11) NOT NULL COMMENT '企业id',
   `career_talk_id` int(11) NOT NULL COMMENT '宣讲会id',
-  `job_vacancy_id` int(11) NOT NULL COMMENT '职位id',
   `student_id` int(11) NOT NULL COMMENT '学生id',
+  `job_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '职位名称',
   `regular_pay` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '最终薪资：如 10-12K',
+  `work_place` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '工作地点',
   `welfare` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最终福利',
   `is_last_choice` int(11) NOT NULL COMMENT '是否最终选择：0 否 1 是',
   `create_user` int(11) DEFAULT NULL COMMENT '创建人',
@@ -427,7 +542,26 @@ CREATE TABLE `crim_interview`  (
   `status` int(11) NOT NULL COMMENT '状态：0 未开始 1 待回复 2 已通过 3 被拒绝',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of crim_interview
+-- ----------------------------
+INSERT INTO `crim_interview` VALUES (1, 2, 4, 1, 'JAVA', '10K', '北京', NULL, 0, 16, '2020-05-08 21:07:54', 16, '2020-05-08 21:07:54', 0, 1);
+INSERT INTO `crim_interview` VALUES (2, 2, 1, 1, 'JAVA', '10K', '北京', NULL, 0, 16, '2020-05-08 21:16:51', 16, '2020-05-08 21:16:51', 0, 1);
+INSERT INTO `crim_interview` VALUES (3, 2, 1, 1, 'UI设计师', '12K', '广州', NULL, 0, 16, '2020-05-08 21:17:08', 16, '2020-05-08 21:17:08', 0, 1);
+INSERT INTO `crim_interview` VALUES (4, 2, 1, 1, 'UI设计师', '12K', '广州', NULL, 0, 16, '2020-05-08 21:19:40', 16, '2020-05-08 21:19:40', 0, 1);
+INSERT INTO `crim_interview` VALUES (5, 2, 4, 1, 'JAVA', '10K', '北京', NULL, 0, 16, '2020-05-08 21:20:23', 16, '2020-05-08 21:20:23', 0, 1);
+INSERT INTO `crim_interview` VALUES (6, 2, 1, 1, 'UI设计师', '12K', '广州', NULL, 0, 16, '2020-05-08 21:20:26', 16, '2020-05-08 21:20:26', 0, 1);
+INSERT INTO `crim_interview` VALUES (7, 2, 1, 1, 'JAVA', '10K', '北京', NULL, 0, 16, '2020-05-08 21:20:58', 16, '2020-05-08 21:20:58', 0, 1);
+INSERT INTO `crim_interview` VALUES (8, 2, 4, 1, 'UI设计师', '12K', '广州', NULL, 0, 16, '2020-05-08 21:21:00', 16, '2020-05-08 21:21:00', 0, 1);
+INSERT INTO `crim_interview` VALUES (9, 2, 1, 1, 'JAVA', '10K', '北京', NULL, 0, 16, '2020-05-08 21:38:19', 16, '2020-05-08 21:38:19', 0, 1);
+INSERT INTO `crim_interview` VALUES (10, 2, 4, 1, 'UI设计师', '12K', '广州', NULL, 0, 16, '2020-05-08 21:41:01', 16, '2020-05-08 22:14:01', 0, 1);
+INSERT INTO `crim_interview` VALUES (11, 2, 1, 1, 'UI设计师', '12K', '广州', NULL, 0, 16, '2020-05-08 21:45:33', 16, '2020-05-08 21:45:33', 0, 1);
+INSERT INTO `crim_interview` VALUES (12, 2, 1, 1, 'JAVA', '10K', '北京', NULL, 0, 16, '2020-05-08 22:13:29', 16, '2020-05-08 22:14:16', 0, 1);
+INSERT INTO `crim_interview` VALUES (13, 2, 1, 1, 'JAVA', '10K', '北京', NULL, 0, 16, '2020-05-08 22:15:17', 16, '2020-05-08 22:15:17', 0, 1);
+INSERT INTO `crim_interview` VALUES (14, 2, 4, 1, 'UI设计师', '12K', '广州', NULL, 0, 16, '2020-05-08 22:15:21', 16, '2020-05-08 22:15:21', 0, 0);
+INSERT INTO `crim_interview` VALUES (15, 2, 1, 1, 'JAVA', '10K', '北京', NULL, 0, 16, '2020-05-09 16:36:22', 16, '2020-05-09 16:36:22', 0, 0);
 
 -- ----------------------------
 -- Table structure for crim_job_fair
@@ -473,13 +607,14 @@ CREATE TABLE `crim_job_fair_company`  (
   `status` int(11) NOT NULL COMMENT '状态：0 已分配场地 1 未分配场地',
   `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of crim_job_fair_company
 -- ----------------------------
-INSERT INTO `crim_job_fair_company` VALUES (1, 1, 2, 2, 1, 1, '2020-05-05 21:45:39', 1, '2020-05-05 21:45:39', 0, 0);
-INSERT INTO `crim_job_fair_company` VALUES (2, 1, 2, 4, NULL, 1, '2020-05-05 21:46:39', 1, '2020-05-05 21:46:39', 1, 0);
+INSERT INTO `crim_job_fair_company` VALUES (1, 1, 2, 2, 1, 1, '2020-05-05 21:45:39', 1, '2020-05-05 21:45:39', 0, 1);
+INSERT INTO `crim_job_fair_company` VALUES (2, 1, 2, 4, NULL, 1, '2020-05-05 21:46:39', 1, '2020-05-05 21:46:39', 1, 1);
+INSERT INTO `crim_job_fair_company` VALUES (3, 1, 2, 2, NULL, 1, '2020-05-10 00:34:39', 1, '2020-05-10 00:34:39', 1, 0);
 
 -- ----------------------------
 -- Table structure for crim_job_vacancy
@@ -813,6 +948,23 @@ CREATE TABLE `crim_site`  (
 INSERT INTO `crim_site` VALUES (1, 1, 'A103', '', 1, '2020-04-30 23:38:34', 1, '2020-04-30 23:38:34', 1, 0);
 INSERT INTO `crim_site` VALUES (2, 1, 'A104', NULL, NULL, NULL, NULL, NULL, 0, 1);
 INSERT INTO `crim_site` VALUES (3, 1, 'A104', '', 1, '2020-05-02 22:21:49', 1, '2020-05-02 22:21:49', 0, 0);
+
+-- ----------------------------
+-- Table structure for crim_star
+-- ----------------------------
+DROP TABLE IF EXISTS `crim_star`;
+CREATE TABLE `crim_star`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '关注id',
+  `student_id` int(11) NOT NULL COMMENT '学生id',
+  `company_id` int(11) NOT NULL COMMENT '企业id',
+  `create_user` int(11) DEFAULT NULL COMMENT '创建人id',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `modify_user` int(11) DEFAULT NULL COMMENT '最新修改人id',
+  `modify_time` datetime(0) DEFAULT NULL COMMENT '最新修改时间',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `is_deleted` int(11) NOT NULL COMMENT '逻辑删除：0 未删除 1 已删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for crim_student

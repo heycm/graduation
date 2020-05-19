@@ -39,7 +39,7 @@ public class TypeController {
 
     @ApiOperation(value = "1 - 查看年级列表", notes = "查看年级列表")
     @ApiOperationSupport(order = 1)
-    @RequiresRoles(logical = Logical.OR, value = {"school", "company"})
+    @RequiresRoles(logical = Logical.OR, value = {"school", "company", "student"})
     @GetMapping("/year/list")
     public ResponseMessage getYearList() {
         ArrayList<YearDTO> list = new ArrayList<>();

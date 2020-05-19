@@ -4,8 +4,7 @@
     <el-row class="paddingLR-15 marginB-10">
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item label="年份">
-          <el-select v-model="jobFairReq.data.yearId">
-            <el-option label="不限" value></el-option>
+          <el-select v-model="jobFairReq.data.yearId" clearable>
             <el-option
               v-for="year in yearList"
               :key="year.id"
@@ -15,8 +14,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="季度">
-          <el-select v-model="jobFairReq.data.quarter">
-            <el-option label="不限" value></el-option>
+          <el-select v-model="jobFairReq.data.quarter" clearable>
             <el-option label="秋季" :value="0"></el-option>
             <el-option label="春季" :value="1"></el-option>
           </el-select>

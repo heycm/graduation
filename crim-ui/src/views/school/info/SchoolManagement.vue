@@ -73,8 +73,7 @@
     <el-row type="flex" class="paddingLR-15 marginB-10">
       <el-form :inline="true" :model="codeReq.data" class="demo-form-inline">
         <el-form-item label="学院">
-          <el-select v-model="codeReq.data.deptId">
-            <el-option label="不限" value></el-option>
+          <el-select v-model="codeReq.data.deptId" clearable>
             <el-option
               v-for="dept in deptList"
               :key="dept.id"
@@ -84,8 +83,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="专业">
-          <el-select v-model="codeReq.data.proId">
-            <el-option label="不限" value></el-option>
+          <el-select v-model="codeReq.data.proId" clearable>
             <el-option
               v-for="pro in proList"
               :key="pro.id"
@@ -95,8 +93,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="年级">
-          <el-select v-model="codeReq.data.yearId">
-            <el-option label="不限" value></el-option>
+          <el-select v-model="codeReq.data.yearId" clearable>
             <el-option
               v-for="year in yearList"
               :key="year.id"

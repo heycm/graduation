@@ -12,9 +12,10 @@
     <result column="is_deleted" property="isDeleted" />
         <result column="company_id" property="companyId" />
         <result column="career_talk_id" property="careerTalkId" />
-        <result column="job_vacancy_id" property="jobVacancyId" />
         <result column="student_id" property="studentId" />
+        <result column="job_name" property="jobName" />
         <result column="regular_pay" property="regularPay" />
+        <result column="work_place" property="workPlace" />
         <result column="welfare" property="welfare" />
         <result column="is_last_choice" property="isLastChoice" />
         <result column="status" property="status" />
@@ -27,7 +28,10 @@
         modify_user,
         modify_time,
         is_deleted,
-        id, company_id, career_talk_id, job_vacancy_id, student_id, regular_pay, welfare, is_last_choice, status
+        id, company_id, career_talk_id, student_id, job_name, regular_pay, work_place, welfare, is_last_choice, status
     </sql>
+    <update id="setIsLastChoiceZero">
+        UPDATE crim_interview SET is_last_choice = 0 WHERE is_deleted = 0 AND student_id = #{studentId}
+    </update>
 
 </mapper>

@@ -1,17 +1,17 @@
 <template>
   <el-scrollbar>
     <div class="chat-list" v-if="myId!==null">
-      <el-row v-for="(chat, index) in chatList" :key="chat.id">
-        <div :class="['chat-list-item',index===0?'border-top':'']" v-if="myId === chat.receiverId">
+      <el-row v-for="(chat, index) in userList" :key="chat.id">
+        <div :class="['chat-list-item',index===0?'border-top':'']" v-if="chat.toId===myId">
           <div class="chat-idPhoto" @click="chooseChat(chat)">
-            <el-avatar :size="60" :src="chat.senderIdPhoto">
+            <el-avatar :size="60" :src="chat.fromPhotoUrl">
               <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
             </el-avatar>
           </div>
           <div class="chat-company-item" @click="chooseChat(chat)">
-            <p class="chat-company-item-name">{{chat.senderName}}</p>
+            <p class="chat-company-item-name">{{chat.fromName}}</p>
             <div class="chat-company-item-tip">
-              <p>{{chat.content}}</p>
+              <p v-html="parseTextarea(chat.content)"></p>
               <span>{{getHms(chat.sendTime)}}</span>
             </div>
           </div>
@@ -42,12 +42,43 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      userList: []
+    };
   },
   computed: {},
-  watch: {},
+  watch: {
+    chatList: {
+      handler(newVal) {
+        this.getList();
+      },
+      immediate: true
+    }
+  },
   created() {},
   methods: {
+    getList() {
+      let uList = this.copyObj(this.chatList);
+      for (let i = 0; i < this.chatList.length - 1; i++) {
+        for (let j = i + 1; j < this.chatList.length; j++) {
+          if (
+            this.chatList[i].fromId === this.chatList[j].fromId &&
+            this.chatList[j].sendTime > this.chatList[i].sendTime
+          ) {
+            for (let k = 0; k < uList.length; k++) {
+              if (
+                uList[k].fromId === this.chatList[i].fromId &&
+                uList[k].sendTime === this.chatList[i].sendTime
+              ) {
+                uList.splice(k, 1);
+                break;
+              }
+            }
+          }
+        }
+      }
+      this.userList = uList;
+    },
     // 关闭聊天列表item
     colseChat(chat) {
       this.$emit("colseChat", chat);
@@ -56,14 +87,14 @@ export default {
       this.$emit("chooseChat", chat);
     },
     getHms(str) {
-      if(!str) {
-        return '';
+      if (!str) {
+        return "";
       }
-      let arr = str.split(" ")
-      if(arr.length === 1) {
-        return arr[0]
+      let arr = this.dateFormat(new Date(str)).split(" ");
+      if (arr.length === 1) {
+        return arr[0];
       }
-      return arr[1]
+      return arr[1];
     }
   }
 };
@@ -94,6 +125,7 @@ export default {
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s;
+  z-index: 99999;
 }
 .chat-list-item:hover {
   background-color: #f2f5fa;
@@ -123,6 +155,7 @@ export default {
   white-space: nowrap;
   font-size: 18px;
   font-weight: bold;
+  z-index: 99;
 }
 .chat-company-item-tip {
   flex: 1;
@@ -137,6 +170,8 @@ export default {
   white-space: nowrap;
   padding-right: 10px;
   font-size: 14px;
+  z-index: 0;
+  height: 20px;
 }
 .chat-company-item-tip > span {
   font-size: 12px;

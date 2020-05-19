@@ -44,5 +44,14 @@
         ) t1
         ${ew.customSqlSegment}
     </select>
+    <select id="getWaitAuditList" resultType="com.heycm.dto.WaitAuditDTO">
+        SELECT t1.* FROM (
+            SELECT ca.id, ca.audit_type, ca.user_id, ca.apply_time, cc.company_name, cc.credit_code, cc.link_man, cc.link_phone
+            FROM crim_audit_record ca
+            INNER JOIN crim_company cc ON ca.user_id = cc.user_id AND cc.is_deleted = 0
+            WHERE ca.is_deleted = 0 AND ca.status = 1
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
 
 </mapper>

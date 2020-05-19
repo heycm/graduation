@@ -23,41 +23,23 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("crim_interview")
-@ApiModel(value="Interview对象", description="")
-public class Interview extends BaseModel<Interview> {
+@TableName("crim_star")
+@ApiModel(value="Star对象", description="")
+public class Star extends BaseModel<Star> {
 
     private static final long serialVersionUID=1L;
 
-    @ApiModelProperty(value = "面试记录id")
+    @ApiModelProperty(value = "关注id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-
-    @ApiModelProperty(value = "企业id")
-    private Integer companyId;
-
-    @ApiModelProperty(value = "宣讲会id")
-    private Integer careerTalkId;
 
     @ApiModelProperty(value = "学生id")
     private Integer studentId;
 
-    @ApiModelProperty(value = "职位名称")
-    private String jobName;
+    @ApiModelProperty(value = "企业id")
+    private Integer companyId;
 
-    @ApiModelProperty(value = "最终薪资：如 10-12K")
-    private String regularPay;
-
-    @ApiModelProperty(value = "工作地点")
-    private String workPlace;
-
-    @ApiModelProperty(value = "最终福利")
-    private String welfare;
-
-    @ApiModelProperty(value = "是否最终选择：0 否 1 是")
-    private Integer isLastChoice;
-
-    @ApiModelProperty(value = "状态：0 未开始 1 待回复 2 已通过 3 被拒绝")
+    @ApiModelProperty(value = "状态")
     private Integer status;
 
 

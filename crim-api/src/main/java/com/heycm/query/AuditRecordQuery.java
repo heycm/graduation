@@ -12,4 +12,7 @@ public class AuditRecordQuery {
     private Integer quarter;
     private String title;
     private Integer auditRes;
+
+    private String companyName;
+    private String creditCode;
 }

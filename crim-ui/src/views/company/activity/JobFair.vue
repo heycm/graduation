@@ -30,10 +30,9 @@
     <part title="招聘会" type="main" />
     <el-row type="flex" class="paddingLR-15 marginB-10">
       <el-table :data="jobFairPage" tooltip-effect="dark">
-        <el-table-column prop="yearName" label="年度" width="60">
-        </el-table-column>
+        <el-table-column prop="yearName" label="年度" width="60"></el-table-column>
         <el-table-column label="季度" width="50">
-          <template slot-scope="scope">{{scope.row.quarter===0?'秋季':'春季'}}</template>
+          <template slot-scope="scope">{{scope.row.quarter===0?'秋季':scope.row.quarter===1?'春季':''}}</template>
         </el-table-column>
         <el-table-column prop="jobFairTitle" label="招聘会" show-overflow-tooltip></el-table-column>
         <el-table-column prop="startTimeString" label="开始日期" width="120"></el-table-column>
@@ -51,7 +50,7 @@
       </el-table>
     </el-row>
     <el-row class="paddingLR-15 marginB-30">
-       <el-pagination
+      <el-pagination
         background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -114,7 +113,8 @@ export default {
         .catch(e => {});
     },
     getJobFairPage() {
-      this.$post("/jobFairCompany/pageList", this.pageReq).then(res => {
+      this.$post("/jobFairCompany/pageList", this.pageReq)
+        .then(res => {
           if (res.data.ok) {
             this.jobFairPage = res.data.data.records;
             this.pagination.total = res.data.data.total;
@@ -131,7 +131,7 @@ export default {
     handleCurrentChange(val) {
       this.pageReq.page = val;
       this.getJobFairPage();
-    },
+    }
   }
 };
 </script>

@@ -7,21 +7,21 @@
           <div class="show-msg-box">
             <div v-for="(msg, index) in msgList" :key="index">
               <el-row
-                :class="['chat-content-item', msg.senderId===myId?'chat-content-item-right':'']"
-                v-if="(msg.senderId===friendId&&msg.receiverId===myId) || (msg.senderId===myId&&msg.receiverId===friendId)"
+                :class="['chat-content-item', msg.fromId===myId?'chat-content-item-right':'']"
+                v-if="msg.content && ((msg.fromId===friendId&&msg.toId===myId) || (msg.fromId===myId&&msg.toId===friendId))"
               >
                 <div class="chat-content-item-idPhoto">
-                  <el-avatar :size="40" :src="msg.senderIdPhoto">
+                  <el-avatar :size="40" :src="msg.fromPhotoUrl">
                     <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" />
                   </el-avatar>
                 </div>
                 <div
-                  :class="['chat-content-item-content', msg.senderId===myId?'content-right':'content-left']"
+                  :class="['chat-content-item-content', msg.fromId===myId?'content-right':'content-left']"
                 >
                   <div
-                    :class="['chat-content-item-content-triangle', msg.senderId===myId?'triangle-right':'triangle-left']"
+                    :class="['chat-content-item-content-triangle', msg.fromId===myId?'triangle-right':'triangle-left']"
                   ></div>
-                  {{msg.content}}
+                  <div v-html="msg.content"></div>
                 </div>
               </el-row>
             </div>
@@ -36,7 +36,8 @@
           </el-tooltip>
         </el-row>
         <el-row class="chat-edit-row">
-          <ChatEditor @editorContent="getEditorContent" ref="editor" />
+          <!-- <ChatEditor @editorContent="getEditorContent" ref="editor" /> -->
+          <el-input type="textarea" :rows="4" v-model="editorContent"></el-input>
         </el-row>
         <el-row>
           <el-button round size="small" @click="sendMsg">发&nbsp;&nbsp;&nbsp;送</el-button>
@@ -74,14 +75,14 @@ export default {
     return {
       editorContent: "",
       chat: {
-        senderId: "",
-        senderName: "",
-        senderIdPhoto: "",
-        receiverId: "",
-        receiverName: "",
-        receiverIdPhoto: "",
+        fromId: "",
+        fromName: "",
+        fromPhotoUrl: "",
+        toId: "",
+        toName: "",
+        toPhotoUrl: "",
         content: "",
-        msgType: 1,
+        type: 0,
         sendTime: ""
       }
     };
@@ -90,13 +91,13 @@ export default {
   watch: {
     myId: {
       handler(newVal) {
-        this.chat.senderId = newVal;
+        this.chat.fromId = newVal;
       },
       immediate: true
     },
     friendId: {
       handler(newVal) {
-        this.chat.receiverId = newVal;
+        this.chat.toId = newVal;
       },
       immediate: true
     }
@@ -107,10 +108,13 @@ export default {
       this.editorContent = data;
     },
     sendMsg() {
-      this.chat.content = this.editorContent;
-      this.chat.sendTime = this.dateFormat(new Date());
+      const content = this.editorContent;
+      if (!content) {
+        return this.$message("请输入消息内容");
+      }
+      this.chat.content = this.transTextarea(content);
       this.$emit("sendMsg", this.chat);
-      this.$refs.editor.clear();
+      // this.$refs.editor.clear();
       this.editorContent = "";
     }
   }
@@ -190,7 +194,7 @@ export default {
   overflow: hidden;
   position: relative;
 }
-.chat-edit-row::after {
+/* .chat-edit-row::after {
   content: "";
   height: 100%;
   width: 18px;
@@ -199,5 +203,5 @@ export default {
   top: 0;
   right: -1px;
   z-index: 1;
-}
+} */
 </style>

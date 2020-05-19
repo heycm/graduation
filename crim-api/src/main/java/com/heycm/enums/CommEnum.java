@@ -11,6 +11,14 @@ import com.heycm.utils.enums.BaseEnum;
  */
 public enum CommEnum implements BaseEnum {
 
+    WS_CONN_SUCCESS("20000", "与WS服务器连接成功"),
+    WS_DIS_CONN_SUCCESS("20001", "关闭WS服务器连接成功"),
+    WS_SEND_SUCCESS("20002", "发送消息成功"),
+
+    WS_ERROR("50500", "WS服务器出现异常"),
+    WS_NOT_ONLINE("505001", "对方未在线"),
+
+
     SYS_REDIS_CONNECT_ERROR("500","Redis连接异常"),
     REDIS_SAVE_ERROR("500", "Redis写入缓存异常"),
     REDIS_COMMAND_TIMEOUT_ERROR("500", "Redis操作超时"),

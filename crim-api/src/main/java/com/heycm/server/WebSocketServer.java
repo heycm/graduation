@@ -1,12 +1,25 @@
 package com.heycm.server;
 
 import com.alibaba.fastjson.JSON;
-// import com.heycm.model.ws.WsMessage;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.heycm.config.JwtToken;
+import com.heycm.dto.ChatDTO;
+import com.heycm.enums.CommEnum;
+import com.heycm.model.Chat;
+import com.heycm.model.User;
+import com.heycm.service.IChatService;
+import com.heycm.service.IUserService;
+import com.heycm.utils.JwtUtil;
+import com.heycm.utils.date.DateUtil;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
+import jdk.nashorn.internal.parser.Token;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +28,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,14 +43,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class WebSocketServer {
 
-    private static Logger log = LoggerFactory.getLogger(WebSocketServer.class);
+    private static final Logger log = LoggerFactory.getLogger(WebSocketServer.class);
 
-    // private static RedisUtil redisUtil;
-    //
-    // @Autowired
-    // public void setRedisUtil(RedisUtil redisUtil){
-    //     WebSocketServer.redisUtil = redisUtil;
-    // }
+    private static IChatService chatService;
+    private static IUserService userService;
+    private static JwtUtil jwtUtil;
+
+    @Autowired
+    public void setJwtUtil(JwtUtil jwtUtil) {
+        WebSocketServer.jwtUtil = jwtUtil;
+    }
+    @Autowired
+    @Lazy
+    public void setChatService(IChatService chatService) {
+        WebSocketServer.chatService = chatService;
+    }
+    @Autowired
+    public void setUserService(IUserService userService) {
+        WebSocketServer.userService = userService;
+    }
 
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
@@ -50,35 +75,33 @@ public class WebSocketServer {
 
     @PostConstruct
     public void init() {
-        System.out.println("====== websocket 加载...");
+        log.info("[服务器WebSocket初始化][当前时间:{}][结束]", DateUtil.getStringYMDHMS());
     }
 
     /**
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(@PathParam(value = "userId") String userId, Session session) {
+    public void onOpen(@PathParam(value = "userId") String userId, Session session) throws IOException {
         // 设置当前窗口id和session
+        User user = userService.getById(Integer.valueOf(userId));
+        if (user.getPid()!=null) {
+            userId = user.getPid().toString();
+        }
         this.userId = userId;
         this.session = session;
-
         // 将当期会话收入websocketMap
-        websocketMap.put(userId, this);
-        addOnlineCount();
-        log.info("有连接加入，userId:{}，当前连接数为:{}", this.userId, getOnlineCount());
-        try {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("id", userId);
-            map.put("data", "连接成功");
-            // 连接成功，返回状态给浏览器
-            sendMessage(map);
-
-            // TODO 查询未接收的消息列表，返回给窗口
-
-
-        } catch (IOException e) {
-            log.error("websocket IO异常");
+        if (websocketMap.get(userId) != null){
+            websocketMap.remove(userId);
         }
+        websocketMap.put(this.userId, this);
+        // 在线会话+1
+        addOnlineCount();
+        log.info("[窗口加入][窗口:{}][在线数量:{}][结束]", this.userId, getOnlineCount());
+        // 连接成功，返回状态
+        sendMessage(Result.ok(CommEnum.WS_CONN_SUCCESS));
+        // 发送未接收的消息
+        chatService.sendNotReceived(Integer.valueOf(this.userId));
     }
 
     /**
@@ -87,11 +110,10 @@ public class WebSocketServer {
     @OnClose
     public void onClose() {
         if (websocketMap.get(this.userId) != null) {
-            websocketMap.remove(userId);
+            websocketMap.remove(this.userId);
             subOnlineCount();
-            log.info("有连接关闭，userId:{}，当前连接数为:{}", this.userId, getOnlineCount());
+            log.info("[窗口关闭][窗口:{}][在线数量:{}][结束]", this.userId, getOnlineCount());
         }
-
     }
 
     /**
@@ -101,8 +123,7 @@ public class WebSocketServer {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        log.info("收到来自窗口" + this.userId + "的信息:" + message);
-
+        log.info("[收到消息][窗口:{}][消息:{}][结束]",this.userId, message);
     }
 
     /**
@@ -113,7 +134,7 @@ public class WebSocketServer {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        log.error("发生错误:{}, userId:{}", error.getMessage(), this.userId);
+        log.error("[发生错误:{}]][窗口:{}][结束]", error.getMessage(), this.userId);
         error.printStackTrace();
     }
 
@@ -129,8 +150,7 @@ public class WebSocketServer {
      * @param
      * @throws IOException
      */
-    // public void sendAll(WsMessage message) throws IOException {
-    public void sendAll() throws IOException {
+    public void sendAll(Chat chat) throws IOException {
 
     }
 
@@ -141,23 +161,16 @@ public class WebSocketServer {
      * @param
      * @throws IOException
      */
-    // public ResponseMessage sendOne(WsMessage message) throws IOException {
-    public ResponseMessage sendOne() throws IOException {
-
-        // TODO message进来前需要进行必要信息验证过滤，userId，friendId，message非空，friendId是否存在数据库等
-
-        // String friendId = message.getFriendId();
-        // WebSocketServer friendServer = websocketMap.get(friendId);
-        // if (friendServer != null) {
-        //     // 接收方在线
-        //     friendServer.sendMessage(message);
-        //     log.info("发送成功");
-        //     return Result.ok("发送成功");
-        // }
-        // 接收方不在线
-        // TODO 进行存盘操作，等接收方上线再发送
-
-        return Result.ok("接收方未在线，消息已存盘");
+    public ResponseMessage sendOne(ChatDTO chatDTO) throws IOException {
+        // 找到接受者的窗口
+        WebSocketServer to = websocketMap.get(chatDTO.getToId().toString());
+        // 认为对方不在线
+        if(to == null){
+            return Result.ok(CommEnum.WS_NOT_ONLINE);
+        }
+        // 认为对方在线,发送消息
+        to.sendMessage(chatDTO);
+        return Result.ok(CommEnum.WS_SEND_SUCCESS);
     }
 
 

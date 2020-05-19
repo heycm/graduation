@@ -390,6 +390,27 @@ public class StudentController {
         return Result.ok();
     }
 
+    @ApiOperation(value = "9 - 获取学员的账户ID", notes = "获取学员的账户ID")
+    @ApiOperationSupport(order = 9)
+    @RequiresRoles(logical = Logical.OR, value = {"company"})
+    @GetMapping("/user/{id}")
+    public ResponseMessage getUserId(@PathVariable("id") Long id){
+        if (id == null){
+            return Result.error("参数不能为空");
+        }
+        Student student = studentService.getById(id);
+        return Result.ok(student.getUserId());
+    }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 根据IDs批量删除

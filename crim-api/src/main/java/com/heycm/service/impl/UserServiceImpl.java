@@ -239,6 +239,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         userLoginDTO.setToken(token);
         userLoginDTO.setRoles(list);
         userLoginDTO.setIsAudit(user.getStatus());
+        userLoginDTO.setId(user.getId());
         // 5.返回
         log.info("[用户登录][成功][时间:{}][用户信息:{}][结束]", DateUtil.getStringYMDHMS(), JSON.toJSONString(userRoleAndPermission));
         return Result.ok(userLoginDTO);

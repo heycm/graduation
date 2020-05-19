@@ -274,7 +274,7 @@ export default new Router({
       path: '/student',
       component: Layout,
       children: [{
-        path: 'chat',
+        path: 'chat/:companyid?',
         name: 'stuChat',
         component: () => import('@/views/student/Chat'),
         meta: { title: '私信', role: 'student', index: '13' }
@@ -347,7 +347,7 @@ export default new Router({
       path: '/company',
       component: Layout,
       children: [{
-        path: 'chat',
+        path: 'chat/:studentid?',
         name: 'comChat',
         component: () => import('@/views/company/Chat'),
         meta: { title: '私信', role: 'company', index: '16' }

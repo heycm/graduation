@@ -31,4 +31,9 @@ public class JobFairCompanyServiceImpl extends ServiceImpl<JobFairCompanyMapper,
     public IPage<JobFairCompanyDTO> pageList(Page<JobFairCompanyDTO> page, QueryWrapper<JobFairCompanyDTO> qw) {
         return jobFairCompanyMapper.pageList(page, qw);
     }
+
+    @Override
+    public IPage<JobFairCompanyDTO> joinCompanyList(Page<JobFairCompanyDTO> page, QueryWrapper<JobFairCompanyDTO> qw) {
+        return jobFairCompanyMapper.joinCompanyList(page, qw);
+    }
 }

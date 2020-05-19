@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.heycm.dto.AuidtJobFairDTO;
+import com.heycm.dto.WaitAuditDTO;
 import com.heycm.model.AuditRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.heycm.query.AuditRecordQuery;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,4 +22,7 @@ import com.heycm.query.AuditRecordQuery;
 public interface IAuditRecordService extends IService<AuditRecord> {
 
     IPage<AuidtJobFairDTO> applyJobFairAuditRecords(Page<AuidtJobFairDTO> page, QueryWrapper<AuditRecordQuery> qw);
+
+
+    IPage<WaitAuditDTO> getWaitAuditList(IPage<WaitAuditDTO> page, QueryWrapper<AuditRecordQuery> qw);
 }

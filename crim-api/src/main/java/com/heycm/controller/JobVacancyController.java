@@ -1,5 +1,6 @@
 package com.heycm.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.heycm.param.Param;
 import com.heycm.service.IJobVacancyService;
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +48,22 @@ public class JobVacancyController {
         jobVacancyService.saveOrUpdate(jobVacancy);
         return Result.ok();
     }
+
+    @ApiOperation(value = "2 - 根据企业ID查看招聘职位", notes = "根据企业ID查看招聘职位")
+    @ApiOperationSupport(order = 2)
+    @RequiresRoles(logical = Logical.OR, value = {"student"})
+    @GetMapping("/list/{companyId}")
+    public ResponseMessage jobVacancyList(@PathVariable("companyId") Integer companyId) {
+        if (companyId == null) {
+            return Result.error("参数不能为空");
+        }
+        List<JobVacancy> entityList = jobVacancyService.list(new QueryWrapper<JobVacancy>().lambda().eq(JobVacancy::getCompanyId, companyId));
+        return Result.ok(entityList);
+    }
+
+
+
+
 
     /**
      * 根据ID删除对象信息

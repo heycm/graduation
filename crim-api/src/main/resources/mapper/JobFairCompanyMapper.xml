@@ -41,5 +41,19 @@
         ) t1
         ${ew.customSqlSegment}
     </select>
+    <select id="joinCompanyList" resultType="com.heycm.dto.JobFairCompanyDTO">
+        SELECT t1.* FROM (
+            SELECT cjfc.id, cjfc.job_fair_id, cjfc.company_id, cjfc.campus_id, cjfc.site_id, cj.job_fair_title, cj.year_level_id year_id, ct1.type_name year_name, cj.quarter, ct2.type_name campus_name, cc.company_name, cs.site_name, cs.site_desc, cb.building_name, cjfc.status site_status
+            FROM crim_job_fair_company cjfc
+            INNER JOIN crim_job_fair cj ON cjfc.job_fair_id = cj.id AND cj.is_deleted = 0
+            INNER JOIN crim_type ct1 ON cj.year_level_id = ct1.id AND ct1.is_deleted = 0
+            INNER JOIN crim_type ct2 ON cjfc.campus_id = ct2.id AND ct2.is_deleted = 0
+            INNER JOIN crim_company cc ON cjfc.company_id = cc.id AND cc.is_deleted = 0
+            LEFT JOIN crim_site cs ON cjfc.site_id = cs.id AND cs.is_deleted = 0
+            LEFT JOIN crim_building cb ON cs.building_id = cb.id AND cb.is_deleted = 0
+            WHERE cjfc.is_deleted = 0
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
 
 </mapper>

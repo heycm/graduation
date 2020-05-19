@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.heycm.dto.CareerTalkDTO;
+import com.heycm.dto.StudentCareerTalkDTO;
 import com.heycm.model.CareerTalk;
 import com.heycm.mapper.CareerTalkMapper;
 import com.heycm.query.CareerTalkQuery;
@@ -30,5 +31,10 @@ public class CareerTalkServiceImpl extends ServiceImpl<CareerTalkMapper, CareerT
     @Override
     public IPage<CareerTalkDTO> pageList(Page<CareerTalkDTO> page, QueryWrapper<CareerTalkQuery> qw) {
         return careerTalkMapper.pageList(page, qw);
+    }
+
+    @Override
+    public IPage<StudentCareerTalkDTO> stuPageList(Page<StudentCareerTalkDTO> page, Integer studentId, QueryWrapper<CareerTalkQuery> qw) {
+        return careerTalkMapper.stuPageList(page, studentId, qw);
     }
 }

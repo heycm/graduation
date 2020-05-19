@@ -38,10 +38,10 @@ private static final long serialVersionUID=1L;
     private Integer type;
 
     @ApiModelProperty(value = "发送者id")
-    private Integer from;
+    private Integer fromId;
 
     @ApiModelProperty(value = "接受者id")
-    private Integer to;
+    private Integer toId;
 
     @ApiModelProperty(value = "消息内容（文本内容/文件链接）")
     private String content;

@@ -63,7 +63,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         String uri = req.getRequestURI();
         System.out.println("====>是否允许访问接口：" + uri);
         PathMatcher pathMatcher = new AntPathMatcher();
-        return pathMatcher.match("/**/open/**", uri);
+        return pathMatcher.match("/**/open/**", uri) || pathMatcher.match("/ws/*", uri);
     }
 
     /**

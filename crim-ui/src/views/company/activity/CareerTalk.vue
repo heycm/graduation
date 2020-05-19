@@ -52,7 +52,12 @@
               @click="openDialog(scope.row)"
             >新增</el-button>
             <el-button type="text" size="mini" v-if="scope.row.id" @click="openDialog(scope.row)">详细</el-button>
-            <el-button type="text" size="mini" v-if="scope.row.id">删除</el-button>
+            <el-button
+              type="text"
+              size="mini"
+              v-if="scope.row.id"
+              @click="delCareerTalk(scope.row.id)"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -320,6 +325,19 @@ export default {
         );
       }
       return careerTalk;
+    },
+    delCareerTalk(id) {
+      this.$delete("/careerTalk/" + id)
+        .then(res => {
+          if (res.data.ok) {
+              this.$message({
+                message: "删除成功",
+                type: "success"
+              });
+              this.getCareerTalkPage();
+            }
+        })
+        .catch(e => {});
     }
   }
 };

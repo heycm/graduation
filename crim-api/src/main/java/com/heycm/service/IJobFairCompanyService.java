@@ -18,4 +18,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IJobFairCompanyService extends IService<JobFairCompany> {
 
     IPage<JobFairCompanyDTO> pageList(Page<JobFairCompanyDTO> page, QueryWrapper<JobFairCompanyDTO> qw);
+
+    IPage<JobFairCompanyDTO> joinCompanyList(Page<JobFairCompanyDTO> page, QueryWrapper<JobFairCompanyDTO> qw);
 }

@@ -6,6 +6,7 @@ import com.heycm.dto.CompanyInfoDTO;
 import com.heycm.dto.JobVacancyDTO;
 import com.heycm.model.File;
 import com.heycm.model.JobVacancy;
+import com.heycm.model.Student;
 import com.heycm.param.Param;
 import com.heycm.service.ICompanyService;
 import com.heycm.model.Company;
@@ -71,7 +72,7 @@ public class CompanyController {
 
     @ApiOperation(value = "2 - 获取企业基本信息", notes = "获取企业基本信息")
     @ApiOperationSupport(order = 2)
-    @RequiresRoles(logical = Logical.OR, value = {"company", "school", "school-child", "student"})
+    @RequiresRoles(logical = Logical.OR, value = {"company"})
     @GetMapping("/info")
     public ResponseMessage info() {
         Integer currentUserId = subjectUtil.getCurrentUserId();
@@ -138,6 +139,21 @@ public class CompanyController {
         }
         return Result.ok(jobVacancyDTOS);
     }
+
+
+    @ApiOperation(value = "4 - 获取企业的账户ID", notes = "获取企业的账户ID")
+    @ApiOperationSupport(order = 4)
+    @RequiresRoles(logical = Logical.OR, value = {"student"})
+    @GetMapping("/user/{id}")
+    public ResponseMessage getUserId(@PathVariable("id") Long id){
+        if (id == null){
+            return Result.error("参数不能为空");
+        }
+        Company company = companyService.getById(id);
+        return Result.ok(company.getUserId());
+    }
+
+
 
 
     /**

@@ -12,4 +12,8 @@ public class CareerTalkStudentQuery {
     private Integer quarter;
     private String jobFairTitle;
     private String careerTalkTitle;
+
+    private Integer careerTalkId;
+    private Integer companyId;
+    private Integer jobVacancyId;
 }

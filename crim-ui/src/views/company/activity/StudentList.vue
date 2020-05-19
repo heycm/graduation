@@ -51,7 +51,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope" v-if="scope.row.id">
             <el-button type="text" size="mini" @click="toResume(scope.row.studentId)">查看简历</el-button>
-            <el-button type="text" size="mini">发送消息</el-button>
+            <el-button type="text" size="mini" @click="toChat(scope.row.studentId)">发送消息</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -157,6 +157,9 @@ export default {
     },
     closedDialog(){
       this.$router.push("/company/activity/student/list");
+    },
+    toChat(studentId) {
+      this.$router.push("/company/chat/" + studentId)
     }
   }
 };

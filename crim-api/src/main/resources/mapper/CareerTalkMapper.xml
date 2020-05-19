@@ -39,5 +39,21 @@
         ) t1
         ${ew.customSqlSegment}
     </select>
+    <select id="stuPageList" resultType="com.heycm.dto.StudentCareerTalkDTO">
+        SELECT t1.* FROM (
+            SELECT ct.id year_id, ct.type_name year_name, cj.id job_fair_id, cj.job_fair_title, cj.quarter,ct2.type_name campus_name, cs.site_name, cs.site_desc, cjfc.company_id, cc.company_name, cct.id, cct.career_talk_title, cct.start_time, cct.end_time, star.id star_id, star.student_id star_student_id, ccts.id career_talk_student_id, ccts.student_id cts_student_id
+            FROM crim_type ct
+            INNER JOIN crim_job_fair cj ON ct.id = cj.year_level_id AND cj.is_deleted = 0
+            INNER JOIN crim_job_fair_company cjfc ON cj.id = cjfc.job_fair_id AND cjfc.is_deleted = 0
+            LEFT JOIN crim_type ct2 ON cjfc.campus_id = ct2.id
+            LEFT JOIN crim_site cs ON cjfc.site_id = cs.id
+            LEFT JOIN crim_company cc ON cjfc.company_id = cc.id AND cc.is_deleted = 0
+            LEFT JOIN crim_career_talk cct ON cjfc.id = cct.job_fair_company_id AND cct.is_deleted = 0
+            LEFT JOIN crim_star star ON cc.id = star.company_id AND star.is_deleted = 0 AND star.student_id = #{studentId}
+            LEFT JOIN crim_career_talk_student ccts ON cct.id = ccts.career_talk_id AND ccts.is_deleted = 0 AND ccts.student_id = #{studentId}
+            WHERE ct.pid = 5 AND ct.is_deleted = 0
+        ) t1
+        ${ew.customSqlSegment}
+    </select>
 
 </mapper>

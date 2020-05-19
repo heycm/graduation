@@ -13,24 +13,24 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
  * @Date 2020-04-25 22:33
  */
 
-@Configuration
-@EnableWebSocketMessageBroker
-public class WebSocketConfig2 implements WebSocketMessageBrokerConfigurer {
-
-    /**
-     * websocket服务地址节点
-     * @param registry
-     */
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // 可以添加多个节点
-        registry.addEndpoint("/ws/stomp").withSockJS();
-    }
-
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/queue", "/topic");
-        registry.setApplicationDestinationPrefixes("/app");
-        registry.setUserDestinationPrefix("/user");
-    }
-}
+// @Configuration
+// @EnableWebSocketMessageBroker
+// public class WebSocketConfig2 implements WebSocketMessageBrokerConfigurer {
+//
+//     /**
+//      * websocket服务地址节点
+//      * @param registry
+//      */
+//     @Override
+//     public void registerStompEndpoints(StompEndpointRegistry registry) {
+//         // 可以添加多个节点
+//         registry.addEndpoint("/ws/stomp").withSockJS();
+//     }
+//
+//     @Override
+//     public void configureMessageBroker(MessageBrokerRegistry registry) {
+//         registry.enableSimpleBroker("/queue", "/topic");
+//         registry.setApplicationDestinationPrefixes("/app");
+//         registry.setUserDestinationPrefix("/user");
+//     }
+// }

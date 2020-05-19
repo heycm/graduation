@@ -21,4 +21,6 @@ public interface JobFairCompanyMapper extends BaseMapper<JobFairCompany> {
 
 
     IPage<JobFairCompanyDTO> pageList(Page<JobFairCompanyDTO> page, @Param(Constants.WRAPPER) QueryWrapper<JobFairCompanyDTO> qw);
+
+    IPage<JobFairCompanyDTO> joinCompanyList(Page<JobFairCompanyDTO> page, @Param(Constants.WRAPPER) QueryWrapper<JobFairCompanyDTO> qw);
 }

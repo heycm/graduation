@@ -15,7 +15,13 @@
       <el-col :span="16">
         <div class="pageMain stu-chat-right">
           <div class="stu-chat-panel">
-            <ChatPanel :myId="myId" :friendId="friendId" :friendName="friendName" :msgList="chatList" @sendMsg="sendMsg" />
+            <ChatPanel
+              :myId="myId"
+              :friendId="friendId"
+              :friendName="friendName"
+              :msgList="chatList"
+              @sendMsg="sendMsg"
+            />
           </div>
         </div>
       </el-col>
@@ -30,162 +36,163 @@ export default {
   components: { ChatList, ChatPanel },
   data() {
     return {
+      userId: "",
+      socket: null,
+      chat: {
+        fromId: "",
+        fromName: "",
+        fromPhotoUrl: "",
+        toId: "",
+        toName: "",
+        toPhotoUrl: "",
+        content: "",
+        type: 0,
+        sendTime: ""
+      },
+      chatList: [],
       myId: null,
       myIdPhoto: null,
+      myName: null,
       friendId: null,
       friendIdPhoto: null,
       friendName: null,
-      chatList: [
-        {
-          id: 1,
-          senderId: 12,
-          senderName: "爱奇艺",
-          senderIdPhoto:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587384568160&di=718b397ab66ccd6deb044a897b20b3d0&imgtype=0&src=http%3A%2F%2Fwww.szbacia.com%2Fprivate%2Fnewsimgs%2Fe12c43c325791eae.png",
-          receiverId: 13,
-          receiverName: "阿里巴巴",
-          receiverIdPhoto:
-            "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
-          content: "爱奇艺发消息给阿里巴巴 ",
-          sendTime: "01:57:07"
-        },
-        {
-          id: 2,
-          senderId: 13,
-          senderName: "阿里巴巴",
-          senderIdPhoto:
-            "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
-          receiverId: 12,
-          receiverName: "爱奇艺",
-          receiverIdPhoto:
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587384568160&di=718b397ab66ccd6deb044a897b20b3d0&imgtype=0&src=http%3A%2F%2Fwww.szbacia.com%2Fprivate%2Fnewsimgs%2Fe12c43c325791eae.png",
-          content: "阿里巴巴发消息给爱奇艺",
-          sendTime: "23:57:07"
-        },
-        {
-          id: 18,
-          senderId: 13,
-          senderName: "阿里巴巴",
-          senderIdPhoto:
-            "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
-          receiverId: 14,
-          receiverName: "字节跳动",
-          receiverIdPhoto:
-            "http://img0.imgtn.bdimg.com/it/u=4200502629,1250847505&fm=26&gp=0.jpg",
-          content: "阿里巴巴发消息给字节跳动",
-          sendTime: "23:57:07"
-        },
-        {
-          id: 3,
-          senderId: 14,
-          senderName: "字节跳动",
-          senderIdPhoto:
-            "http://img0.imgtn.bdimg.com/it/u=4200502629,1250847505&fm=26&gp=0.jpg",
-          receiverId: 13,
-          receiverName: "阿里巴巴",
-          receiverIdPhoto:
-            "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
-          content: "消息内容 消息内容 消息内容 消息内容 消息内容 ",
-          sendTime: "01:57:07"
-        },
-        {
-          id: 4,
-          senderId: 15,
-          senderName: "美团",
-          senderIdPhoto:
-            "http://i.gongxiao8.com/uploads/i_5_1589736371x3099320422_26.jpg",
-          receiverId: 13,
-          receiverName: "阿里巴巴",
-          receiverIdPhoto:
-            "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
-          content: "消息内容 消息内容 消息内容 消息内容 消息内容 ",
-          sendTime: "01:57:07"
-        },
-        {
-          id: 5,
-          senderId: 16,
-          senderName: "饿了么",
-          senderIdPhoto:
-            "http://a1624.phobos.apple.com/us/r30/Purple3/v4/00/2d/b0/002db0a6-5d66-412d-9ea1-738186f39abc/mzl.cnxocuip.png",
-          receiverId: 13,
-          receiverName: "阿里巴巴",
-          receiverIdPhoto:
-            "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
-          content: "消息内容 消息内容 消息内容 消息内容 消息内容 ",
-          sendTime: "01:57:07"
-        },
-        {
-          id: 6,
-          senderId: 17,
-          senderName: "百度",
-          senderIdPhoto:
-            "http://bpic.588ku.com/element_origin_min_pic/01/59/64/82574866cc0fadd.jpg",
-          receiverId: 13,
-          receiverName: "阿里巴巴",
-          receiverIdPhoto:
-            "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
-          content: "消息内容 消息内容 消息内容 消息内容 消息内容 ",
-          sendTime: "01:57:07"
-        },
-        {
-          id: 7,
-          senderId: 18,
-          senderName: "腾讯",
-          senderIdPhoto:
-            "http://a.hiphotos.baidu.com/baike/pic/item/b90e7bec54e736d1bf865c3897504fc2d562696d.jpg",
-          receiverId: 13,
-          receiverName: "阿里巴巴",
-          receiverIdPhoto:
-            "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
-          content: "消息内容 消息内容 消息内容 消息内容 消息内容 ",
-          sendTime: "01:57:07"
-        },
-        {
-          id: 8,
-          senderId: 19,
-          senderName: "华为",
-          senderIdPhoto:
-            "http://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20170831/f45a51010eaa482985dfd99d50c0a6c0.jpeg",
-          receiverId: 13,
-          receiverName: "阿里巴巴",
-          receiverIdPhoto:
-            "http://img3.imgtn.bdimg.com/it/u=3307217202,934082925&fm=26&gp=0.jpg",
-          content: "消息内容 消息内容 消息内容 消息内容 消息内容 ",
-          sendTime: "01:57:07"
-        }
-      ]
+      timer: null
     };
   },
   computed: {},
   watch: {},
   created() {
-    this.myId = 13;
+    this.init();
+  },
+  beforeDestroy() {
+    if (this.timer !== null) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    if (this.socket !== null) {
+      this.socket.close();
+    }
   },
   methods: {
+    init() {
+      this.getUserId();
+      this.openWS();
+      this.createChatObj();
+    },
+    getUserId() {
+      this.userId = this.getUserInfo().id;
+    },
+    createChatObj() {
+      const companyId = this.$route.params.companyid;
+      console.log(companyId);
+      if (companyId) {
+        this.$get("/company/user/" + companyId)
+          .then(res => {
+            if (res.data.ok) {
+              this.getChatObj(res.data.data);
+            }
+          })
+          .catch(e => {});
+      }
+    },
+    getChatObj(userId) {
+      this.$get("/chat/obj/" + userId)
+        .then(res => {
+          if (res.data.ok) {
+            this.chatList = this.chatList.concat(res.data.data);
+            this.myId = res.data.data.toId;
+            this.myName = res.data.data.toName;
+            this.myIdPhoto = res.data.data.toPhotoUrl;
+            this.chooseChat(res.data.data);
+          }
+        })
+        .catch(e => {});
+    },
+    openWS() {
+      if (typeof WebSocket == "undefined") {
+        this.$message("遗憾：您的浏览器不支持WebSocket");
+      } else {
+        const _self = this;
+        this.socket = new WebSocket("ws://localhost:9999/ws/" + this.userId);
+        this.socket.onopen = function(e) {
+          _self.onOpen(e);
+        };
+        this.socket.onmessage = function(chat) {
+          _self.onMessage(chat);
+        };
+        this.socket.onclose = function(e) {
+          _self.onClose(e);
+        };
+        this.socket.onerror = function(e) {
+          _self.onError(e);
+        };
+      }
+    },
+    onOpen(e) {
+      this.$message("上线成功");
+      this.socket.send(this.getUserInfo().token);
+      this.keepAlive();
+    },
+    onMessage(chat) {
+      console.log("onMessage");
+      let msg = JSON.parse(chat.data);
+      console.log(msg);
+      if (msg.ok) {
+        return;
+      }
+      this.myId = msg.toId;
+      this.myName = msg.toName;
+      this.myIdPhoto = msg.toPhotoUrl;
+      this.chatList = this.chatList.concat(msg);
+    },
+    onClose(e) {},
+    onError(e) {
+      this.$message.error("服务器繁忙");
+    },
+    keepAlive() {
+      let _self = this;
+      this.timer = setInterval(() => {
+        _self.socket.send("我还活着吗...？");
+      }, 60000);
+    },
     // 关闭聊天对象
     closeChat(chat) {
-      console.log(chat);
-      this.chatList.splice(this.chatList.indexOf(chat), 1);
+      for (let i = 0; i < this.chatList.length; i++) {
+        if (this.chatList[i].fromId === chat.fromId) {
+          this.chatList.splice(i, 1);
+          i--;
+        }
+      }
       this.friendId = null;
       this.friendName = null;
     },
     // 选择聊天对象
     chooseChat(chat) {
-      console.log(chat)
-      this.friendId = chat.senderId;
-      this.friendName = chat.senderName;
-      this.friendIdPhoto = chat.senderIdPhoto;
-      this.myIdPhoto = chat.receiverIdPhoto;
+      this.friendId = chat.fromId;
+      this.friendName = chat.fromName;
+      this.friendIdPhoto = chat.fromPhotoUrl;
     },
     sendMsg(chat) {
-      chat.senderIdPhoto = this.myIdPhoto;
-      chat.receiverName = this.friendName;
-      chat.receiverIdPhoto = this.friendIdPhoto;
+      chat.fromPhotoUrl = this.myIdPhoto;
+      chat.fromName = this.myName;
+      chat.fromId = this.myId;
+      chat.toPhotoUrl = this.friendIdPhoto;
+      chat.toName = this.friendName;
+      chat.toId = this.friendId;
       console.log(chat);
       let item = new Object();
       item = this.copyObj(chat);
       this.chatList = this.chatList.concat(item);
-      console.log(this.chatList);
+      this.sendHandler(chat);
+    },
+    sendHandler(chat) {
+      this.$post("/chat/sendOne", chat)
+        .then(res => {
+          if (res.data.ok) {
+            this.$message(res.data.data);
+          }
+        })
+        .catch(e => {});
     }
   }
 };

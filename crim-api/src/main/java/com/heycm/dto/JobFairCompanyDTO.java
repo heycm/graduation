@@ -40,5 +40,7 @@ public class JobFairCompanyDTO {
     private String siteDesc;
     private Integer siteStatus;
 
+    private String buildingName;
+    private String companyName;
 
 }
