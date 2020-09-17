@@ -31,21 +31,21 @@ heycm:
   system:
     openApi: /**/open/** # 应用开放接口
   jwt:
-    privateKey: com.heycm.crim # JWT签名私钥
+    privateKey:  # JWT签名私钥
     ttl: 1800 # JWT签名过期时间，秒
   shiro:
     rememberMeMaxAge: 86400 # 记住我时长（秒）
     rememberMeCipherKey: 3AvVhmFLUs0KTA3Kprsdag==
   zhenziSms: # 榛子云短信
     apiUrl: https://sms_developer.zhenzikj.com
-    appId: 104324
-    appSecret: d7f83c86-4cb1-4ec0-8a2a-1eb0577a0abc
+    appId: 
+    appSecret: 
     validTime: 10 # 有效时间，分钟
   aliyun:
     oss:
       endPoint: oss-cn-beijing.aliyuncs.com
-      accessKeyID: LTAI4Fhi546AL87pHNV48eG7
-      accessKeySecret: dmPCtdvKX7w01mN8iMCXND6p1zUnmZ
+      accessKeyID: 
+      accessKeySecret: 
       imgBucketName: crim-img
       imgHost: https://crim-img.oss-cn-beijing.aliyuncs.com
       imgDir: images
