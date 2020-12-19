@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://172.17.10.99:3306/crim?characterEncoding=utf8&useUnicode=true&serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull
+#   username: root
+#   password: root
+    username: wrzd
+    password: WuRenZD&1+2=3
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      min-evictable-idle-time-millis: 600000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      keep-alive: true
+      filter: stat,wall,slf4j
+
+  redis:
+    database: 0
+    host: 172.17.10.99
+    port: 6379
+    password: hey.redis
+    jedis:
+      pool:
+        max-active: 100
+        max-wait: -1
+        max-idle: 10
+    timeout: 5000

@@ -4,8 +4,7 @@
     <el-row class="paddingLR-15 marginB-10">
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item label="校区">
-          <el-select v-model="siteReq.data.campusId">
-            <el-option label="不限" value></el-option>
+          <el-select v-model="siteReq.data.campusId" clearable>
             <el-option
               v-for="item in campusList"
               :key="item.id"
@@ -15,8 +14,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="楼号">
-          <el-select v-model="siteReq.data.buildingId">
-            <el-option label="不限" value></el-option>
+          <el-select v-model="siteReq.data.buildingId" clearable>
             <el-option
               v-for="item in buildingList"
               :key="item.id"
@@ -25,7 +23,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="名称">
+        <el-form-item label="场地名称">
           <el-input v-model="siteReq.data.siteName" placeholder="例如：A103" clearable></el-input>
         </el-form-item>
         <el-form-item>
@@ -44,7 +42,7 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="campusName" label="校区" width="120"></el-table-column>
         <el-table-column prop="buildingName" label="楼号" width="120" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="siteName" label="名称" width="120" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="siteName" label="场地名称" width="120" show-overflow-tooltip></el-table-column>
         <el-table-column prop="siteDesc" label="详细说明" show-overflow-tooltip></el-table-column>
         <el-table-column label="操作" width="120">
           <template slot-scope="scope">

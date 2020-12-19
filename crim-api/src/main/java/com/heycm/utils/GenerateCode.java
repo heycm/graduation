@@ -96,8 +96,6 @@ public class GenerateCode {
                 return rb.getString("OutputDirBase")+ "/com/heycm/query/" + tableInfo.getEntityName() + "Query.java";
             }
         });
-        cfg.setFileOutConfigList(focList);
-        mpg.setCfg(cfg);
 
         //controller配置
         focList.add(new FileOutConfig("/templates/controller.java.vm") {

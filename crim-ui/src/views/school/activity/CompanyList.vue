@@ -92,34 +92,43 @@
     <!-- 弹窗 -->
     <el-dialog title="空闲场地" :visible.sync="dialogVisible">
       <el-row>
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form :inline="true" :model="pageReq.data" class="demo-form-inline">
           <el-form-item label="楼号">
-            <el-select v-model="formInline.region" placeholder="请选择楼号">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="场地">
-            <el-select v-model="formInline.region" placeholder="请选择场地">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="pageReq.data.buildingId" placeholder="请选择楼号" clearable @change="getSitePage">
+              <el-option
+                :label="item.buildingName"
+                :value="item.id"
+                v-for="item in buildingList"
+                :key="item.id"
+              ></el-option>
             </el-select>
           </el-form-item>
         </el-form>
       </el-row>
       <el-row>
-        <el-table :data="tableData" style="width:100%">
-          <el-table-column property="date" label="楼号" width="200"></el-table-column>
-          <el-table-column property="status" label="场地" width="150"></el-table-column>
-          <el-table-column property="title" label="场地说明" show-overflow-tooltip></el-table-column>
+        <el-table :data="sitePage" style="width:100%">
+          <el-table-column property="buildingName" label="楼号" width="200"></el-table-column>
+          <el-table-column property="siteName" label="场地" width="150"></el-table-column>
+          <el-table-column property="siteDesc" label="场地说明" show-overflow-tooltip></el-table-column>
           <el-table-column label="操作" width="70">
-            <template>
-              <el-button type="text" size="mini">分配</el-button>
+            <template slot-scope="scope">
+              <el-button
+                type="text"
+                size="mini"
+                v-if="scope.row.siteId"
+                @click="handleAllocate(scope.row)"
+              >分配</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-row>
-      <el-pagination class="marginT-10 text-right" layout="prev, pager, next" :total="50"></el-pagination>
+      <el-pagination
+        @size-change="handleSizeChangeDialog"
+        @current-change="handleCurrentChangeDialog"
+        layout="prev, pager, next"
+        :total="dialogTotal"
+        class="marginT-10 text-right"
+      ></el-pagination>
     </el-dialog>
   </div>
 </template>
@@ -137,7 +146,9 @@ export default {
           quarter: "",
           title: "",
           campusId: "",
-          companyName: ""
+          companyName: "",
+          siteStatus: 0,
+          buildingId: ""
         }
       },
       yearList: [],
@@ -148,53 +159,11 @@ export default {
         pageSize: 5,
         total: 10
       },
-      tableData: [
-        {
-          date: "2016-05-02",
-          status: "王小虎",
-          title: "上海市普陀区金沙江路 1518 ",
-          site: {
-            campus: "校区",
-            building: "楼号",
-            name: "名称"
-          }
-        },
-        {
-          date: "2016-05-04",
-          status: "王小虎",
-          title: "上海市普陀区金沙江路 1517 弄",
-          site: {
-            campus: "校区",
-            building: "楼号",
-            name: "名称"
-          }
-        },
-        {
-          date: "2016-05-01",
-          status: "王小虎",
-          title: "上海市普陀区金沙江路 1519 弄",
-          site: {
-            campus: "校区",
-            building: "楼号",
-            name: "名称"
-          }
-        },
-        {
-          date: "2016-05-03",
-          status: "王小虎",
-          title: "上海市普陀区金沙江路 1516 弄",
-          site: {
-            campus: "校区",
-            building: "楼号",
-            name: "名称"
-          }
-        }
-      ],
-      formInline: {
-        user: "",
-        region: ""
-      },
-      dialogVisible: false
+      buildingList: [],
+      dialogVisible: false,
+      sitePage: [],
+      dialogTotal: 0,
+      jobFairCompany: {}
     };
   },
   computed: {},
@@ -247,9 +216,50 @@ export default {
       this.getCompanyPage();
     },
     allocateSite(row) {
-      console.log("分配场地!");
-      console.log(row);
       this.dialogVisible = true;
+      this.getBuildingByCampus(row.campusId);
+      this.pageReq.data.campusId = row.campusId;
+      this.getSitePage();
+      this.jobFairCompany = row;
+    },
+    getBuildingByCampus(campusId) {
+      this.$get("/building/campus/" + campusId)
+        .then(res => {
+          if (res.data.ok) {
+            this.buildingList = res.data.data;
+          }
+        })
+        .catch(e => {});
+    },
+    getSitePage() {
+      this.$post("/site/pageList", this.pageReq)
+        .then(res => {
+          if (res.data.ok) {
+            this.sitePage = res.data.data.records;
+            this.dialogTotal = res.data.data.total;
+          }
+        })
+        .catch(e => {});
+    },
+    handleSizeChangeDialog(val) {
+      this.pageReq.rows = val;
+      this.getSitePage();
+    },
+    handleCurrentChangeDialog(val) {
+      this.pageReq.page = val;
+      this.getSitePage();
+    },
+    handleAllocate(row) {
+      console.log(this.jobFairCompany);
+      console.log(row);
+      this.$get(`/jobFairCompany/site/${this.jobFairCompany.id}/${row.siteId}`)
+        .then(res => {
+          if (res.data.ok) {
+            this.getCompanyPage();
+            this.dialogVisible = false;
+          }
+        })
+        .catch(e => {});
     }
   }
 };

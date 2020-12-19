@@ -16,5 +16,5 @@ public class SideDTO {
     private Integer siteId;
     private String siteName;
     private String siteDesc;
-
+    private Integer siteStatus;
 }

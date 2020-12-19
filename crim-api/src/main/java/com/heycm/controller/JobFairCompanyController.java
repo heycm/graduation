@@ -1,5 +1,6 @@
 package com.heycm.controller;
 
+import com.alibaba.druid.sql.visitor.functions.If;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -11,6 +12,7 @@ import com.heycm.query.JobFairQuery;
 import com.heycm.service.ICompanyService;
 import com.heycm.service.IJobFairCompanyService;
 import com.heycm.query.JobFairCompanyQuery;
+import com.heycm.service.ISiteService;
 import com.heycm.utils.SubjectUtil;
 import com.heycm.utils.date.DateUtil;
 import com.heycm.utils.response.ResponseMessage;
@@ -48,6 +50,8 @@ public class JobFairCompanyController {
     public IJobFairCompanyService jobFairCompanyService;
     @Autowired
     public ICompanyService companyService;
+    @Autowired
+    public ISiteService siteService;
 
     @Autowired
     public SubjectUtil subjectUtil;
@@ -101,7 +105,6 @@ public class JobFairCompanyController {
     }
 
 
-
     @ApiOperation(value = "2 - 学校查询参与企业列表", notes = "学校查询参与企业列表")
     @ApiOperationSupport(order = 2)
     @RequiresRoles(logical = Logical.OR, value = {"school"})
@@ -125,7 +128,7 @@ public class JobFairCompanyController {
         if (data != null) {
             qw.eq(data.getYearId() != null, "t1.year_id", data.getYearId())
                     .eq(data.getQuarter() != null, "t1.quarter", data.getQuarter())
-                    .eq(data.getCampusId()!=null, "t1.campus_id", data.getCampusId())
+                    .eq(data.getCampusId() != null, "t1.campus_id", data.getCampusId())
                     .like(StringUtils.isNotBlank(data.getTitle()), "t1.job_fair_title", data.getTitle())
                     .like(StringUtils.isNotBlank(data.getCompanyName()), "t1.company_name", data.getCompanyName());
         }
@@ -136,6 +139,43 @@ public class JobFairCompanyController {
         return Result.ok(iPage);
     }
 
+    @ApiOperation(value = "3 - 分配场地", notes = "分配场地")
+    @ApiOperationSupport(order = 3)
+    @RequiresRoles("school")
+    @GetMapping("/site/{id}/{siteId}")
+    public ResponseMessage allocateSite(@PathVariable("id") Integer id, @PathVariable("siteId") Integer siteId) {
+        if (id == null || siteId == null) {
+            return Result.error("参数不能为空");
+        }
+        JobFairCompany byId = jobFairCompanyService.getById(id);
+        if (byId == null) {
+            return Result.error("无记录");
+        }
+        Site site = siteService.getById(siteId);
+        if (site == null) {
+            return Result.error("无场地");
+        }
+        if (!site.getStatus().equals(0)) {
+            return Result.error("场地已被占用");
+        }
+        // 记录原来已经分配的场地id
+        Integer oldSiteId = byId.getSiteId();
+        // 如果已经分配，改变原场地状态
+        if (oldSiteId != null) {
+            Site oldSite = siteService.getById(oldSiteId);
+            oldSite.setStatus(0);
+            siteService.updateById(oldSite);
+        }
+        // 设置分配场地ID
+        byId.setSiteId(siteId);
+        // 设置分配状态
+        byId.setStatus(0);
+        jobFairCompanyService.updateById(byId);
+        // 改变场地信息状态
+        site.setStatus(1);
+        siteService.updateById(site);
+        return Result.ok();
+    }
 
 
     /**

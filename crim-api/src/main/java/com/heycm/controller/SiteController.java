@@ -70,7 +70,8 @@ public class SiteController {
         if (siteQuery != null) {
             qw.eq(siteQuery.getCampusId() != null, "t1.campus_id", siteQuery.getCampusId())
                     .eq(siteQuery.getBuildingId() != null, "t1.building_id", siteQuery.getBuildingId())
-                    .like(StringUtils.isNotEmpty(siteQuery.getSiteName()), "t1.site_name", siteQuery.getSiteName());
+                    .like(StringUtils.isNotEmpty(siteQuery.getSiteName()), "t1.site_name", siteQuery.getSiteName())
+                    .eq(siteQuery.getSiteStatus() != null, "t1.site_status", siteQuery.getSiteStatus());
         }
         Page<SideDTO> page = new Page<SideDTO>(param.getPage(), param.getRows());
         IPage<SideDTO> iPage = siteService.pageList(page, qw);
@@ -88,6 +89,10 @@ public class SiteController {
         siteService.removeById(id);
         return Result.ok();
     }
+
+
+
+
 
     /**
      * 根据IDs批量删除

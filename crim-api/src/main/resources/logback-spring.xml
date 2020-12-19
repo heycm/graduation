@@ -9,7 +9,12 @@
 
     <!-- name的值是变量的名称，value的值时变量定义的值。通过定义的值会被插入到logger上下文中。定义后，可以使“${}”来使用变量。 -->
     <!-- 生产环境另需修改   -->
-    <property name="log.path" value="E:/develop/graduation/crim-api/src/main/resources/logs" />
+<!--        <property name="log.path" value="E:/develop/graduation/crim-api/src/main/resources/logs" />-->
+
+
+    <!-- 生产环境 -->
+    <property name="log.path" value="/docker/container_data/crim/logs" />
+
 
     <!--0. 日志格式和颜色渲染 -->
     <!-- 彩色日志依赖的渲染类 -->
@@ -182,8 +187,11 @@
 
     <!-- 4.2 生产环境:输出到文档-->
     <springProfile name="pro">
-        <logger name="com.heycm" level="warn"/>
+        <logger name="com.heycm" level="info"/>
         <root level="info">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="DEBUG_FILE" />
+            <appender-ref ref="INFO_FILE" />
             <appender-ref ref="WARN_FILE" />
             <appender-ref ref="ERROR_FILE" />
         </root>

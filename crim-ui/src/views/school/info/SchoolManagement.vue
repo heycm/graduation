@@ -394,6 +394,7 @@ export default {
               message: "添加成功",
               type: "success"
             });
+            this.getSchoolUserList();
           }
         })
         .catch(e => {});

@@ -67,7 +67,7 @@
     <part title="在招职位" type="main" />
     <el-row class="paddingLR-15 marginB-30">
       <div class="info_jianjie_content marginB-15">
-        <el-row type="flex" :gutter="10">
+        <el-row :gutter="10">
           <el-col class="marginB-10" :span="8" v-for="position in positionList" :key="position.id">
             <el-card class="com_info_position_card" shadow="never">
               <div>

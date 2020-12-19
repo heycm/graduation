@@ -1,5 +1,6 @@
 package com.heycm.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.heycm.param.Param;
 import com.heycm.service.IBuildingService;
@@ -55,6 +56,40 @@ public class BuildingController {
         return Result.ok(entityList);
     }
 
+    /**
+     * 根据ID获取对象信息
+     *
+     * @param id 对象id
+     * @return ResponseMessage
+     */
+    @ApiOperation(value = "3 - 获取某校区的建筑楼信息", notes = "获取某校区的建筑楼信息")
+    @ApiOperationSupport(order = 3)
+    @RequiresRoles("school")
+    @GetMapping("/campus/{id}")
+    public ResponseMessage getByCampus(@PathVariable("id") Long id) {
+        if (id == null) {
+            return Result.error("参数不能为空");
+        }
+        List<Building> list = buildingService.list(new QueryWrapper<Building>().lambda().eq(Building::getCampusId, id));
+        return Result.ok(list);
+    }
+
+
+
+    /**
+     * 根据ID获取对象信息
+     *
+     * @param id 对象id
+     * @return ResponseMessage
+     */
+    @GetMapping("/{id}")
+    public ResponseMessage get(@PathVariable("id") Long id) {
+        if (id == null) {
+            return Result.error("1000", "参数为NUll");
+        }
+        Building entity = buildingService.getById(id);
+        return Result.ok(entity);
+    }
 
 
     /**
@@ -87,20 +122,7 @@ public class BuildingController {
         return Result.ok();
     }
 
-    /**
-     * 根据ID获取对象信息
-     *
-     * @param id 对象id
-     * @return ResponseMessage
-     */
-    @GetMapping("/{id}")
-    public ResponseMessage get(@PathVariable("id") Long id) {
-        if (id == null) {
-            return Result.error("1000", "参数为NUll");
-        }
-        Building entity = buildingService.getById(id);
-        return Result.ok(entity);
-    }
+
 
 
     /**

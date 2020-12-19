@@ -83,33 +83,41 @@ export default {
       tableData: [
         {
           id: 1,
-          companyName: "alibaba",
+          companyName: "百度",
           hotJob:
-            "王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎",
+            "Hadoop Web工程师 测试开发工程师 数据分析产品经理 搜索产品中高级评估助理",
           careerTalk: "宣讲会标题-1,宣讲会标题-2",
           isStart: 1
         },
         {
           id: 2,
-          companyName: "alibaba",
+          companyName: "阿里巴巴集团",
           hotJob:
-            "王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎",
+            "测试开发 金融技术专家 高级测试工程师 Java 高级体验设计师 体验设计师 高级前端开发工程师",
           careerTalk: "宣讲会标题-1,宣讲会标题-2",
           isStart: 1
         },
         {
           id: 3,
-          companyName: "alibaba",
+          companyName: "滴滴出行",
           hotJob:
-            "王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎",
+            "司机服务经理 产品实习生 PHP/GO开发工程师 Java 体验设计实习生 用户运营",
           careerTalk: "宣讲会标题-1,宣讲会标题-2",
           isStart: 0
         },
         {
           id: 4,
-          companyName: "alibaba",
+          companyName: "高德地图",
           hotJob:
-            "王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎 王小虎",
+            "地图数据专家 数据质量保证专家 高级Java开发工程师/专家 数据产品经理 C++ 资深时空数据挖掘工程师",
+          careerTalk: "宣讲会标题-1,宣讲会标题-2",
+          isStart: 0
+        },
+        {
+          id: 5,
+          companyName: "携程旅行网",
+          hotJob:
+            "英语客服 客服专员 数据仓库工程师 供应链专员 运营助理（实习生） 内容运营专员",
           careerTalk: "宣讲会标题-1,宣讲会标题-2",
           isStart: 0
         }

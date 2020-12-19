@@ -29,7 +29,8 @@
 <!--    分页查询场地信息 -->
     <select id="pageList" resultType="com.heycm.dto.SideDTO">
         SELECT t1.* FROM (
-            SELECT ct.id campus_id, ct.type_name campus_name, cb.id building_id, cb.building_name, cs.id site_id, cs.site_name, cs.site_desc FROM crim_type ct
+            SELECT ct.id campus_id, ct.type_name campus_name, cb.id building_id, cb.building_name, cs.id site_id, cs.site_name, cs.site_desc, cs.status site_status
+            FROM crim_type ct
             INNER JOIN crim_building cb ON ct.id = cb.campus_id
             INNER JOIN crim_site cs ON cb.id = cs.building_id
             WHERE ct.pid = 1 AND ct.is_deleted = 0 AND cb.is_deleted = 0 AND cs.is_deleted = 0

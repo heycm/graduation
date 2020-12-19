@@ -4,7 +4,7 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: pro
   servlet:
     multipart:
       max-file-size: 10MB # 单文件上传最大10m
@@ -44,8 +44,8 @@ heycm:
   aliyun:
     oss:
       endPoint: oss-cn-beijing.aliyuncs.com
-      accessKeyID: LTAI4Fhi546AL87pHNV48eG7
-      accessKeySecret: dmPCtdvKX7w01mN8iMCXND6p1zUnmZ
+      accessKeyID: LTAI4GEvxoPe8YRYEmzqvV6S
+      accessKeySecret: Yo2qQkBt1tb8XEeOynh7FCjXdft4Q8
       imgBucketName: crim-img
       imgHost: https://crim-img.oss-cn-beijing.aliyuncs.com
       imgDir: images

@@ -11,4 +11,6 @@ public class SiteQuery {
     private Integer campusId;
     private Integer buildingId;
     private String siteName;
+
+    private Integer siteStatus;
 }

@@ -14,16 +14,6 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/home',
-      component: Layout,
-      redirect: '/home/demo',
-      children: [{
-        path: 'demo',
-        name: 'Home',
-        component: () => import('@/views/Home')
-      }]
-    },
-    {
       path: '/',
       name: 'Main',
       component: () => import('@/views/main/Index'),

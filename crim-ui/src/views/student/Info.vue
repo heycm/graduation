@@ -27,7 +27,7 @@
             <el-card class="box-card stu_info_card">
               <h3>
                 学号：
-                <span class="float-right">{{baseInfo.studentName}}</span>
+                <span class="float-right">{{baseInfo.studentNumber}}</span>
               </h3>
               <h3>
                 学院：

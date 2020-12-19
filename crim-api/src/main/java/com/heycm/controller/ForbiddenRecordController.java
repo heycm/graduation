@@ -7,6 +7,7 @@ import com.heycm.query.ForbiddenRecordQuery;
 import com.heycm.utils.response.ResponseMessage;
 import com.heycm.utils.response.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  */
 @RestController
 @RequestMapping("/api/v1/forbiddenRecord")
+@Api(tags = "40 - 禁用")
 public class ForbiddenRecordController {
     @Autowired
     public IForbiddenRecordService forbiddenRecordService;
