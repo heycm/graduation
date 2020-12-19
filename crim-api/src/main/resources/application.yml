@@ -40,6 +40,8 @@ heycm:
     apiUrl: https://sms_developer.zhenzikj.com
     appId: 104324
     appSecret: d7f83c86-4cb1-4ec0-8a2a-1eb0577a0abc
+    appId: 
+    appSecret: 
     validTime: 10 # 有效时间，分钟
   aliyun:
     oss:
